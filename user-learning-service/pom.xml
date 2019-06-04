@@ -52,7 +52,6 @@
             <artifactId>play-guice_2.12</artifactId>
             <version>${play2.version}</version>
         </dependency>
-
         <dependency>
             <groupId>com.typesafe.play</groupId>
             <artifactId>play-akka-http-server_2.12</artifactId>
