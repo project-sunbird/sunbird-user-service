@@ -12,7 +12,6 @@
   </properties>
 
   <modules>
-	  <module>actors/sunbird-lms-mw</module>
 	  <module>user-service</module>
   </modules>
 </project>
