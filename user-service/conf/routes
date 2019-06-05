@@ -25,5 +25,5 @@ POST  /private/user/v1.3/assign/role	  @controllers.usermanagement.UserProfileUp
 
 PATCH /v1.3/user/update/logintime	  @controllers.usermanagement.UserProfileUpdateController.updateLoginTime()
 
-POST  /v1.3/user/tnc/accept         @controllers.tac.UserTnCController.acceptTnC()
+POST  /v1.3/user/tnc/accept           @controllers.tac.UserTncController.acceptTnc()
 GET   /v1.3/user/type/list		  @controllers.usermanagement.UserProfileReadController.getUserTypes()

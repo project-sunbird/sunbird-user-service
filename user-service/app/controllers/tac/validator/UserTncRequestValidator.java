@@ -8,14 +8,14 @@ import org.sunbird.common.responsecode.ResponseCode;
 /**
  * This is a validation class specific to Terms and Condition validation
  */
-public class UserTnCRequestValidator extends BaseRequestValidator {
+public class UserTncRequestValidator extends BaseRequestValidator {
 
 
   /**
    * This method is used  to validate the Terms and condition request.
    * @param request
    */
-  public void validateTnCRequest(Request request) {
+  public void validateTncRequest(Request request) {
     validateParam(
         (String) request.get(JsonKey.VERSION),
         ResponseCode.mandatoryParamsMissing,

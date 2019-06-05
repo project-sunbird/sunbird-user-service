@@ -8,15 +8,15 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
 /**
- * This controller is used to handel the agreement related action
+ * This controller will handle all request related to user terms and conditions.
  */
-public class UserTnCController extends BaseController {
+public class UserTncController extends BaseController {
 
     /**
      * This action method is used to accept the agreement when user login for first time.
      * @return success response
      */
-    public CompletionStage<Result> acceptTnC() {
+    public CompletionStage<Result> acceptTnc() {
         Http.RequestBody requestBody = request().body();
         CompletableFuture<String> cf = new CompletableFuture<>();
         cf.complete(getDummyResponse());
