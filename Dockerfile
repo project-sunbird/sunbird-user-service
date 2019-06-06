@@ -3,10 +3,10 @@ RUN apk update \
     && apk add  unzip \
     && apk add curl \
     && adduser -u 1001 -h /home/sunbird/ -D sunbird \
-    && mkdir -p /home/sunbird/learner
+    && mkdir -p /home/sunbird/
 RUN chown -R sunbird:sunbird /home/sunbird
 USER sunbird
-COPY ./service/target/user-service-1.0-SNAPSHOT-dist.zip /home/sunbird/learner/
-RUN unzip /home/sunbird/learner/user-service-1.0-SNAPSHOT-dist.zip -d /home/sunbird/learner/
-WORKDIR /home/sunbird/learner/
-CMD java  -cp '/home/sunbird/learner/user-service-1.0-SNAPSHOT/lib/*' play.core.server.ProdServerStart  /home/sunbird/learner/user-service-1.0-SNAPSHOT
+COPY ./user-service/target/user-service-1.0.0-SNAPSHOT-dist.zip /home/sunbird/
+RUN unzip /home/sunbird/user-service-1.0.0-SNAPSHOT-dist.zip -d /home/sunbird/
+WORKDIR /home/sunbird/
+CMD java  -cp '/home/sunbird/user-service-1.0.0-SNAPSHOT/lib/*' play.core.server.ProdServerStart  /home/sunbird/user-service-1.0.0-SNAPSHOT

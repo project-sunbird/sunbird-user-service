@@ -4,11 +4,10 @@ import controllers.TestHelper;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.sunbird.common.models.util.JsonKey;
-import org.sunbird.common.request.HeaderParam;
 import play.Application;
 import play.mvc.Result;
 import play.test.Helpers;
+
 import javax.ws.rs.core.Response.Status;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,13 +30,8 @@ public class UserProfileUpdateControllerTest {
         testHelper = new TestHelper();
         app = Helpers.fakeApplication();
         Helpers.start(app);
-        headerMap = new HashMap<>();
-        headerMap.put(HeaderParam.X_Consumer_ID.getName(), new String[]{"Some consumer ID"});
-        headerMap.put(HeaderParam.X_Device_ID.getName(), new String[]{"Some device ID"});
-        headerMap.put(
-                HeaderParam.X_Authenticated_Userid.getName(), new String[]{"Some authenticated user ID"});
-        headerMap.put(JsonKey.MESSAGE_ID, new String[]{"Some message ID"});
-        headerMap.put(HeaderParam.X_APP_ID.getName(), new String[]{"Some app Id"});
+        headerMap = testHelper.getHeaderMap();
+
     }
 
     @After
@@ -54,6 +48,7 @@ public class UserProfileUpdateControllerTest {
         Result result = testHelper.performTest("/v1.3/user/update/logintime", "PATCH", reqMap, headerMap);
         assertTrue(testHelper.getResponseStatus(result) == Status.OK.getStatusCode());
     }
+
     @Test
     public void testUpdateLoginTimeFailure() {
         Map<String, Object> reqMap = new HashMap<>();
@@ -71,6 +66,7 @@ public class UserProfileUpdateControllerTest {
         Result result = testHelper.performTest("/v1.3/user/assign/role", "POST", reqMap, headerMap);
         assertTrue(testHelper.getResponseStatus(result) == Status.OK.getStatusCode());
     }
+
     @Test
     public void testAssignRolesFailure() {
         Map<String, Object> reqMap = new HashMap<>();
@@ -85,6 +81,7 @@ public class UserProfileUpdateControllerTest {
         Result result = testHelper.performTest("/v1.3/user/update", "PATCH", reqMap, headerMap);
         assertTrue(testHelper.getResponseStatus(result) == Status.OK.getStatusCode());
     }
+
     @Test
     public void testUpdateUserFailure() {
         Map<String, Object> reqMap = new HashMap<>();
@@ -120,6 +117,7 @@ public class UserProfileUpdateControllerTest {
         Result result = testHelper.performTest("/private/user/v1.3/update", "PATCH", reqMap, headerMap);
         assertTrue(testHelper.getResponseStatus(result) == Status.OK.getStatusCode());
     }
+
     @Test
     public void testUpdatePrivateUserFailure() {
         Map<String, Object> reqMap = new HashMap<>();
