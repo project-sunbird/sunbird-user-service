@@ -2,9 +2,6 @@ package controllers.orgmanagement;
 
 import java.util.concurrent.CompletionStage;
 
-import org.sunbird.common.models.util.LoggerEnum;
-import org.sunbird.common.models.util.ProjectLogger;
-
 import controllers.BaseController;
 import play.mvc.Result;
 
@@ -22,7 +19,6 @@ public class OrgController extends BaseController {
    * @return Object of created orgType 
    */
   public CompletionStage<Result> createOrg() {
-    ProjectLogger.log("Start Org Creation Contoller", LoggerEnum.INFO);
     return handelRequest();
   }
   
@@ -31,7 +27,6 @@ public class OrgController extends BaseController {
    * @return Response code for success if update complete else failure.
    */
   public CompletionStage<Result> updateOrg() {
-    ProjectLogger.log("Start Org update Contoller", LoggerEnum.INFO);
     return handelRequest();
   }
 
@@ -40,7 +35,6 @@ public class OrgController extends BaseController {
    * @return Response Code for success if update complete else failure 
    */
   public CompletionStage<Result> updateOrgStatus() {
-    ProjectLogger.log("Start Org status update Contoller", LoggerEnum.INFO);
     return handelRequest();
   }
   
@@ -49,7 +43,6 @@ public class OrgController extends BaseController {
    * @return Map of details related to organisation 
    */
   public CompletionStage<Result> getOrgDetails() {
-    ProjectLogger.log("Start Org details Contoller", LoggerEnum.INFO);
     return handelRequest();
   }
 
@@ -58,7 +51,6 @@ public class OrgController extends BaseController {
    * @return Map of details related to organisation 
    */
   public CompletionStage<Result> search() {
-    ProjectLogger.log("Start Org search Contoller", LoggerEnum.INFO);
     return handelRequest();
   }
 
