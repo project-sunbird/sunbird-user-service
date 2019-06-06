@@ -10,6 +10,7 @@ import play.Application;
 import play.mvc.Result;
 import play.test.Helpers;
 
+import javax.ws.rs.core.Response.Status;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,7 +52,7 @@ public class UserStatusControllerTest {
         Map<String, Object> reqMap = new HashMap<>();
         reqMap.put("status", "0");
         Result result = testHelper.performTest("/v1.3/user/block", "POST", reqMap, headerMap);
-        assertTrue(testHelper.getResponseStatus(result) == 200);
+        assertTrue(testHelper.getResponseStatus(result) == Status.OK.getStatusCode());
     }
 
     @Test
@@ -59,7 +60,7 @@ public class UserStatusControllerTest {
         Map<String, Object> reqMap = new HashMap<>();
         reqMap.put("status", "0");
         Result result = testHelper.performTest("/v1.3/user/block", "GET", reqMap, headerMap);
-        assertTrue(testHelper.getResponseStatus(result) == 404);
+        assertTrue(testHelper.getResponseStatus(result) == Status.NOT_FOUND.getStatusCode());
     }
 
     @Test
@@ -67,13 +68,13 @@ public class UserStatusControllerTest {
         Map<String, Object> reqMap = new HashMap<>();
         reqMap.put("status", "1");
         Result result = testHelper.performTest("/v1.3/user/unblock", "POST", reqMap, headerMap);
-        assertTrue(testHelper.getResponseStatus(result) == 200);
+        assertTrue(testHelper.getResponseStatus(result) == Status.OK.getStatusCode());
     }
     @Test
     public void testUnblockUserFailure() {
         Map<String, Object> reqMap = new HashMap<>();
         reqMap.put("status", "1");
         Result result = testHelper.performTest("/v1.3/user/unblock", "GET", reqMap, headerMap);
-        assertTrue(testHelper.getResponseStatus(result) == 404);
+        assertTrue(testHelper.getResponseStatus(result) == Status.NOT_FOUND.getStatusCode());
     }
 }

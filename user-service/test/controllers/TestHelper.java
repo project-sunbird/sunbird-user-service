@@ -10,7 +10,6 @@ import play.mvc.Result;
 import play.test.WithApplication;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.Map;
 
 import static play.test.Helpers.fakeApplication;

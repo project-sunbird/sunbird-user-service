@@ -10,6 +10,7 @@ import play.Application;
 import play.mvc.Result;
 import play.test.Helpers;
 
+import javax.ws.rs.core.Response.Status;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,13 +45,13 @@ public class RolesControllerTest {
     public void testGetRolesSuccess() {
         Map<String,Object>reqMap=new HashMap<>();
         Result result = testHelper.performTest("/v1.3/role/read", "GET",reqMap, headerMap);
-        assertTrue(testHelper.getResponseStatus(result) == 200);
+        assertTrue(testHelper.getResponseStatus(result) == Status.OK.getStatusCode());
     }
     @Test
     public void testGetRolesFailure() {
         Map<String,Object>reqMap=new HashMap<>();
         Result result = testHelper.performTest("/v1.3/role/read", "GET",reqMap, headerMap);
-        assertFalse(testHelper.getResponseStatus(result) == 400);
+        assertFalse(testHelper.getResponseStatus(result) == Status.NOT_FOUND.getStatusCode() );
     }
 
 }

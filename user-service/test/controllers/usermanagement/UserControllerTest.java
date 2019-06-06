@@ -9,6 +9,7 @@ import org.sunbird.common.request.HeaderParam;
 import play.Application;
 import play.mvc.Result;
 import play.test.Helpers;
+import javax.ws.rs.core.Response.Status;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -46,26 +47,26 @@ public class UserControllerTest {
     @Test
     public void testSuccessCreateUserSuccess() {
         Result result = testHelper.performTest("/v1.3/user/create", "POST", getCreateUserRequest(), headerMap);
-        assertTrue(testHelper.getResponseStatus(result) == 200);
+        assertTrue(testHelper.getResponseStatus(result) == Status.OK.getStatusCode());
 
     }
     @Test
     public void testSuccessCreateUserFailure() {
         Result result = testHelper.performTest("/v1.3/user/create", "GET", getCreateUserRequest(), headerMap);
-        assertTrue(testHelper.getResponseStatus(result) == 404);
+        assertTrue(testHelper.getResponseStatus(result) == Status.NOT_FOUND.getStatusCode());
 
     }
 
     @Test
     public void testSuccessCreateUserV2Success() {
         Result result = testHelper.performTest("/v2.3/user/create", "POST", getCreateUserRequest(), headerMap);
-        assertTrue(testHelper.getResponseStatus(result) == 200);
+        assertTrue(testHelper.getResponseStatus(result) == Status.OK.getStatusCode());
 
     }
     @Test
     public void testSuccessCreateUserV2Failure() {
         Result result = testHelper.performTest("/v2.3/user/create", "GET", getCreateUserRequest(), headerMap);
-        assertTrue(testHelper.getResponseStatus(result) == 404);
+        assertTrue(testHelper.getResponseStatus(result) == Status.NOT_FOUND.getStatusCode());
 
     }
 

@@ -10,6 +10,7 @@ import play.Application;
 import play.mvc.Result;
 import play.test.Helpers;
 
+import javax.ws.rs.core.Response.Status;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,13 +48,13 @@ public class UserTncControllerTest {
         Map<String, Object> reqMap = new HashMap<>();
         reqMap.put("accept", "yes");
         Result result = testHelper.performTest("/v1.3/user/tnc/accept", "POST", reqMap, headerMap);
-        assertTrue(testHelper.getResponseStatus(result) == 200);
+        assertTrue(testHelper.getResponseStatus(result) == Status.OK.getStatusCode());
     }
     @Test
     public void testAcceptTncFailure() {
         Map<String, Object> reqMap = new HashMap<>();
         reqMap.put("accept", "yes");
         Result result = testHelper.performTest("/v1.3/user/tnc/accept", "POST", reqMap, headerMap);
-        assertFalse(testHelper.getResponseStatus(result) == 400);
+        assertFalse(testHelper.getResponseStatus(result) == Status.BAD_REQUEST.getStatusCode());
     }
 }

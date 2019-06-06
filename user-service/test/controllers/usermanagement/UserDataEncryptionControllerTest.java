@@ -7,13 +7,18 @@ import org.junit.Test;
 import org.sunbird.common.models.util.JsonKey;
 import org.sunbird.common.request.HeaderParam;
 import play.Application;
+import play.mvc.Result;
 import play.test.Helpers;
 
+import javax.ws.rs.core.Response.Status;
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.*;
 
+/**
+ * This is a test class for UserDataEncryptionController
+ */
 public class UserDataEncryptionControllerTest {
 
     TestHelper testHelper;
@@ -35,16 +40,36 @@ public class UserDataEncryptionControllerTest {
         headerMap.put(HeaderParam.X_APP_ID.getName(), new String[]{"Some app Id"});
     }
 
-
     @After
     public void tearDown() throws Exception {
+        headerMap = null;
+        app = null;
+        testHelper = null;
     }
 
     @Test
-    public void encrypt() {
+    public void testEncryptSuccess() {
+        Map<String, Object> reqMap = new HashMap<>();
+        Result result = testHelper.performTest("/v1/user/data/encrypt", "POST", reqMap, headerMap);
+        assertTrue(testHelper.getResponseStatus(result) == Status.OK.getStatusCode());
+    }
+    @Test
+    public void testEncryptFailure() {
+        Map<String, Object> reqMap = new HashMap<>();
+        Result result = testHelper.performTest("/v1/user/data/encrypt", "GET", reqMap, headerMap);
+        assertTrue(testHelper.getResponseStatus(result) == Status.NOT_FOUND.getStatusCode());
     }
 
     @Test
-    public void decrypt() {
+    public void testDecryptSuccess() {
+        Map<String, Object> reqMap = new HashMap<>();
+        Result result = testHelper.performTest("/v1/user/data/decrypt", "POST", reqMap, headerMap);
+        assertTrue(testHelper.getResponseStatus(result) == Status.OK.getStatusCode());
+    }
+    @Test
+    public void testDecryptFailure() {
+        Map<String, Object> reqMap = new HashMap<>();
+        Result result = testHelper.performTest("/v1/user/data/decrypt", "GET", reqMap, headerMap);
+        assertTrue(testHelper.getResponseStatus(result) == Status.NOT_FOUND.getStatusCode());
     }
 }
