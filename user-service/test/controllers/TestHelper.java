@@ -3,13 +3,13 @@ package controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
-import org.sunbird.common.models.util.ProjectLogger;
 import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.test.WithApplication;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import static play.test.Helpers.fakeApplication;
@@ -59,7 +59,6 @@ public class TestHelper extends WithApplication {
             try {
                 jsonResp = mapperObj.writeValueAsString(map);
             } catch (IOException e) {
-                ProjectLogger.log(e.getMessage(), e);
             }
         }
         return jsonResp;
@@ -73,5 +72,18 @@ public class TestHelper extends WithApplication {
 
     public int getResponseStatus(Result result) {
         return result.status();
+    }
+
+    /**
+     * This method will return the headerMap required for Apis.
+     * @return
+     */
+    public Map<String,String[]> getHeaderMap(){
+        Map<String,String[]>headerMap = new HashMap<>();
+        headerMap.put("x-authnticated-user-token", new String[]{"Some authenticated user ID"});
+        headerMap.put("Authorization", new String[]{"Bearer ...."});
+        return headerMap;
+
+
     }
 }

@@ -1,24 +1,18 @@
 package controllers.tac.validator;
 
-import org.sunbird.common.models.util.JsonKey;
-import org.sunbird.common.request.BaseRequestValidator;
-import org.sunbird.common.request.Request;
-import org.sunbird.common.responsecode.ResponseCode;
+
 
 /**
  * This is a validation class specific to Terms and Condition validation
  */
-public class UserTncRequestValidator extends BaseRequestValidator {
+public class UserTncRequestValidator{
 
 
   /**
    * This method is used  to validate the Terms and condition request.
-   * @param request
+   *
    */
-  public void validateTncRequest(Request request) {
-    validateParam(
-        (String) request.get(JsonKey.VERSION),
-        ResponseCode.mandatoryParamsMissing,
-        JsonKey.VERSION);
+  public void validateTncRequest() {
+
   }
 }
