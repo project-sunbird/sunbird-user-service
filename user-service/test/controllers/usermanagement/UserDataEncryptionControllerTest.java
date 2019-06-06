@@ -50,26 +50,26 @@ public class UserDataEncryptionControllerTest {
     @Test
     public void testEncryptSuccess() {
         Map<String, Object> reqMap = new HashMap<>();
-        Result result = testHelper.performTest("/v1/user/data/encrypt", "POST", reqMap, headerMap);
+        Result result = testHelper.performTest("/v1.3/user/data/encrypt", "POST", reqMap, headerMap);
         assertTrue(testHelper.getResponseStatus(result) == Status.OK.getStatusCode());
     }
     @Test
     public void testEncryptFailure() {
         Map<String, Object> reqMap = new HashMap<>();
-        Result result = testHelper.performTest("/v1/user/data/encrypt", "GET", reqMap, headerMap);
+        Result result = testHelper.performTest("/v1.3/user/data/encrypt", "GET", reqMap, headerMap);
         assertTrue(testHelper.getResponseStatus(result) == Status.NOT_FOUND.getStatusCode());
     }
 
     @Test
     public void testDecryptSuccess() {
         Map<String, Object> reqMap = new HashMap<>();
-        Result result = testHelper.performTest("/v1/user/data/decrypt", "POST", reqMap, headerMap);
+        Result result = testHelper.performTest("/v1.3/user/data/decrypt", "POST", reqMap, headerMap);
         assertTrue(testHelper.getResponseStatus(result) == Status.OK.getStatusCode());
     }
     @Test
     public void testDecryptFailure() {
         Map<String, Object> reqMap = new HashMap<>();
-        Result result = testHelper.performTest("/v1/user/data/decrypt", "GET", reqMap, headerMap);
+        Result result = testHelper.performTest("/v1.3/user/data/decrypt", "GET", reqMap, headerMap);
         assertTrue(testHelper.getResponseStatus(result) == Status.NOT_FOUND.getStatusCode());
     }
 }

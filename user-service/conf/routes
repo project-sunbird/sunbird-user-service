@@ -27,5 +27,5 @@ PATCH	/private/user/v1.3/update					          @controllers.usermanagement.UserPr
 PATCH /v1.3/user/update/logintime	  @controllers.usermanagement.UserProfileUpdateController.updateLoginTime()
 
 POST  /v1.3/user/tnc/accept           @controllers.tac.UserTncController.acceptTnc()
-POST  /v1/user/data/encrypt              @controllers.usermanagement.UserDataEncryptionController.encrypt()
-POST  /v1/user/data/decrypt              @controllers.usermanagement.UserDataEncryptionController.decrypt()
+POST  /v1.3/user/data/encrypt              @controllers.usermanagement.UserDataEncryptionController.encrypt()
+POST  /v1.3/user/data/decrypt              @controllers.usermanagement.UserDataEncryptionController.decrypt()
