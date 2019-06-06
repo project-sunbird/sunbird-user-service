@@ -29,3 +29,18 @@ PATCH /v1.3/user/update/logintime	  @controllers.usermanagement.UserProfileUpdat
 POST  /v1.3/user/tnc/accept           @controllers.tac.UserTncController.acceptTnc()
 POST  /v1.3/user/data/encrypt              @controllers.usermanagement.UserDataEncryptionController.encrypt()
 POST  /v1.3/user/data/decrypt              @controllers.usermanagement.UserDataEncryptionController.decrypt()
+
+# Organisation Management APIs
+
+POST    /v1.3/org/create          @controllers.orgmanagement.OrgController.createOrg()
+PATCH   /v1.3/org/update          @controllers.orgmanagement.OrgController.updateOrg()
+PATCH   /v1.3/org/status/update   @controllers.orgmanagement.OrgController.updateOrgStatus()
+POST    /v1.3/org/read            @controllers.orgmanagement.OrgController.getOrgDetails()
+POST    /v1.3/org/search          @controllers.orgmanagement.OrgController.search()
+
+POST    /v1.3/org/member/add      @controllers.orgmanagement.OrgMemberController.addMemberToOrganisation()
+POST    /v1.3/org/member/remove   @controllers.orgmanagement.OrgMemberController.removeMemberFromOrganisation()
+
+POST    /v1.3/org/type/create     @controllers.orgmanagement.OrgTypeController.createOrgType()
+PATCH   /v1.3/org/type/update     @controllers.orgmanagement.OrgTypeController.updateOrgType()
+GET     /v1.3/org/type/list       @controllers.orgmanagement.OrgTypeController.listOrgType()
