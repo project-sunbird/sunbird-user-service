@@ -4,7 +4,7 @@
   <artifactId>user-org</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>user</name>
+  <name>user-org-project</name>
 
   <properties>
 	  <maven.compiler.source>1.8</maven.compiler.source>
