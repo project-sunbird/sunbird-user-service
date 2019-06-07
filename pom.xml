@@ -12,7 +12,6 @@
   </properties>
 
   <modules>
-	  <module>user-service</module>
-	<module>org-service</module>
+	  <module>service</module>
   </modules>
 </project>
