@@ -51,18 +51,18 @@ public class HealthControllerTest {
 
 
     @Test
-    public void testGetUserServiceHealthSuccess() {
+    public void testGetUserOrgServiceHealthSuccess() {
         Map<String, Object> reqMap = new HashMap<>();
         reqMap.put("accept", "yes");
-        Result result = testHelper.performTest("/user-service/health", "GET", reqMap, headerMap);
+        Result result = testHelper.performTest("/user-org-service/health", "GET", reqMap, headerMap);
         assertTrue(testHelper.getResponseStatus(result) == Response.Status.OK.getStatusCode());
     }
     @Test
-    public void testGetUserServiceHealthFailure() {
+    public void testGetUserOrgServiceHealthFailure() {
         Map<String, Object> reqMap = new HashMap<>();
         reqMap.put("accept", "yes");
-        Result result = testHelper.performTest("/user-service/health", "POST", reqMap, headerMap);
-        assertTrue(testHelper.getResponseStatus(result) == Response.Status.NOT_FOUND.getStatusCode());
+        Result result = testHelper.performTest("/user-service/health", "GET", reqMap, headerMap);
+        assertTrue(testHelper.getResponseStatus(result) == Response.Status.BAD_REQUEST.getStatusCode());
     }
 
 
