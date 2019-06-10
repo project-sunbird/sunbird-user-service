@@ -16,9 +16,6 @@ public class UserTncController extends BaseController {
    * @return success response
    */
   public CompletionStage<Result> acceptTnc() {
-    Http.RequestBody requestBody = request().body();
-    CompletableFuture<String> cf = new CompletableFuture<>();
-    cf.complete(getDummyResponse());
-    return cf.thenApplyAsync(Results::ok);
+    return handelRequest();
   }
 }
