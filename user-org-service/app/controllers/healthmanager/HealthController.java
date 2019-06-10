@@ -15,6 +15,7 @@ import java.util.concurrent.CompletionStage;
  */
 public class HealthController extends BaseController {
 
+    private static final String userOrgServiceName = "user-org-service";
 
     /**
      * This action method is responsible for checking Health.
@@ -35,7 +36,7 @@ public class HealthController extends BaseController {
     public CompletionStage<Result> getUserOrgServiceHealth(String health) {
         CompletableFuture<String> cf = new CompletableFuture<>();
         cf.complete(getDummyResponse());
-        return health.equalsIgnoreCase("user-org-service")?cf.thenApplyAsync(Results::ok):cf.thenApplyAsync(Results::badRequest);
+        return health.equalsIgnoreCase(userOrgServiceName) ? cf.thenApplyAsync(Results::ok) : cf.thenApplyAsync(Results::badRequest);
     }
 
 
