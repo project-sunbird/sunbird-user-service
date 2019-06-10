@@ -10,4 +10,3 @@ COPY ./user-org-service/target/user-org-service-1.0.0-dist.zip /home/sunbird/
 RUN unzip /home/sunbird/user-org-service-1.0.0-dist.zip -d /home/sunbird/
 WORKDIR /home/sunbird/
 CMD java  -cp '/home/sunbird/user-org-service-1.0.0-dist.zip/lib/*' play.core.server.ProdServerStart  /home/sunbird/user-org-service-1.0.0-SNAPSHOT
-

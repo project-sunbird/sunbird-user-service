@@ -11,5 +11,4 @@ COPY . /opt/
 WORKDIR /opt/user-org-service
 RUN mvn clean install -DskipTests
 WORKDIR /opt/user-org-service
-CMD ["mvn", "play2:dist"]
-
+RUN mvn play2:dist
