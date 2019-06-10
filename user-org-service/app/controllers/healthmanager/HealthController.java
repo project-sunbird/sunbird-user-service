@@ -26,7 +26,6 @@ public class HealthController extends BaseController {
 
     /**
      * This action method is responsible to check user-service health
-     *
      * @return a CompletableFuture of success response
      */
     public CompletionStage<Result> getUserServiceHealth(String health) {
