@@ -8,7 +8,6 @@ import java.util.concurrent.CompletionStage;
 
 /**
  * This controller class will responsible to check health of the services.
- *
  * @author Anmol
  */
 public class HealthController extends BaseController {
