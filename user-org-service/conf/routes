@@ -32,7 +32,7 @@ POST  /v1.3/user/data/decrypt              @controllers.usermanagement.UserDataE
 
 #Health check
 GET  /health                                  @controllers.healthmanager.HealthController.getHealth()
-GET  /:service/health                      @controllers.healthmanager.HealthController.getUserServiceHealth(service:String)
+GET  /:service/health                      @controllers.healthmanager.HealthController.getUserOrgServiceHealth(service:String)
 
 
 # Organisation Management APIs
