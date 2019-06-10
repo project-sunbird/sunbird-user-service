@@ -30,6 +30,11 @@ POST  /v1.3/user/tnc/accept           @controllers.tac.UserTncController.acceptT
 POST  /v1.3/user/data/encrypt              @controllers.usermanagement.UserDataEncryptionController.encrypt()
 POST  /v1.3/user/data/decrypt              @controllers.usermanagement.UserDataEncryptionController.decrypt()
 
+#Health check
+GET  /health                                  @controllers.healthmanager.HealthController.getHealth()
+GET  /:service/health                      @controllers.healthmanager.HealthController.getUserServiceHealth(service:String)
+
+
 # Organisation Management APIs
 
 POST    /v1.3/org/create          @controllers.orgmanagement.OrgController.createOrg()
