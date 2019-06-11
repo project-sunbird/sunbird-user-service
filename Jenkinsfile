@@ -39,7 +39,7 @@ node('build-slave') {
                 sh 'mvn clean install'
             }
             stage('Package') {
-                dir('service') {
+                dir('user-org-service') {
                     sh 'mvn play2:dist'
                 }
                 sh('chmod 777 ./build.sh')
