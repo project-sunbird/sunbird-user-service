@@ -2,7 +2,12 @@ package controllers.orgmanagement;
 
 import controllers.BaseController;
 import java.util.concurrent.CompletionStage;
+
+import org.sunbird.util.LoggerEnum;
+import org.sunbird.util.ProjectLogger;
 import play.mvc.Result;
+
+import javax.inject.Inject;
 
 /**
  * This Controller is dedicated to organisations for create , update , search. CompletionStage: A
@@ -17,6 +22,8 @@ public class OrgController extends BaseController {
    * @return Object of created orgType
    */
   public CompletionStage<Result> createOrg() {
+    ProjectLogger.log(
+            "OrgController :createOrg : request reached to org controller with request "+ request().body(), LoggerEnum.INFO.name());
     return handelRequest();
   }
 
@@ -26,6 +33,9 @@ public class OrgController extends BaseController {
    * @return Response code for success if update complete else failure.
    */
   public CompletionStage<Result> updateOrg() {
+    ProjectLogger.log(
+            "OrgController : updateOrg : request reached to org controller to update orgwith request "+ request().body(), LoggerEnum.INFO.name());
+
     return handelRequest();
   }
 
@@ -35,6 +45,9 @@ public class OrgController extends BaseController {
    * @return Response Code for success if update complete else failure
    */
   public CompletionStage<Result> updateOrgStatus() {
+
+    ProjectLogger.log(
+            "OrgController :updateOrgStatus : request reached to org controller with request "+ request().body(), LoggerEnum.INFO.name());
     return handelRequest();
   }
 
@@ -44,6 +57,8 @@ public class OrgController extends BaseController {
    * @return Map of details related to organisation
    */
   public CompletionStage<Result> getOrgDetails() {
+    ProjectLogger.log(
+            "OrgController :getOrgDetails : request reached to org controllerwith request "+ request().body(), LoggerEnum.INFO.name());
     return handelRequest();
   }
 
@@ -53,6 +68,9 @@ public class OrgController extends BaseController {
    * @return Map of details related to organisation
    */
   public CompletionStage<Result> search() {
+    ProjectLogger.log(
+            "OrgController :search: request reached to org controllerwith request "+ request().body(), LoggerEnum.INFO.name());
+
     return handelRequest();
   }
 }

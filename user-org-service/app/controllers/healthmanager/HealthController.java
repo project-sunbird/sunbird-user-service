@@ -1,6 +1,8 @@
 package controllers.healthmanager;
 
 import controllers.BaseController;
+import org.sunbird.util.LoggerEnum;
+import org.sunbird.util.ProjectLogger;
 import play.mvc.Result;
 import play.mvc.Results;
 
@@ -24,6 +26,10 @@ public class HealthController extends BaseController {
      */
 
     public CompletionStage<Result> getHealth() {
+
+        ProjectLogger.log(
+                "HealthController :getHealth() : in HealthController ", LoggerEnum.INFO.name());
+
         return handelRequest();
     }
 
@@ -34,6 +40,9 @@ public class HealthController extends BaseController {
      * @return a CompletableFuture of success response
      */
     public CompletionStage<Result> getUserOrgServiceHealth(String health) {
+        ProjectLogger.log(
+                "HealthController :getUserOrgServiceHealth : got request params health :"+ health, LoggerEnum.INFO.name());
+
         CompletableFuture<String> cf = new CompletableFuture<>();
         cf.complete(getDummyResponse());
         return health.equalsIgnoreCase(userOrgServiceName) ? cf.thenApplyAsync(Results::ok) : cf.thenApplyAsync(Results::badRequest);

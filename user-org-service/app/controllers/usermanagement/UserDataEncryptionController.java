@@ -2,6 +2,9 @@ package controllers.usermanagement;
 
 import controllers.BaseController;
 import java.util.concurrent.CompletionStage;
+
+import org.sunbird.util.LoggerEnum;
+import org.sunbird.util.ProjectLogger;
 import play.mvc.Result;
 
 /**
@@ -19,6 +22,8 @@ public class UserDataEncryptionController extends BaseController {
    * @return Return a CompletableFuture of success response
    */
   public CompletionStage<Result> encrypt() {
+    ProjectLogger.log(
+            "UserDataEncryptionController :encrypt : request reached toUserDataEncryption controller with request " + request().body(), LoggerEnum.INFO.name());
     return handelRequest();
   }
 
@@ -28,6 +33,8 @@ public class UserDataEncryptionController extends BaseController {
    * @return Return a CompletableFuture of success response
    */
   public CompletionStage<Result> decrypt() {
+    ProjectLogger.log(
+            "UserDataEncryptionController :decrypt : request reached toUserDataEncryption controller with request " + request().body(), LoggerEnum.INFO.name());
     return handelRequest();
   }
 }

@@ -1,7 +1,11 @@
 package controllers.usermanagement;
 
 import controllers.BaseController;
+
 import java.util.concurrent.CompletionStage;
+
+import org.sunbird.util.LoggerEnum;
+import org.sunbird.util.ProjectLogger;
 import play.mvc.*;
 
 /**
@@ -13,21 +17,26 @@ import play.mvc.*;
  */
 public class UserController extends BaseController {
 
-  /**
-   * This method is used to create user
-   *
-   * @return Return a promise of created userResponse
-   */
-  public CompletionStage<Result> createUser() {
-    return handelRequest();
-  }
+    /**
+     * This method is used to create user
+     *
+     * @return Return a promise of created userResponse
+     */
+    public CompletionStage<Result> createUser() {
+        ProjectLogger.log(
+                "UserController :createUser : request reached to User controller with request " + request().body(), LoggerEnum.INFO.name());
 
-  /**
-   * This method is used to create user in this method userName is not mandatory
-   *
-   * @return Return a promise of created userResponse
-   */
-  public CompletionStage<Result> createUserV2() {
-    return handelRequest();
-  }
+        return handelRequest();
+    }
+
+    /**
+     * This method is used to create user in this method userName is not mandatory
+     *
+     * @return Return a promise of created userResponse
+     */
+    public CompletionStage<Result> createUserV2() {
+        ProjectLogger.log(
+                "UserController :createUserV2 : request reached to User controller with request " + request().body(), LoggerEnum.INFO.name());
+        return handelRequest();
+    }
 }

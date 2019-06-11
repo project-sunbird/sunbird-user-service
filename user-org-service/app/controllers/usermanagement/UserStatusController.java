@@ -1,7 +1,11 @@
 package controllers.usermanagement;
 
 import controllers.BaseController;
+
 import java.util.concurrent.CompletionStage;
+
+import org.sunbird.util.LoggerEnum;
+import org.sunbird.util.ProjectLogger;
 import play.mvc.Result;
 
 /**
@@ -13,21 +17,27 @@ import play.mvc.Result;
  */
 public class UserStatusController extends BaseController {
 
-  /**
-   * This action method is used to block the user
-   *
-   * @return CompletionStage of block user api result
-   */
-  public CompletionStage<Result> blockUser() {
-    return handelRequest();
-  }
+    /**
+     * This action method is used to block the user
+     *
+     * @return CompletionStage of block user api result
+     */
+    public CompletionStage<Result> blockUser() {
 
-  /**
-   * This action method is used to unblock the user
-   *
-   * @return CompletionStage of unblock user api result
-   */
-  public CompletionStage<Result> unblockUser() {
-    return handelRequest();
-  }
+        ProjectLogger.log(
+                "UserStatusController :blockUser: request reached to UserStatusController controller with request " + request().body(), LoggerEnum.INFO.name());
+        return handelRequest();
+    }
+
+    /**
+     * This action method is used to unblock the user
+     *
+     * @return CompletionStage of unblock user api result
+     */
+    public CompletionStage<Result> unblockUser() {
+
+        ProjectLogger.log(
+                "UserStatusController :unblockUser : request reached to UserStatusController controller with request " + request().body(), LoggerEnum.INFO.name());
+        return handelRequest();
+    }
 }

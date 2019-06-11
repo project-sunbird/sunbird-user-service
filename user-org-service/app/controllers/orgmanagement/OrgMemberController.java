@@ -2,6 +2,9 @@ package controllers.orgmanagement;
 
 import controllers.BaseController;
 import java.util.concurrent.CompletionStage;
+
+import org.sunbird.util.LoggerEnum;
+import org.sunbird.util.ProjectLogger;
 import play.mvc.Result;
 
 /**
@@ -18,6 +21,9 @@ public class OrgMemberController extends BaseController {
    *     success,
    */
   public CompletionStage<Result> addMemberToOrganisation() {
+
+    ProjectLogger.log(
+            "OrgMemberController :addMemberToOrganisation: request reached to orgMember controller", LoggerEnum.INFO.name());
     return handelRequest();
   }
 
@@ -27,6 +33,8 @@ public class OrgMemberController extends BaseController {
    * @return Response code for failure if member not belongs to org,
    */
   public CompletionStage<Result> removeMemberFromOrganisation() {
+    ProjectLogger.log(
+            "OrgMemberController :removeMemberFromOrganisation: request reached to orgMember controller", LoggerEnum.INFO.name());
     return handelRequest();
   }
 }
