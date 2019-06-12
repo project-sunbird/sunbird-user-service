@@ -47,15 +47,13 @@ public class BaseController extends Controller {
 
   public void startTrace(String tag) {
     ProjectLogger.log(
-        String.format(
-            "%s:%s:method started at %s", this.getClass().getSimpleName(), tag, getTimeStamp()),
+        String.format("%s:%s:started at %s", this.getClass().getSimpleName(), tag, getTimeStamp()),
         LoggerEnum.DEBUG.name());
   }
 
   public void endTrace(String tag) {
     ProjectLogger.log(
-        String.format(
-            "%s:%s:method ended at %s", this.getClass().getSimpleName(), tag, getTimeStamp()),
+        String.format("%s:%s:ended at %s", this.getClass().getSimpleName(), tag, getTimeStamp()),
         LoggerEnum.DEBUG.name());
   }
 }
