@@ -11,17 +11,15 @@ import play.mvc.Result;
  */
 public class OrgController extends BaseController {
 
-  public static final String TAG = OrgController.class.getName();
-
   /**
    * This method is used for creating organisation,
    *
    * @return Object of created orgType
    */
   public CompletionStage<Result> createOrg() {
-    printProjectLogs(OrgController.class.getName(), "createOrg", true);
+    startTrace("createOrg");
     CompletionStage<Result> result = handelRequest();
-    printProjectLogs(TAG, "createOrg", false);
+    endTrace("createOrg");
     return result;
   }
 
@@ -31,9 +29,9 @@ public class OrgController extends BaseController {
    * @return Response code for success if update complete else failure.
    */
   public CompletionStage<Result> updateOrg() {
-    printProjectLogs(OrgController.class.getName(), "updateOrg", true);
+    startTrace("updateOrg");
     CompletionStage<Result> response = handelRequest();
-    printProjectLogs(OrgController.class.getName(), "updateOrg", false);
+    endTrace("updateOrg");
     return response;
   }
 
@@ -43,10 +41,9 @@ public class OrgController extends BaseController {
    * @return Response Code for success if update complete else failure
    */
   public CompletionStage<Result> updateOrgStatus() {
-
-    printProjectLogs(OrgController.class.getName(), "updateOrgStatus", true);
+    startTrace("updateOrgStatus");
     CompletionStage<Result> response = handelRequest();
-    printProjectLogs(OrgController.class.getName(), "updateOrgStatus", false);
+    endTrace("updateOrgStatus");
     return response;
   }
 
@@ -56,9 +53,9 @@ public class OrgController extends BaseController {
    * @return Map of details related to organisation
    */
   public CompletionStage<Result> getOrgDetails() {
-    printProjectLogs(OrgController.class.getName(), "getOrgDetails", true);
+    startTrace("getOrgDetails");
     CompletionStage<Result> response = handelRequest();
-    printProjectLogs(OrgController.class.getName(), "getOrgDetails", false);
+    endTrace("getOrgDetails");
     return response;
   }
 
@@ -68,9 +65,9 @@ public class OrgController extends BaseController {
    * @return Map of details related to organisation
    */
   public CompletionStage<Result> search() {
-    printProjectLogs(OrgController.class.getName(), "search", true);
+    startTrace("search");
     CompletionStage<Result> response = handelRequest();
-    printProjectLogs(OrgController.class.getName(), "search", false);
+    endTrace("search");
     return response;
   }
 }

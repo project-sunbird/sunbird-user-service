@@ -1,11 +1,7 @@
 package controllers.usermanagement;
 
 import controllers.BaseController;
-
 import java.util.concurrent.CompletionStage;
-
-import org.sunbird.util.LoggerEnum;
-import org.sunbird.util.ProjectLogger;
 import play.mvc.*;
 
 /**
@@ -17,27 +13,27 @@ import play.mvc.*;
  */
 public class UserController extends BaseController {
 
-    /**
-     * This method is used to create user
-     *
-     * @return Return a promise of created userResponse
-     */
-    public CompletionStage<Result> createUser() {
-        printProjectLogs(UserController.class.getSimpleName(),"createUser",true);
-        CompletionStage<Result> response = handelRequest();
-        printProjectLogs(RolesController.class.getSimpleName(),"createUser",false);
-        return response;
-    }
+  /**
+   * This method is used to create user
+   *
+   * @return Return a promise of created userResponse
+   */
+  public CompletionStage<Result> createUser() {
+    startTrace("createUser");
+    CompletionStage<Result> response = handelRequest();
+    endTrace("createUser");
+    return response;
+  }
 
-    /**
-     * This method is used to create user in this method userName is not mandatory
-     *
-     * @return Return a promise of created userResponse
-     */
-    public CompletionStage<Result> createUserV2() {
-        printProjectLogs(UserController.class.getSimpleName(),"createUserV2",true);
-        CompletionStage<Result> response = handelRequest();
-        printProjectLogs(RolesController.class.getSimpleName(),"createUserV2",false);
-        return response;
-    }
+  /**
+   * This method is used to create user in this method userName is not mandatory
+   *
+   * @return Return a promise of created userResponse
+   */
+  public CompletionStage<Result> createUserV2() {
+    startTrace("createUserV2");
+    CompletionStage<Result> response = handelRequest();
+    endTrace("createUserV2");
+    return response;
+  }
 }

@@ -1,15 +1,8 @@
 package controllers.tac;
 
 import controllers.BaseController;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
-
-import controllers.orgmanagement.OrgTypeController;
-import org.sunbird.util.LoggerEnum;
-import org.sunbird.util.ProjectLogger;
-import play.mvc.Http;
 import play.mvc.Result;
-import play.mvc.Results;
 
 /** This controller will handle all request related to user terms and conditions. */
 public class UserTncController extends BaseController {
@@ -20,9 +13,9 @@ public class UserTncController extends BaseController {
    * @return success response
    */
   public CompletionStage<Result> acceptTnc() {
-    printProjectLogs(UserTncController.class.getSimpleName(),"acceptTnc",true);
+    startTrace("acceptTnc");
     CompletionStage<Result> response = handelRequest();
-    printProjectLogs(UserTncController.class.getSimpleName(),"acceptTnc",false);
+    endTrace("acceptTnc");
     return response;
   }
 }

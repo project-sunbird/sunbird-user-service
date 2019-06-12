@@ -21,9 +21,9 @@ public class HealthController extends BaseController {
    * @return a CompletableFuture of success response
    */
   public CompletionStage<Result> getHealth() {
-    printProjectLogs(HealthController.class.getSimpleName(), "getHealth", true);
+    startTrace("getHealth");
     CompletionStage<Result> response = handelRequest();
-    printProjectLogs(HealthController.class.getSimpleName(), "getHealth", false);
+    endTrace("getHealth");
     return response;
   }
 
@@ -33,10 +33,10 @@ public class HealthController extends BaseController {
    * @return a CompletableFuture of success response
    */
   public CompletionStage<Result> getUserOrgServiceHealth(String health) {
-    printProjectLogs(HealthController.class.getSimpleName(), "getUserOrgServiceHealth", true);
+    startTrace("getUserOrgServiceHealth");
     CompletableFuture<String> cf = new CompletableFuture<>();
     cf.complete(getDummyResponse());
-    printProjectLogs(HealthController.class.getSimpleName(), "getUserOrgServiceHealth", false);
+    endTrace("getUserOrgServiceHealth");
     return health.equalsIgnoreCase(userOrgServiceName)
         ? cf.thenApplyAsync(Results::ok)
         : cf.thenApplyAsync(Results::badRequest);

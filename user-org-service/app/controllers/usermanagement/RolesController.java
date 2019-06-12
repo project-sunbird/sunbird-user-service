@@ -2,10 +2,6 @@ package controllers.usermanagement;
 
 import controllers.BaseController;
 import java.util.concurrent.CompletionStage;
-
-import controllers.orgmanagement.OrgTypeController;
-import org.sunbird.util.LoggerEnum;
-import org.sunbird.util.ProjectLogger;
 import play.mvc.Result;
 
 /**
@@ -24,9 +20,9 @@ public class RolesController extends BaseController {
    * @return CompletionStage of get User api result
    */
   public CompletionStage<Result> getRoles() {
-    printProjectLogs(RolesController.class.getSimpleName(),"getRoles",true);
+    startTrace("getRoles");
     CompletionStage<Result> response = handelRequest();
-    printProjectLogs(RolesController.class.getSimpleName(),"getRoles",false);
+    endTrace("getRoles");
     return response;
   }
 }

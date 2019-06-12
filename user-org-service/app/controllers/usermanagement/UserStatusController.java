@@ -1,11 +1,7 @@
 package controllers.usermanagement;
 
 import controllers.BaseController;
-
 import java.util.concurrent.CompletionStage;
-
-import org.sunbird.util.LoggerEnum;
-import org.sunbird.util.ProjectLogger;
 import play.mvc.Result;
 
 /**
@@ -17,29 +13,29 @@ import play.mvc.Result;
  */
 public class UserStatusController extends BaseController {
 
-    /**
-     * This action method is used to block the user
-     *
-     * @return CompletionStage of block user api result
-     */
-    public CompletionStage<Result> blockUser() {
+  /**
+   * This action method is used to block the user
+   *
+   * @return CompletionStage of block user api result
+   */
+  public CompletionStage<Result> blockUser() {
 
-        printProjectLogs(UserStatusController.class.getSimpleName(), "blockUser", true);
-        CompletionStage<Result> response = handelRequest();
-        printProjectLogs(UserStatusController.class.getSimpleName(), "blockUser", false);
-        return response;
-    }
+    startTrace("blockUser");
+    CompletionStage<Result> response = handelRequest();
+    endTrace("blockUser");
+    return response;
+  }
 
-    /**
-     * This action method is used to unblock the user
-     *
-     * @return CompletionStage of unblock user api result
-     */
-    public CompletionStage<Result> unblockUser() {
+  /**
+   * This action method is used to unblock the user
+   *
+   * @return CompletionStage of unblock user api result
+   */
+  public CompletionStage<Result> unblockUser() {
 
-        printProjectLogs(UserStatusController.class.getSimpleName(), "unblockUser", true);
-        CompletionStage<Result> response = handelRequest();
-        printProjectLogs(UserStatusController.class.getSimpleName(), "unblockUser", false);
-        return response;
-    }
+    startTrace("unblockUser");
+    CompletionStage<Result> response = handelRequest();
+    endTrace("unblockUser");
+    return response;
+  }
 }

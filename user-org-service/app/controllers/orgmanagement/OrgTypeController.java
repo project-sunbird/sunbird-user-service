@@ -1,11 +1,7 @@
 package controllers.orgmanagement;
 
 import controllers.BaseController;
-
 import java.util.concurrent.CompletionStage;
-
-import org.sunbird.util.LoggerEnum;
-import org.sunbird.util.ProjectLogger;
 import play.mvc.Result;
 
 /**
@@ -15,40 +11,40 @@ import play.mvc.Result;
  */
 public class OrgTypeController extends BaseController {
 
-    /**
-     * This method is used for creating organisations type,
-     *
-     * @return Object of created orgType
-     */
-    public CompletionStage<Result> createOrgType() {
-        printProjectLogs(OrgTypeController.class.getSimpleName(), "createOrgType", true);
-        CompletionStage<Result> response = handelRequest();
-        printProjectLogs(OrgTypeController.class.getSimpleName(), "createOrgType", false);
-        return response;
-    }
+  /**
+   * This method is used for creating organisations type,
+   *
+   * @return Object of created orgType
+   */
+  public CompletionStage<Result> createOrgType() {
+    startTrace("createOrgType");
+    CompletionStage<Result> response = handelRequest();
+    endTrace("createOrgType");
+    return response;
+  }
 
-    /**
-     * This method is used for updating organisations type,
-     *
-     * @return response code for failure or success
-     */
-    public CompletionStage<Result> updateOrgType() {
-        printProjectLogs(OrgTypeController.class.getSimpleName(), "updateOrgType", true);
-        CompletionStage<Result> response = handelRequest();
-        printProjectLogs(OrgTypeController.class.getSimpleName(), "updateOrgType", false);
+  /**
+   * This method is used for updating organisations type,
+   *
+   * @return response code for failure or success
+   */
+  public CompletionStage<Result> updateOrgType() {
+    startTrace("updateOrgType");
+    CompletionStage<Result> response = handelRequest();
+    endTrace(" updateOrgType");
 
-        return response;
-    }
+    return response;
+  }
 
-    /**
-     * This method is used for listing organisations type,
-     *
-     * @return list of Object of orgType
-     */
-    public CompletionStage<Result> listOrgType() {
-        printProjectLogs(OrgTypeController.class.getSimpleName(),"listOrgType",true);
-        CompletionStage<Result> response = handelRequest();
-        printProjectLogs(OrgTypeController.class.getSimpleName(),"listOrgType",false);
-        return response;
-    }
+  /**
+   * This method is used for listing organisations type,
+   *
+   * @return list of Object of orgType
+   */
+  public CompletionStage<Result> listOrgType() {
+    startTrace("listOrgType");
+    CompletionStage<Result> response = handelRequest();
+    endTrace("listOrgType");
+    return response;
+  }
 }
