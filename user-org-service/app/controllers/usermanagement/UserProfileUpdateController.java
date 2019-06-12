@@ -19,7 +19,10 @@ public class UserProfileUpdateController extends BaseController {
    * @return Return a promise for update login time API result.
    */
   public CompletionStage<Result> updateLoginTime() {
-    return handelRequest();
+    startTrace("updateLoginTime");
+    CompletionStage<Result> response = handelRequest();
+    endTrace("updateLoginTime");
+    return response;
   }
 
   /**
@@ -28,7 +31,10 @@ public class UserProfileUpdateController extends BaseController {
    * @return success response
    */
   public CompletionStage<Result> assignRoles() {
-    return handelRequest();
+    startTrace("assignRoles");
+    CompletionStage<Result> response = handelRequest();
+    endTrace("assignRoles");
+    return response;
   }
 
   /**
@@ -37,6 +43,9 @@ public class UserProfileUpdateController extends BaseController {
    * @return Return a promise of updated userResponse
    */
   public CompletionStage<Result> updateUser() {
-    return handelRequest();
+    startTrace("updateUser");
+    CompletionStage<Result> response = handelRequest();
+    endTrace("updateUser");
+    return response;
   }
 }

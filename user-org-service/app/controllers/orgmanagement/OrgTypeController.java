@@ -17,15 +17,23 @@ public class OrgTypeController extends BaseController {
    * @return Object of created orgType
    */
   public CompletionStage<Result> createOrgType() {
-    return handelRequest();
+    startTrace("createOrgType");
+    CompletionStage<Result> response = handelRequest();
+    endTrace("createOrgType");
+    return response;
   }
+
   /**
    * This method is used for updating organisations type,
    *
    * @return response code for failure or success
    */
   public CompletionStage<Result> updateOrgType() {
-    return handelRequest();
+    startTrace("updateOrgType");
+    CompletionStage<Result> response = handelRequest();
+    endTrace(" updateOrgType");
+
+    return response;
   }
 
   /**
@@ -34,6 +42,9 @@ public class OrgTypeController extends BaseController {
    * @return list of Object of orgType
    */
   public CompletionStage<Result> listOrgType() {
-    return handelRequest();
+    startTrace("listOrgType");
+    CompletionStage<Result> response = handelRequest();
+    endTrace("listOrgType");
+    return response;
   }
 }

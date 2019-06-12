@@ -1,11 +1,8 @@
 package controllers.tac;
 
 import controllers.BaseController;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
-import play.mvc.Http;
 import play.mvc.Result;
-import play.mvc.Results;
 
 /** This controller will handle all request related to user terms and conditions. */
 public class UserTncController extends BaseController {
@@ -16,6 +13,9 @@ public class UserTncController extends BaseController {
    * @return success response
    */
   public CompletionStage<Result> acceptTnc() {
-    return handelRequest();
+    startTrace("acceptTnc");
+    CompletionStage<Result> response = handelRequest();
+    endTrace("acceptTnc");
+    return response;
   }
 }
