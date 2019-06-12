@@ -17,7 +17,10 @@ public class OrgController extends BaseController {
    * @return Object of created orgType
    */
   public CompletionStage<Result> createOrg() {
-    return handelRequest();
+    startTrace("createOrg");
+    CompletionStage<Result> result = handelRequest();
+    endTrace("createOrg");
+    return result;
   }
 
   /**
@@ -26,7 +29,10 @@ public class OrgController extends BaseController {
    * @return Response code for success if update complete else failure.
    */
   public CompletionStage<Result> updateOrg() {
-    return handelRequest();
+    startTrace("updateOrg");
+    CompletionStage<Result> response = handelRequest();
+    endTrace("updateOrg");
+    return response;
   }
 
   /**
@@ -35,7 +41,10 @@ public class OrgController extends BaseController {
    * @return Response Code for success if update complete else failure
    */
   public CompletionStage<Result> updateOrgStatus() {
-    return handelRequest();
+    startTrace("updateOrgStatus");
+    CompletionStage<Result> response = handelRequest();
+    endTrace("updateOrgStatus");
+    return response;
   }
 
   /**
@@ -44,7 +53,10 @@ public class OrgController extends BaseController {
    * @return Map of details related to organisation
    */
   public CompletionStage<Result> getOrgDetails() {
-    return handelRequest();
+    startTrace("getOrgDetails");
+    CompletionStage<Result> response = handelRequest();
+    endTrace("getOrgDetails");
+    return response;
   }
 
   /**
@@ -53,6 +65,9 @@ public class OrgController extends BaseController {
    * @return Map of details related to organisation
    */
   public CompletionStage<Result> search() {
-    return handelRequest();
+    startTrace("search");
+    CompletionStage<Result> response = handelRequest();
+    endTrace("search");
+    return response;
   }
 }

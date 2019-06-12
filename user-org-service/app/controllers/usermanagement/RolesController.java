@@ -20,6 +20,9 @@ public class RolesController extends BaseController {
    * @return CompletionStage of get User api result
    */
   public CompletionStage<Result> getRoles() {
-    return handelRequest();
+    startTrace("getRoles");
+    CompletionStage<Result> response = handelRequest();
+    endTrace("getRoles");
+    return response;
   }
 }
