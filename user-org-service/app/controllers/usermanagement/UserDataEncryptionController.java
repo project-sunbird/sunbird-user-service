@@ -19,7 +19,10 @@ public class UserDataEncryptionController extends BaseController {
    * @return Return a CompletableFuture of success response
    */
   public CompletionStage<Result> encrypt() {
-    return handelRequest();
+    startTrace("encrypt");
+    CompletionStage<Result> response = handelRequest();
+    endTrace("encrypt");
+    return response;
   }
 
   /**
@@ -28,6 +31,9 @@ public class UserDataEncryptionController extends BaseController {
    * @return Return a CompletableFuture of success response
    */
   public CompletionStage<Result> decrypt() {
-    return handelRequest();
+    startTrace("decrypt");
+    CompletionStage<Result> response = handelRequest();
+    endTrace("decrypt");
+    return response;
   }
 }

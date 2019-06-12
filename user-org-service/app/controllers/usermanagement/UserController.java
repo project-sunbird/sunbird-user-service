@@ -19,7 +19,10 @@ public class UserController extends BaseController {
    * @return Return a promise of created userResponse
    */
   public CompletionStage<Result> createUser() {
-    return handelRequest();
+    startTrace("createUser");
+    CompletionStage<Result> response = handelRequest();
+    endTrace("createUser");
+    return response;
   }
 
   /**
@@ -28,6 +31,9 @@ public class UserController extends BaseController {
    * @return Return a promise of created userResponse
    */
   public CompletionStage<Result> createUserV2() {
-    return handelRequest();
+    startTrace("createUserV2");
+    CompletionStage<Result> response = handelRequest();
+    endTrace("createUserV2");
+    return response;
   }
 }

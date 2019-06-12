@@ -18,7 +18,10 @@ public class OrgMemberController extends BaseController {
    *     success,
    */
   public CompletionStage<Result> addMemberToOrganisation() {
-    return handelRequest();
+    startTrace("addMemberToOrganisation");
+    CompletionStage<Result> response = handelRequest();
+    endTrace("addMemberToOrganisation");
+    return response;
   }
 
   /**
@@ -27,6 +30,10 @@ public class OrgMemberController extends BaseController {
    * @return Response code for failure if member not belongs to org,
    */
   public CompletionStage<Result> removeMemberFromOrganisation() {
-    return handelRequest();
+
+    startTrace("removeMemberFromOrganisation");
+    CompletionStage<Result> response = handelRequest();
+    endTrace("removeMemberFromOrganisation");
+    return response;
   }
 }

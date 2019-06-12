@@ -17,7 +17,10 @@ public class UserProfileReadController extends BaseController {
    * @return a CompletionStage of user Medial Type info Api Result.
    */
   public CompletionStage<Result> getProfileSupportedSocialMediaTypes() {
-    return handelRequest();
+    startTrace("getProfileSupportedSocialMediaTypes");
+    CompletionStage<Result> response = handelRequest();
+    endTrace("getProfileSupportedSocialMediaTypes");
+    return response;
   }
 
   /**
@@ -26,7 +29,11 @@ public class UserProfileReadController extends BaseController {
    * @return Return a CompletionsTAGE OF set user profile visibility Api Result
    */
   public CompletionStage<Result> setProfileVisibility() {
-    return handelRequest();
+
+    startTrace("setProfileVisibility");
+    CompletionStage<Result> response = handelRequest();
+    endTrace("setProfileVisibility");
+    return response;
   }
 
   /**
@@ -35,7 +42,10 @@ public class UserProfileReadController extends BaseController {
    * @return Return a CompletionsTAGE OF get user by type Api Result
    */
   public CompletionStage<Result> getUserTypes() {
-    return handelRequest();
+    startTrace("getUserTypes");
+    CompletionStage<Result> response = handelRequest();
+    endTrace("getUserTypes");
+    return response;
   }
 
   /**
@@ -44,7 +54,10 @@ public class UserProfileReadController extends BaseController {
    * @return Return a CompletionsTAGE OF get user by id Api Result
    */
   public CompletionStage<Result> getUserById(String userId) {
-    return handelRequest();
+    startTrace("getUserById");
+    CompletionStage<Result> response = handelRequest();
+    endTrace("getUserById");
+    return response;
   }
 
   /**
@@ -54,7 +67,10 @@ public class UserProfileReadController extends BaseController {
    * @return Return a promise of user response
    */
   public CompletionStage<Result> getUserByIdV2(String userId) {
-    return handelRequest();
+    startTrace("getUserByIdV2");
+    CompletionStage<Result> response = handelRequest();
+    endTrace("getUserByIdV2");
+    return response;
   }
 
   /**
@@ -63,7 +79,10 @@ public class UserProfileReadController extends BaseController {
    * @return CompletionStage of get User by login Id api result
    */
   public CompletionStage<Result> getUserByLoginId() {
-    return handelRequest();
+    startTrace("getUserByLoginId");
+    CompletionStage<Result> response = handelRequest();
+    endTrace("getUserByLoginId");
+    return response;
   }
 
   /**
@@ -72,7 +91,10 @@ public class UserProfileReadController extends BaseController {
    * @return CompletionStage of get User by Key api result
    */
   public CompletionStage<Result> getUserByKey(String idType, String id) {
-    return handelRequest();
+    startTrace("getUserByKey");
+    CompletionStage<Result> response = handelRequest();
+    endTrace("getUserByKey");
+    return response;
   }
 
   /**
@@ -81,6 +103,10 @@ public class UserProfileReadController extends BaseController {
    * @return Return a promise of user response
    */
   public CompletionStage<Result> searchUser() {
-    return handelRequest();
+
+    startTrace("searchUser");
+    CompletionStage<Result> response = handelRequest();
+    endTrace("searchUser");
+    return response;
   }
 }

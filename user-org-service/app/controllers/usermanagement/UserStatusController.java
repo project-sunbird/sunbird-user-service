@@ -19,7 +19,11 @@ public class UserStatusController extends BaseController {
    * @return CompletionStage of block user api result
    */
   public CompletionStage<Result> blockUser() {
-    return handelRequest();
+
+    startTrace("blockUser");
+    CompletionStage<Result> response = handelRequest();
+    endTrace("blockUser");
+    return response;
   }
 
   /**
@@ -28,6 +32,10 @@ public class UserStatusController extends BaseController {
    * @return CompletionStage of unblock user api result
    */
   public CompletionStage<Result> unblockUser() {
-    return handelRequest();
+
+    startTrace("unblockUser");
+    CompletionStage<Result> response = handelRequest();
+    endTrace("unblockUser");
+    return response;
   }
 }
