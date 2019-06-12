@@ -134,22 +134,22 @@ public class ProjectLogger {
     long unixTime = System.currentTimeMillis();
     LogEvent te = new LogEvent();
     Map<String, Object> eks = new HashMap<String, Object>();
-    eks.put(JsonKey.LEVEL, logLevel);
-    eks.put(JsonKey.MESSAGE, message);
+    eks.put(UserOrgJsonKey.LEVEL, logLevel);
+    eks.put(UserOrgJsonKey.MESSAGE, message);
     String msgId = UUID.randomUUID().toString();
     if (null != msgId) {
-      eks.put(JsonKey.REQUEST_MESSAGE_ID, msgId);
+      eks.put(UserOrgJsonKey.REQUEST_MESSAGE_ID, msgId);
     }
     if (null != data) {
-      eks.put(JsonKey.DATA, data);
+      eks.put(UserOrgJsonKey.DATA, data);
     }
     if (null != exception) {
-      eks.put(JsonKey.STACKTRACE, ExceptionUtils.getStackTrace(exception));
+      eks.put(UserOrgJsonKey.STACKTRACE, ExceptionUtils.getStackTrace(exception));
     }
     if (logEnum != null) {
       te.setEid(logEnum.name());
     } else {
-      te.setEid(LoggerEnum.BE_LOG.name());
+      te.setEid(LoggerEnum.BELOG.name());
     }
     te.setEts(unixTime);
     te.setMid(mid);

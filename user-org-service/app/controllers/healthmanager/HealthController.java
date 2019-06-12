@@ -17,7 +17,9 @@ import java.util.concurrent.CompletionStage;
  */
 public class HealthController extends BaseController {
 
+
     private static final String userOrgServiceName = "user-org-service";
+    private static final String TAG="HealthController";
 
     /**
      * This action method is responsible for checking Health.
@@ -26,11 +28,10 @@ public class HealthController extends BaseController {
      */
 
     public CompletionStage<Result> getHealth() {
-
-        ProjectLogger.log(
-                "HealthController :getHealth() : in HealthController ", LoggerEnum.INFO.name());
-
-        return handelRequest();
+        printProjectLogs(TAG,"getHealth",true);
+        CompletionStage<Result> response = handelRequest();
+        printProjectLogs(TAG,"getHealth",false);
+        return response;
     }
 
 
@@ -40,12 +41,12 @@ public class HealthController extends BaseController {
      * @return a CompletableFuture of success response
      */
     public CompletionStage<Result> getUserOrgServiceHealth(String health) {
-        ProjectLogger.log(
-                "HealthController :getUserOrgServiceHealth : got request params health :"+ health, LoggerEnum.INFO.name());
-
+        printProjectLogs(TAG,"getHealth",true);
         CompletableFuture<String> cf = new CompletableFuture<>();
         cf.complete(getDummyResponse());
+        printProjectLogs(TAG,"getHealth",false);
         return health.equalsIgnoreCase(userOrgServiceName) ? cf.thenApplyAsync(Results::ok) : cf.thenApplyAsync(Results::badRequest);
+
     }
 
 

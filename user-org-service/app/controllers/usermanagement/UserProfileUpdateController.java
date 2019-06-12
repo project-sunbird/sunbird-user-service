@@ -23,9 +23,10 @@ public class UserProfileUpdateController extends BaseController {
      * @return Return a promise for update login time API result.
      */
     public CompletionStage<Result> updateLoginTime() {
-        ProjectLogger.log(
-                "UserProfileUpdateController :updateLoginTime: request reached to UserProfileUpdateController controller with request " + request().body(), LoggerEnum.INFO.name());
-        return handelRequest();
+        printProjectLogs(UserProfileUpdateController.class.getSimpleName(),"updateLoginTime",true);
+        CompletionStage<Result> response = handelRequest();
+        printProjectLogs(UserProfileUpdateController.class.getSimpleName(),"updateLoginTime",false);
+        return response;
     }
 
     /**
@@ -34,9 +35,10 @@ public class UserProfileUpdateController extends BaseController {
      * @return success response
      */
     public CompletionStage<Result> assignRoles() {
-        ProjectLogger.log(
-                "UserProfileUpdateController :assignRoles: request reached to UserProfileUpdateController controller with request " + request().body(), LoggerEnum.INFO.name());
-        return handelRequest();
+        printProjectLogs(UserProfileUpdateController.class.getSimpleName(),"assignRoles",true);
+        CompletionStage<Result> response = handelRequest();
+        printProjectLogs(UserProfileUpdateController.class.getSimpleName(),"assignRoles",false);
+        return response;
     }
 
     /**
@@ -45,9 +47,9 @@ public class UserProfileUpdateController extends BaseController {
      * @return Return a promise of updated userResponse
      */
     public CompletionStage<Result> updateUser() {
-        ProjectLogger.log(
-                "UserProfileUpdateController :updateUser: request reached to UserProfileUpdateController controller with request " + request().body(), LoggerEnum.INFO.name());
-
-        return handelRequest();
+        printProjectLogs(UserProfileUpdateController.class.getSimpleName(),"updateUser",true);
+        CompletionStage<Result> response = handelRequest();
+        printProjectLogs(UserProfileUpdateController.class.getSimpleName(),"updateUser",false);
+        return response;
     }
 }

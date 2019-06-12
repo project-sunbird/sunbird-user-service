@@ -64,15 +64,15 @@ public class LogEvent {
 
   public void setEdata(Map<String, Object> eks) {
     this.edata = new HashMap<String, Object>();
-    edata.put(JsonKey.EKS, eks);
+    edata.put(UserOrgJsonKey.EKS, eks);
   }
 
   public void setContext(String id, String ver) {
     this.context = new HashMap<String, Object>();
     Map<String, String> pdata = new HashMap<String, String>();
-    pdata.put(JsonKey.ID, id);
-    pdata.put(JsonKey.VER, ver);
-    this.context.put(JsonKey.PDATA, pdata);
+    pdata.put(UserOrgJsonKey.ID, id);
+    pdata.put(UserOrgJsonKey.VER, ver);
+    this.context.put(UserOrgJsonKey.PDATA, pdata);
   }
 
   /**
@@ -94,11 +94,11 @@ public class LogEvent {
       Object exception) {
     this.edata = new HashMap<String, Object>();
     Map<String, Object> eks = new HashMap<String, Object>();
-    eks.put(JsonKey.LEVEL, level);
-    eks.put(JsonKey.CLASS, className);
-    eks.put(JsonKey.METHOD, method);
-    eks.put(JsonKey.DATA, data);
-    eks.put(JsonKey.STACKTRACE, stackTrace);
-    edata.put(JsonKey.EKS, eks);
+    eks.put(UserOrgJsonKey.LEVEL, level);
+    eks.put(UserOrgJsonKey.CLASS, className);
+    eks.put(UserOrgJsonKey.METHOD, method);
+    eks.put(UserOrgJsonKey.DATA, data);
+    eks.put(UserOrgJsonKey.STACKTRACE, stackTrace);
+    edata.put(UserOrgJsonKey.EKS, eks);
   }
 }

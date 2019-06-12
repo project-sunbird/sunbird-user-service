@@ -21,9 +21,10 @@ public class OrgTypeController extends BaseController {
      * @return Object of created orgType
      */
     public CompletionStage<Result> createOrgType() {
-        ProjectLogger.log(
-                "OrgTypeController :createOrgType: request reached to orgMember controller with request "+ request().body(), LoggerEnum.INFO.name());
-        return handelRequest();
+        printProjectLogs(OrgTypeController.class.getSimpleName(), "createOrgType", true);
+        CompletionStage<Result> response = handelRequest();
+        printProjectLogs(OrgTypeController.class.getSimpleName(), "createOrgType", false);
+        return response;
     }
 
     /**
@@ -32,9 +33,11 @@ public class OrgTypeController extends BaseController {
      * @return response code for failure or success
      */
     public CompletionStage<Result> updateOrgType() {
-        ProjectLogger.log(
-                "OrgTypeController :createOrgType: request reached to orgMember controller with request + request().body()", LoggerEnum.INFO.name());
-        return handelRequest();
+        printProjectLogs(OrgTypeController.class.getSimpleName(), "updateOrgType", true);
+        CompletionStage<Result> response = handelRequest();
+        printProjectLogs(OrgTypeController.class.getSimpleName(), "updateOrgType", false);
+
+        return response;
     }
 
     /**
@@ -43,8 +46,9 @@ public class OrgTypeController extends BaseController {
      * @return list of Object of orgType
      */
     public CompletionStage<Result> listOrgType() {
-        ProjectLogger.log(
-                "OrgTypeController :listOrgType: request reached to orgMember controller with request "+ request().body(), LoggerEnum.INFO.name());
-        return handelRequest();
+        printProjectLogs(OrgTypeController.class.getSimpleName(),"listOrgType",true);
+        CompletionStage<Result> response = handelRequest();
+        printProjectLogs(OrgTypeController.class.getSimpleName(),"listOrgType",false);
+        return response;
     }
 }

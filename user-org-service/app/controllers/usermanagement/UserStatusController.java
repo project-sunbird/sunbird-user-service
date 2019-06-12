@@ -24,9 +24,10 @@ public class UserStatusController extends BaseController {
      */
     public CompletionStage<Result> blockUser() {
 
-        ProjectLogger.log(
-                "UserStatusController :blockUser: request reached to UserStatusController controller with request " + request().body(), LoggerEnum.INFO.name());
-        return handelRequest();
+        printProjectLogs(UserStatusController.class.getSimpleName(), "blockUser", true);
+        CompletionStage<Result> response = handelRequest();
+        printProjectLogs(UserStatusController.class.getSimpleName(), "blockUser", false);
+        return response;
     }
 
     /**
@@ -36,8 +37,9 @@ public class UserStatusController extends BaseController {
      */
     public CompletionStage<Result> unblockUser() {
 
-        ProjectLogger.log(
-                "UserStatusController :unblockUser : request reached to UserStatusController controller with request " + request().body(), LoggerEnum.INFO.name());
-        return handelRequest();
+        printProjectLogs(UserStatusController.class.getSimpleName(), "unblockUser", true);
+        CompletionStage<Result> response = handelRequest();
+        printProjectLogs(UserStatusController.class.getSimpleName(), "unblockUser", false);
+        return response;
     }
 }

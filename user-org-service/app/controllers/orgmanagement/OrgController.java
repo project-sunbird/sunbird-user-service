@@ -1,6 +1,7 @@
 package controllers.orgmanagement;
 
 import controllers.BaseController;
+
 import java.util.concurrent.CompletionStage;
 
 import org.sunbird.util.LoggerEnum;
@@ -16,61 +17,66 @@ import javax.inject.Inject;
  */
 public class OrgController extends BaseController {
 
-  /**
-   * This method is used for creating organisation,
-   *
-   * @return Object of created orgType
-   */
-  public CompletionStage<Result> createOrg() {
-    ProjectLogger.log(
-            "OrgController :createOrg : request reached to org controller with request "+ request().body(), LoggerEnum.INFO.name());
-    return handelRequest();
-  }
+    public static final String TAG=OrgController.class.getName();
 
-  /**
-   * This method is used for updating organisation,
-   *
-   * @return Response code for success if update complete else failure.
-   */
-  public CompletionStage<Result> updateOrg() {
-    ProjectLogger.log(
-            "OrgController : updateOrg : request reached to org controller to update orgwith request "+ request().body(), LoggerEnum.INFO.name());
+    /**
+     * This method is used for creating organisation,
+     *
+     * @return Object of created orgType
+     */
+    public CompletionStage<Result> createOrg() {
+      printProjectLogs(TAG,"createOrg",true);
+        CompletionStage<Result> result = handelRequest();
+        printProjectLogs(TAG,"createOrg",false);
+        return result;
+    }
 
-    return handelRequest();
-  }
+    /**
+     * This method is used for updating organisation,
+     *
+     * @return Response code for success if update complete else failure.
+     */
+    public CompletionStage<Result> updateOrg() {
+        printProjectLogs(TAG,"updateOrg",true);
+        CompletionStage<Result> response = handelRequest();
+        printProjectLogs(TAG,"updateOrg",false);
+        return response;
+    }
 
-  /**
-   * This method is used for updating organisation status ,
-   *
-   * @return Response Code for success if update complete else failure
-   */
-  public CompletionStage<Result> updateOrgStatus() {
+    /**
+     * This method is used for updating organisation status ,
+     *
+     * @return Response Code for success if update complete else failure
+     */
+    public CompletionStage<Result> updateOrgStatus() {
 
-    ProjectLogger.log(
-            "OrgController :updateOrgStatus : request reached to org controller with request "+ request().body(), LoggerEnum.INFO.name());
-    return handelRequest();
-  }
+        printProjectLogs(TAG,"updateOrgStatus",true);
+        CompletionStage<Result> response = handelRequest();
+        printProjectLogs(TAG,"updateOrgStatus",false);
+        return response;
+    }
 
-  /**
-   * This method is used for getting organisation details ,
-   *
-   * @return Map of details related to organisation
-   */
-  public CompletionStage<Result> getOrgDetails() {
-    ProjectLogger.log(
-            "OrgController :getOrgDetails : request reached to org controllerwith request "+ request().body(), LoggerEnum.INFO.name());
-    return handelRequest();
-  }
+    /**
+     * This method is used for getting organisation details ,
+     *
+     * @return Map of details related to organisation
+     */
+    public CompletionStage<Result> getOrgDetails() {
+        printProjectLogs(TAG,"getOrgDetails",true);
+        CompletionStage<Result> response = handelRequest();
+        printProjectLogs(TAG,"getOrgDetails",false);
+        return response;
+    }
 
-  /**
-   * This method is used for searching organisation ,
-   *
-   * @return Map of details related to organisation
-   */
-  public CompletionStage<Result> search() {
-    ProjectLogger.log(
-            "OrgController :search: request reached to org controllerwith request "+ request().body(), LoggerEnum.INFO.name());
-
-    return handelRequest();
-  }
+    /**
+     * This method is used for searching organisation ,
+     *
+     * @return Map of details related to organisation
+     */
+    public CompletionStage<Result> search() {
+        printProjectLogs(TAG,"search",true);
+        CompletionStage<Result> response = handelRequest();
+        printProjectLogs(TAG,"search",false);
+        return response;
+    }
 }

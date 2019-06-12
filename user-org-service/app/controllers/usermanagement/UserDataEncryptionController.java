@@ -22,9 +22,10 @@ public class UserDataEncryptionController extends BaseController {
    * @return Return a CompletableFuture of success response
    */
   public CompletionStage<Result> encrypt() {
-    ProjectLogger.log(
-            "UserDataEncryptionController :encrypt : request reached toUserDataEncryption controller with request " + request().body(), LoggerEnum.INFO.name());
-    return handelRequest();
+    printProjectLogs(UserDataEncryptionController.class.getSimpleName(),"encrypt",true);
+    CompletionStage<Result> response = handelRequest();
+    printProjectLogs(RolesController.class.getSimpleName(),"encrypt",false);
+    return response;
   }
 
   /**
@@ -33,8 +34,9 @@ public class UserDataEncryptionController extends BaseController {
    * @return Return a CompletableFuture of success response
    */
   public CompletionStage<Result> decrypt() {
-    ProjectLogger.log(
-            "UserDataEncryptionController :decrypt : request reached toUserDataEncryption controller with request " + request().body(), LoggerEnum.INFO.name());
-    return handelRequest();
+    printProjectLogs(UserDataEncryptionController.class.getSimpleName(),"decrypt",true);
+    CompletionStage<Result> response = handelRequest();
+    printProjectLogs(RolesController.class.getSimpleName(),"decrypt",false);
+    return response;
   }
 }

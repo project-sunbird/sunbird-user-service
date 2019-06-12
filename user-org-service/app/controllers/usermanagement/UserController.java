@@ -23,10 +23,10 @@ public class UserController extends BaseController {
      * @return Return a promise of created userResponse
      */
     public CompletionStage<Result> createUser() {
-        ProjectLogger.log(
-                "UserController :createUser : request reached to User controller with request " + request().body(), LoggerEnum.INFO.name());
-
-        return handelRequest();
+        printProjectLogs(UserController.class.getSimpleName(),"createUser",true);
+        CompletionStage<Result> response = handelRequest();
+        printProjectLogs(RolesController.class.getSimpleName(),"createUser",false);
+        return response;
     }
 
     /**
@@ -35,8 +35,9 @@ public class UserController extends BaseController {
      * @return Return a promise of created userResponse
      */
     public CompletionStage<Result> createUserV2() {
-        ProjectLogger.log(
-                "UserController :createUserV2 : request reached to User controller with request " + request().body(), LoggerEnum.INFO.name());
-        return handelRequest();
+        printProjectLogs(UserController.class.getSimpleName(),"createUserV2",true);
+        CompletionStage<Result> response = handelRequest();
+        printProjectLogs(RolesController.class.getSimpleName(),"createUserV2",false);
+        return response;
     }
 }

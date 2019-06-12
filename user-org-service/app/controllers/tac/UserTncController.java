@@ -4,6 +4,7 @@ import controllers.BaseController;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
+import controllers.orgmanagement.OrgTypeController;
 import org.sunbird.util.LoggerEnum;
 import org.sunbird.util.ProjectLogger;
 import play.mvc.Http;
@@ -19,8 +20,9 @@ public class UserTncController extends BaseController {
    * @return success response
    */
   public CompletionStage<Result> acceptTnc() {
-    ProjectLogger.log(
-            "OrgTypeController :listOrgType: request reached to orgMember controller with request "+ request().body(), LoggerEnum.INFO.name());
-    return handelRequest();
+    printProjectLogs(UserTncController.class.getSimpleName(),"acceptTnc",true);
+    CompletionStage<Result> response = handelRequest();
+    printProjectLogs(UserTncController.class.getSimpleName(),"acceptTnc",false);
+    return response;
   }
 }
