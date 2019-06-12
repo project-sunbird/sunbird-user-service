@@ -33,10 +33,10 @@ public class HealthController extends BaseController {
    * @return a CompletableFuture of success response
    */
   public CompletionStage<Result> getUserOrgServiceHealth(String health) {
-    printProjectLogs(HealthController.class.getSimpleName(), "getHealth", true);
+    printProjectLogs(HealthController.class.getSimpleName(), "getUserOrgServiceHealth", true);
     CompletableFuture<String> cf = new CompletableFuture<>();
     cf.complete(getDummyResponse());
-    printProjectLogs(HealthController.class.getSimpleName(), "getHealth", false);
+    printProjectLogs(HealthController.class.getSimpleName(), "getUserOrgServiceHealth", false);
     return health.equalsIgnoreCase(userOrgServiceName)
         ? cf.thenApplyAsync(Results::ok)
         : cf.thenApplyAsync(Results::badRequest);
