@@ -1,13 +1,15 @@
 package org.sunbird.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.Configurator;
 
 /**
  * This class will used to log the project message in any level.
@@ -34,8 +36,6 @@ public class ProjectLogger {
   public static void log(String message, Throwable e, Map<String, Object> telemetryInfo) {
     log(message, null, e);
   }
-
-
 
   private static String generateStackTrace(StackTraceElement[] elements) {
     StringBuilder builder = new StringBuilder("");
@@ -163,5 +163,55 @@ public class ProjectLogger {
       ProjectLogger.log(e.getMessage(), e);
     }
     return jsonMessage;
+  }
+  /**
+   * This method will be called from Application class(default startup class). which will
+   * automatically set the Log level by taking its value from system environment file.
+   */
+  public static void setUserOrgServiceProjectLogger() {
+
+    String level = getLevelFromEnv();
+    switch (level.toUpperCase()) {
+      case "INFO":
+        changeLogLevel(Level.INFO);
+        break;
+      case "ERROR":
+        changeLogLevel(Level.ERROR);
+        break;
+      case "DEBUG":
+        changeLogLevel(Level.DEBUG);
+        break;
+      case "WARN":
+        changeLogLevel(Level.WARN);
+        break;
+      case "ALL":
+        changeLogLevel(Level.ALL);
+        break;
+      default:
+        changeLogLevel(Level.INFO);
+    }
+  }
+
+  /**
+   * This method will be take Log Level as input params and will set the Log Level dynamically.
+   * Configurator class is in package org.apache.logging.log4j.core.config.
+   *
+   * @param level
+   */
+  public static void changeLogLevel(Level level) {
+    Configurator.setLevel(rootLogger.getName(), level);
+    Configurator.setRootLevel(Level.INFO);
+    log(String.format("Log Level set to :%s", level), LoggerEnum.INFO.name());
+  }
+
+  /**
+   * This method will take value of Logger level from System environment.
+   *
+   * @return String value of log level if preset otherwise will return the default Logger Level INFO
+   */
+  public static String getLevelFromEnv() {
+    return StringUtils.isNotBlank(System.getenv(UserOrgJsonKey.USER_ORG_SERVICE_LOG_LEVEL))
+        ? System.getenv(UserOrgJsonKey.USER_ORG_SERVICE_LOG_LEVEL)
+        : "INFO";
   }
 }

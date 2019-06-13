@@ -1,2 +1,4 @@
 ## Pre-requisites
-# To be added
+# Environment Variables
+
+- export userOrgServiceLogLevel=INFO
