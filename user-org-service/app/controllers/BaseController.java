@@ -1,5 +1,8 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import controllers.logsmanager.validator.LogValidator;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import javax.inject.Inject;
@@ -55,5 +58,31 @@ public class BaseController extends Controller {
     ProjectLogger.log(
         String.format("%s:%s:ended at %s", this.getClass().getSimpleName(), tag, getTimeStamp()),
         LoggerEnum.DEBUG.name());
+  }
+
+  /**
+   * This method is used specifically to handel Log Apis frequest this will set log levels and then
+   * return the CompletionStage of Result
+   *
+   * @return
+   */
+  public CompletionStage<Result> handleLogRequest() {
+    startTrace("handleLogEvent");
+    CompletableFuture<String> cf = new CompletableFuture<>();
+    try {
+      Http.RequestBody requestBody = request().body();
+      Map<String, Object> responseMap = LogValidator.setLogLevelEvent(requestBody.asJson());
+      ObjectMapper mapper = new ObjectMapper();
+      cf.complete(mapper.writeValueAsString(responseMap));
+      endTrace("handleLogEvent");
+      if ((Boolean) responseMap.get("error")) {
+        return cf.thenApplyAsync(Results::badRequest, httpObject.current());
+      } else {
+        return cf.thenApplyAsync(Results::ok, httpObject.current());
+      }
+
+    } catch (Exception e) {
+      return cf.thenApplyAsync(Results::badRequest, httpObject.current());
+    }
   }
 }

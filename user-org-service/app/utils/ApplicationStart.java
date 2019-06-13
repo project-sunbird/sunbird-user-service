@@ -3,7 +3,6 @@ package utils;
 import java.util.concurrent.CompletableFuture;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import org.sunbird.util.ProjectLogger;
 import play.api.Environment;
 import play.api.inject.ApplicationLifecycle;
 
@@ -24,7 +23,6 @@ public class ApplicationStart {
   @Inject
   public ApplicationStart(ApplicationLifecycle lifecycle, Environment environment) {
     // Shut-down hook
-    ProjectLogger.setLogLevel(); // Will set the value of log level from system env.
     lifecycle.addStopHook(
         () -> {
           return CompletableFuture.completedFuture(null);

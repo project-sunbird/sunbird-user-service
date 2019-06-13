@@ -20,6 +20,8 @@ public final class UserOrgJsonKey {
   public static final String VER = "ver";
   public static final String OK = "ok";
   public static final String SUNBIRD_USER_ORG_LOG_LEVEL = "sunbird_user_org_log_level";
+  public static final String logLevel = "logLevel";
+  public static final String ERROR = "error";
 
   private UserOrgJsonKey() {}
 }
