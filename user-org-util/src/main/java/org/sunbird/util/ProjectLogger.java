@@ -23,6 +23,7 @@ public class ProjectLogger {
   private static String dataId = "Sunbird";
   private static ObjectMapper mapper = new ObjectMapper();
   private static Logger rootLogger = (Logger) LogManager.getLogger("defaultLogger");
+  static PropertiesCache propertiesCache = PropertiesCache.getInstance();
 
   /** To log only message. */
   public static void log(String message) {
@@ -164,13 +165,13 @@ public class ProjectLogger {
     }
     return jsonMessage;
   }
+
   /**
    * This method will be called from Application class(default startup class). which will
    * automatically set the Log level by taking its value from system environment file.
    */
-  public static void setUserOrgServiceProjectLogger() {
+  public static void setUserOrgServiceProjectLogger(String level) {
 
-    String level = getLevelFromEnv();
     switch (level.toUpperCase()) {
       case "INFO":
         changeLogLevel(Level.INFO);
@@ -205,13 +206,15 @@ public class ProjectLogger {
   }
 
   /**
-   * This method will take value of Logger level from System environment.
-   *
-   * @return String value of log level if preset otherwise will return the default Logger Level INFO
+   * This method will take the value of Log level from system or env file. if not find it will
+   * identify from externalresource.properties file and set the level
    */
-  public static String getLevelFromEnv() {
-    return StringUtils.isNotBlank(System.getenv(UserOrgJsonKey.USER_ORG_SERVICE_LOG_LEVEL))
-        ? System.getenv(UserOrgJsonKey.USER_ORG_SERVICE_LOG_LEVEL)
-        : "INFO";
+  public static void setLogLevel() {
+    String level =
+        StringUtils.isNotBlank(
+                propertiesCache.readProperty(UserOrgJsonKey.SUNBIRD_USER_ORG_LOG_LEVEL))
+            ? propertiesCache.readProperty(UserOrgJsonKey.SUNBIRD_USER_ORG_LOG_LEVEL)
+            : Level.INFO.name();
+    setUserOrgServiceProjectLogger(level);
   }
 }

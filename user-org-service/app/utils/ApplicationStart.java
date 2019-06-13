@@ -24,8 +24,7 @@ public class ApplicationStart {
   @Inject
   public ApplicationStart(ApplicationLifecycle lifecycle, Environment environment) {
     // Shut-down hook
-    ProjectLogger
-        .setUserOrgServiceProjectLogger(); // Will set the value of log level from system env.
+    ProjectLogger.setLogLevel(); // Will set the value of log level from system env.
     lifecycle.addStopHook(
         () -> {
           return CompletableFuture.completedFuture(null);

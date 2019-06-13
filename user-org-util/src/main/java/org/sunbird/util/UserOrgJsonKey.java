@@ -19,7 +19,7 @@ public final class UserOrgJsonKey {
   public static final String STACKTRACE = "stacktrace";
   public static final String VER = "ver";
   public static final String OK = "ok";
-  public static final String USER_ORG_SERVICE_LOG_LEVEL = "userOrgServiceLogLevel";
+  public static final String SUNBIRD_USER_ORG_LOG_LEVEL = "sunbird_user_org_log_level";
 
   private UserOrgJsonKey() {}
 }

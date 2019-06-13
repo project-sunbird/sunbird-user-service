@@ -1,4 +1,4 @@
 ## Pre-requisites
 # Environment Variables
 
-- export userOrgServiceLogLevel=INFO
+- export sunbird_user_org_log_level=INFO
