@@ -8,7 +8,7 @@ RUN apk update \
 ENV  M2_HOME /opt/apache-maven-3.3.9
 ENV  PATH ${M2_HOME}/bin:${PATH}
 COPY . /opt/
-WORKDIR /opt/user-service
+WORKDIR /opt/user-org-service
 RUN mvn clean install -DskipTests
-WORKDIR /opt/sunbird-user-service/user-service
-CMD ["mvn", "play2:dist"]
+WORKDIR /opt/user-org-service
+RUN mvn play2:dist
