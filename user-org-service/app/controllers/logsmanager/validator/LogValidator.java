@@ -24,9 +24,9 @@ public class LogValidator {
             "%s:%s: request got %s",
             LogValidator.class.getSimpleName(), "validateLogRequest", request));
     List<Enum> enumValues = new ArrayList<Enum>(EnumSet.allOf(LoggerEnum.class));
-    if (request != null && request.get(UserOrgJsonKey.logLevel) != null) {
-      if (validateLogLevels((String) request.get(UserOrgJsonKey.logLevel))) {
-        ProjectLogger.setLogLevel((String) request.get(UserOrgJsonKey.logLevel));
+    if (request != null && request.get(UserOrgJsonKey.LOG_LEVEL) != null) {
+      if (validateLogLevels((String) request.get(UserOrgJsonKey.LOG_LEVEL))) {
+        ProjectLogger.setLogLevel((String) request.get(UserOrgJsonKey.LOG_LEVEL));
         return true;
       }
       responseMap.put(UserOrgJsonKey.ERROR, true);
@@ -38,7 +38,7 @@ public class LogValidator {
     responseMap.put("error", true);
     responseMap.put(
         UserOrgJsonKey.MESSAGE,
-        String.format("Missing Required Param %s", UserOrgJsonKey.logLevel));
+        String.format("Missing Required Param %s", UserOrgJsonKey.LOG_LEVEL));
     return false;
   }
 
@@ -73,7 +73,8 @@ public class LogValidator {
         responseMap.put("error", false);
         responseMap.put(
             UserOrgJsonKey.MESSAGE,
-            String.format("logLevel set to %s", request.get(UserOrgJsonKey.logLevel)));
+            String.format(
+                "%s set to %s", UserOrgJsonKey.LOG_LEVEL, request.get(UserOrgJsonKey.LOG_LEVEL)));
       } else {
 
       }
