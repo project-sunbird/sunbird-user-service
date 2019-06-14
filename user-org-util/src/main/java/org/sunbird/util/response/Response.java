@@ -12,64 +12,7 @@ import java.util.Map;
 public class Response implements Serializable, Cloneable {
 
   private static final long serialVersionUID = -3773253896160786443L;
-  private String id;
-  private String ver;
-  private String ts;
   private Map<String, Object> result = new HashMap<>();
-
-  /**
-   * This will provide request unique id.
-   *
-   * @return String
-   */
-  public String getId() {
-    return id;
-  }
-
-  /**
-   * set the unique id
-   *
-   * @param id String
-   */
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  /**
-   * this will provide api version
-   *
-   * @return String
-   */
-  public String getVer() {
-    return ver;
-  }
-
-  /**
-   * set the api version
-   *
-   * @param ver String
-   */
-  public void setVer(String ver) {
-    this.ver = ver;
-  }
-
-  /**
-   * this will provide complete time value
-   *
-   * @return String
-   */
-  public String getTs() {
-    return ts;
-  }
-
-  /**
-   * set the time value
-   *
-   * @param ts String
-   */
-  public void setTs(String ts) {
-    this.ts = ts;
-  }
 
   /** @return Map<String, Object> */
   public Map<String, Object> getResult() {

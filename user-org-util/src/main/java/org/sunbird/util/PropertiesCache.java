@@ -55,10 +55,10 @@ public class PropertiesCache {
   }
 
   /**
-   * Method to read value from resource file .
+   * Method to read value from environment variable or either resources file .
    *
    * @param key
-   * @return
+   * @return string
    */
   public String readProperty(String key) {
     String value = System.getenv(key);

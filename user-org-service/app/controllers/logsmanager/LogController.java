@@ -1,6 +1,5 @@
 package controllers.logsmanager;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import controllers.BaseController;
 import java.util.concurrent.CompletionStage;
 import play.mvc.Result;
@@ -13,7 +12,7 @@ public class LogController extends BaseController {
    *
    * @return
    */
-  public CompletionStage<Result> setLogLevel() throws JsonProcessingException {
+  public CompletionStage<Result> setLogLevel() {
     return handleLogRequest();
   }
 }
