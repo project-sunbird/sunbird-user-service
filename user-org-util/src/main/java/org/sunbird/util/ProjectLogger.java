@@ -204,19 +204,4 @@ public class ProjectLogger {
     Configurator.setRootLevel(Level.INFO);
     log(String.format("Log Level set to :%s", level), level.name());
   }
-
-  /**
-   * This method will take the value of Log level from system or env file. if not find it will
-   * identify from externalresource.properties file and set the level
-   */
-  public static void setLogLevel(String level) {
-    if (StringUtils.isBlank(level)) {
-      level =
-          StringUtils.isNotBlank(
-                  propertiesCache.readProperty(UserOrgJsonKey.SUNBIRD_USER_ORG_LOG_LEVEL))
-              ? propertiesCache.readProperty(UserOrgJsonKey.SUNBIRD_USER_ORG_LOG_LEVEL)
-              : Level.INFO.name();
-    }
-    setUserOrgServiceProjectLogger(level);
-  }
 }

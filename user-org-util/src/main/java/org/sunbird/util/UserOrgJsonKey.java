@@ -7,13 +7,13 @@ package org.sunbird.util;
  */
 public final class UserOrgJsonKey {
 
-  public static final String CLASS = "class";
+  public static final String CLASSNAME = "class";
   public static final String DATA = "data";
   public static final String EKS = "eks";
   public static final String ID = "id";
   public static final String LEVEL = "level";
   public static final String MESSAGE = "message";
-  public static final String METHOD = "method";
+  public static final String METHODNAME = "method";
   public static final String PDATA = "pdata";
   public static final String REQUEST_MESSAGE_ID = "msgId";
   public static final String STACKTRACE = "stacktrace";

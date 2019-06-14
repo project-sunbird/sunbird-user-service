@@ -54,12 +54,6 @@ public class PropertiesCache {
     configProp.setProperty(key, value);
   }
 
-  public String getProperty(String key) {
-    String value = System.getenv(key);
-    if (StringUtils.isNotBlank(value)) return value;
-    return configProp.getProperty(key) != null ? configProp.getProperty(key) : key;
-  }
-
   /**
    * Method to read value from resource file .
    *

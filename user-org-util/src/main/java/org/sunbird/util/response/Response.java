@@ -3,7 +3,6 @@ package org.sunbird.util.response;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-import org.sunbird.util.responsecode.ResponseCode;
 
 /**
  * This is a common response class for all the layer. All layer will send same response object.
@@ -16,7 +15,6 @@ public class Response implements Serializable, Cloneable {
   private String id;
   private String ver;
   private String ts;
-  private ResponseCode responseCode = ResponseCode.OK;
   private Map<String, Object> result = new HashMap<>();
 
   /**
@@ -101,24 +99,6 @@ public class Response implements Serializable, Cloneable {
 
   public boolean containsKey(String key) {
     return result.containsKey(key);
-  }
-
-  /**
-   * Set the response code for header.
-   *
-   * @param code ResponseCode
-   */
-  public void setResponseCode(ResponseCode code) {
-    this.responseCode = code;
-  }
-
-  /**
-   * get the response code
-   *
-   * @return ResponseCode
-   */
-  public ResponseCode getResponseCode() {
-    return this.responseCode;
   }
 
   public Response clone(Response response) {

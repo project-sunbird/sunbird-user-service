@@ -1,18 +1,23 @@
 package controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import controllers.logsmanager.validator.LogValidator;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import javax.inject.Inject;
 import org.sunbird.util.LoggerEnum;
 import org.sunbird.util.ProjectLogger;
+import org.sunbird.util.UserOrgJsonKey;
+import org.sunbird.util.request.Request;
 import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Results;
+import utils.mapper.RequestMapper;
 
 /**
  * This controller we can use for writing some common method to handel api request.
@@ -66,23 +71,47 @@ public class BaseController extends Controller {
    *
    * @return
    */
-  public CompletionStage<Result> handleLogRequest() {
+  public CompletionStage<Result> handleLogRequest() throws JsonProcessingException {
     startTrace("handleLogEvent");
+    Map<String, Object> responseMap = new HashMap<>();
+    ObjectMapper mapper = new ObjectMapper();
     CompletableFuture<String> cf = new CompletableFuture<>();
     try {
       Http.RequestBody requestBody = request().body();
-      Map<String, Object> responseMap = LogValidator.setLogLevelEvent(requestBody.asJson());
-      ObjectMapper mapper = new ObjectMapper();
-      cf.complete(mapper.writeValueAsString(responseMap));
-      endTrace("handleLogEvent");
-      if ((Boolean) responseMap.get("error")) {
-        return cf.thenApplyAsync(Results::badRequest, httpObject.current());
-      } else {
-        return cf.thenApplyAsync(Results::ok, httpObject.current());
+      Request request = (Request) RequestMapper.mapRequest(requestBody.asJson(), Request.class);
+      if (LogValidator.checkLogValidationError(request)) {
+        responseMap =
+            prepareRequestSuccessResponse(
+                "logLevel successfully set to " + request.get(UserOrgJsonKey.LOG_LEVEL));
+        cf.complete(mapper.writeValueAsString(responseMap));
+        endTrace("handleLogEvent");
+        ProjectLogger.setUserOrgServiceProjectLogger(
+            (String) request.get(UserOrgJsonKey.LOG_LEVEL));
       }
-
+      return cf.thenApplyAsync(Results::ok, httpObject.current());
     } catch (Exception e) {
+      responseMap = prepareRequestFailureResponse(e.getLocalizedMessage());
+      cf.complete(mapper.writeValueAsString(responseMap));
+      ProjectLogger.log(
+          String.format(
+              "%s:%s:exception occurred %s",
+              this.getClass().getSimpleName(), "handleLogRequest", e.getLocalizedMessage()),
+          LoggerEnum.ERROR.name());
       return cf.thenApplyAsync(Results::badRequest, httpObject.current());
     }
+  }
+
+  public Map<String, Object> prepareRequestSuccessResponse(String message) {
+    Map<String, Object> responseMap = new HashMap<>();
+    responseMap.put(UserOrgJsonKey.ERROR, false);
+    responseMap.put(UserOrgJsonKey.MESSAGE, message);
+    return responseMap;
+  }
+
+  public Map<String, Object> prepareRequestFailureResponse(String message) {
+    Map<String, Object> responseMap = new HashMap<>();
+    responseMap.put(UserOrgJsonKey.ERROR, true);
+    responseMap.put(UserOrgJsonKey.MESSAGE, message);
+    return responseMap;
   }
 }

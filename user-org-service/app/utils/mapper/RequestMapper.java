@@ -22,15 +22,15 @@ public class RequestMapper {
    * @return <T>
    */
   public static <T> Object mapRequest(JsonNode requestData, Class<T> obj) throws RuntimeException {
-
+    ProjectLogger.log(
+        "RequestMapper:mapRequest:Requested data:" + requestData, LoggerEnum.INFO.name());
     if (requestData == null) return null;
 
     try {
       return Json.fromJson(requestData, obj);
     } catch (Exception e) {
-      ProjectLogger.log("ControllerRequestMapper error : " + e.getMessage(), e);
       ProjectLogger.log(
-          "RequestMapper:mapRequest Requested data : " + requestData, LoggerEnum.INFO.name());
+          "RequestMapper:mapRequest:error " + e.getMessage(), LoggerEnum.ERROR.name());
       return null;
     }
   }
