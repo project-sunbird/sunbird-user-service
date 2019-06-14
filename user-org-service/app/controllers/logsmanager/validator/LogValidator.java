@@ -29,7 +29,7 @@ public class LogValidator {
    * @return boolean
    */
   public static boolean isLogParamsPresent(Request request) {
-    return request != null && request.get(UserOrgJsonKey.LOG_LEVEL) != null ? true : false;
+    return (request != null && request.get(UserOrgJsonKey.LOG_LEVEL) != null) ? true : false;
   }
 
   /**
