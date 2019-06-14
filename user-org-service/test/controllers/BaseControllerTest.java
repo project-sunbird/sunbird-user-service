@@ -3,10 +3,6 @@ package controllers;
 import static org.junit.Assert.*;
 
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionStage;
-import java.util.concurrent.ExecutionException;
-import javax.ws.rs.core.Response.Status;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -15,7 +11,6 @@ import org.sunbird.util.UserOrgJsonKey;
 import org.sunbird.util.response.Response;
 import org.sunbird.util.responsecode.ResponseCode;
 import play.Application;
-import play.mvc.Result;
 import play.test.Helpers;
 
 public class BaseControllerTest {
@@ -67,46 +62,5 @@ public class BaseControllerTest {
     response.put(UserOrgJsonKey.MESSAGE, response.getResult());
     String jsonifyResponse = controller.jsonifyResponseObject(response);
     assertEquals(StringUtils.EMPTY, jsonifyResponse);
-  }
-
-  @Test
-  public void testHandelSuccessResponseSuccess() throws ExecutionException, InterruptedException {
-
-    Response response = new Response();
-    response.put(UserOrgJsonKey.ERROR, true);
-    response.put(UserOrgJsonKey.MESSAGE, ResponseCode.internalError.getErrorMessage());
-    BaseController controller = new BaseController();
-    CompletionStage<Result> future = controller.handelSuccessResponse(response);
-    CompletableFuture<Result> cfuture = (CompletableFuture<Result>) future;
-    assertEquals(Status.OK.getStatusCode(), cfuture.get().status());
-  }
-
-  @Test
-  public void testHandelSuccessResponseFailure() throws ExecutionException, InterruptedException {
-    Response response = new Response();
-    BaseController controller = new BaseController();
-    CompletionStage<Result> future = controller.handelSuccessResponse(response);
-    CompletableFuture<Result> cfuture = (CompletableFuture<Result>) future;
-    assertNotEquals(Status.INTERNAL_SERVER_ERROR.getStatusCode(), cfuture.get().status());
-  }
-
-  @Test
-  public void testHandelFailureResponseSuccess() throws ExecutionException, InterruptedException {
-
-    Response response = new Response();
-    response.put(UserOrgJsonKey.ERROR, true);
-    response.put(UserOrgJsonKey.MESSAGE, ResponseCode.internalError.getErrorMessage());
-    BaseController controller = new BaseController();
-    CompletionStage<Result> future = controller.handelFailureResponse(response);
-    CompletableFuture<Result> cfuture = (CompletableFuture<Result>) future;
-    assertEquals(Status.BAD_REQUEST.getStatusCode(), cfuture.get().status());
-  }
-
-  @Test
-  public void testHandelFailureResponseFailure() throws ExecutionException, InterruptedException {
-    Response response = new Response();
-    CompletionStage<Result> future = controllerObject.handelSuccessResponse(response);
-    CompletableFuture<Result> cfuture = (CompletableFuture<Result>) future;
-    assertNotEquals(Status.INTERNAL_SERVER_ERROR.getStatusCode(), cfuture.get().status());
   }
 }
