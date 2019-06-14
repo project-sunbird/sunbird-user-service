@@ -1,5 +1,5 @@
 /** */
-package org.sunbird.util.mapper;
+package utils.mapper;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.sunbird.util.LoggerEnum;
