@@ -1,11 +1,11 @@
 package org.sunbird.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -91,8 +91,7 @@ public class ProjectLogger {
   }
 
   private static void backendLog(String message, Object data, Throwable e, String logLevel) {
-    if (!StringUtils.isBlank(logLevel)) {
-
+    if (logLevel != null && !logLevel.isEmpty()) {
       switch (logLevel) {
         case "INFO":
           info(message, data);
@@ -134,7 +133,7 @@ public class ProjectLogger {
     String mid = dataId + "." + System.currentTimeMillis() + "." + UUID.randomUUID();
     long unixTime = System.currentTimeMillis();
     LogEvent te = new LogEvent();
-    Map<String, Object> eks = new HashMap<String, Object>();
+    Map<String, Object> eks = new HashMap<>();
     eks.put(UserOrgJsonKey.LEVEL, logLevel);
     eks.put(UserOrgJsonKey.MESSAGE, message);
     String msgId = UUID.randomUUID().toString();
@@ -145,7 +144,7 @@ public class ProjectLogger {
       eks.put(UserOrgJsonKey.DATA, data);
     }
     if (null != exception) {
-      eks.put(UserOrgJsonKey.STACKTRACE, ExceptionUtils.getStackTrace(exception));
+      eks.put(UserOrgJsonKey.STACKTRACE, getStackTrace(exception));
     }
     if (logEnum != null) {
       te.setEid(logEnum.name());
@@ -203,5 +202,12 @@ public class ProjectLogger {
     Configurator.setLevel(rootLogger.getName(), level);
     Configurator.setRootLevel(Level.INFO);
     log(String.format("Log Level set to :%s", level), level.name());
+  }
+
+  public static String getStackTrace(Throwable throwable) {
+    StringWriter sw = new StringWriter();
+    PrintWriter pw = new PrintWriter(sw, true);
+    throwable.printStackTrace(pw);
+    return sw.getBuffer().toString();
   }
 }
