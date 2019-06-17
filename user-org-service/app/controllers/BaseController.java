@@ -6,7 +6,6 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import javax.inject.Inject;
-import org.apache.commons.lang3.StringUtils;
 import org.sunbird.util.LoggerEnum;
 import org.sunbird.util.ProjectLogger;
 import org.sunbird.util.UserOrgJsonKey;
@@ -95,9 +94,10 @@ public class BaseController extends Controller {
    * @return CompletionStage<Result>
    */
   public CompletionStage<Result> handelResponse(Response response) {
+    String jsonifyResponse = jsonifyResponseObject(response);
     return (Boolean) response.get(UserOrgJsonKey.ERROR)
-        ? handelFailureResponse(response)
-        : handelSuccessResponse(response);
+        ? handelFailureResponse(jsonifyResponse)
+        : handelSuccessResponse(jsonifyResponse);
   }
 
   /**
@@ -106,14 +106,13 @@ public class BaseController extends Controller {
    * @param response
    * @return
    */
-  public CompletionStage<Result> handelSuccessResponse(Response response) {
+  public CompletionStage<Result> handelSuccessResponse(String response) {
     CompletableFuture<String> future = new CompletableFuture<>();
-    String jsonResponse = jsonifyResponseObject(response);
-    if (StringUtils.isNotBlank(jsonResponse)) {
-      future.complete(jsonResponse);
+    if (!response.isEmpty()) {
+      future.complete(response);
       return future.thenApplyAsync(Results::ok, httpExecutionContext.current());
     } else {
-      future.complete((String) response.get(ResponseCode.internalError.getErrorMessage()));
+      future.complete(ResponseCode.internalError.getErrorMessage());
       return future.thenApplyAsync(Results::internalServerError, httpExecutionContext.current());
     }
   }
@@ -124,14 +123,13 @@ public class BaseController extends Controller {
    * @param response
    * @return
    */
-  public CompletionStage<Result> handelFailureResponse(Response response) {
+  public CompletionStage<Result> handelFailureResponse(String response) {
     CompletableFuture<String> future = new CompletableFuture<>();
-    String jsonResponse = jsonifyResponseObject(response);
-    if (StringUtils.isNotBlank(jsonResponse)) {
-      future.complete(jsonResponse);
+    if (!response.isEmpty()) {
+      future.complete(response);
       return future.thenApplyAsync(Results::badRequest, httpExecutionContext.current());
     } else {
-      future.complete((String) response.get(ResponseCode.internalError.getErrorMessage()));
+      future.complete(ResponseCode.internalError.getErrorMessage());
       return future.thenApplyAsync(Results::internalServerError, httpExecutionContext.current());
     }
   }
@@ -148,7 +146,7 @@ public class BaseController extends Controller {
       ObjectMapper mapper = new ObjectMapper();
       return mapper.writeValueAsString(response);
     } catch (Exception e) {
-      return StringUtils.EMPTY;
+      return UserOrgJsonKey.EMPTY_STRING;
     }
   }
 

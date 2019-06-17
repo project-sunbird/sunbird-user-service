@@ -3,7 +3,6 @@ package org.sunbird.util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * This class is used to read properties from properties file.
@@ -62,7 +61,6 @@ public class PropertiesCache {
    */
   public String readProperty(String key) {
     String value = System.getenv(key);
-    if (StringUtils.isNotBlank(value)) return value;
-    return configProp.getProperty(key);
+    return value != null && !value.isEmpty() ? value : configProp.getProperty(key);
   }
 }
