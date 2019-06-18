@@ -95,8 +95,8 @@ public class LogEvent {
     this.edata = new HashMap<String, Object>();
     Map<String, Object> eks = new HashMap<String, Object>();
     eks.put(UserOrgJsonKey.LEVEL, level);
-    eks.put(UserOrgJsonKey.CLASS, className);
-    eks.put(UserOrgJsonKey.METHOD, method);
+    eks.put(UserOrgJsonKey.CLASSNAME, className);
+    eks.put(UserOrgJsonKey.METHODNAME, method);
     eks.put(UserOrgJsonKey.DATA, data);
     eks.put(UserOrgJsonKey.STACKTRACE, stackTrace);
     edata.put(UserOrgJsonKey.EKS, eks);
