@@ -1,13 +1,15 @@
 package org.sunbird.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.Configurator;
 
 /**
  * This class will used to log the project message in any level.
@@ -21,6 +23,7 @@ public class ProjectLogger {
   private static String dataId = "Sunbird";
   private static ObjectMapper mapper = new ObjectMapper();
   private static Logger rootLogger = (Logger) LogManager.getLogger("defaultLogger");
+  static PropertiesCache propertiesCache = PropertiesCache.getInstance();
 
   /** To log only message. */
   public static void log(String message) {
@@ -34,8 +37,6 @@ public class ProjectLogger {
   public static void log(String message, Throwable e, Map<String, Object> telemetryInfo) {
     log(message, null, e);
   }
-
-
 
   private static String generateStackTrace(StackTraceElement[] elements) {
     StringBuilder builder = new StringBuilder("");
@@ -90,8 +91,7 @@ public class ProjectLogger {
   }
 
   private static void backendLog(String message, Object data, Throwable e, String logLevel) {
-    if (!StringUtils.isBlank(logLevel)) {
-
+    if (logLevel != null && !logLevel.isEmpty()) {
       switch (logLevel) {
         case "INFO":
           info(message, data);
@@ -133,7 +133,7 @@ public class ProjectLogger {
     String mid = dataId + "." + System.currentTimeMillis() + "." + UUID.randomUUID();
     long unixTime = System.currentTimeMillis();
     LogEvent te = new LogEvent();
-    Map<String, Object> eks = new HashMap<String, Object>();
+    Map<String, Object> eks = new HashMap<>();
     eks.put(UserOrgJsonKey.LEVEL, logLevel);
     eks.put(UserOrgJsonKey.MESSAGE, message);
     String msgId = UUID.randomUUID().toString();
@@ -144,7 +144,7 @@ public class ProjectLogger {
       eks.put(UserOrgJsonKey.DATA, data);
     }
     if (null != exception) {
-      eks.put(UserOrgJsonKey.STACKTRACE, ExceptionUtils.getStackTrace(exception));
+      eks.put(UserOrgJsonKey.STACKTRACE, getStackTrace(exception));
     }
     if (logEnum != null) {
       te.setEid(logEnum.name());
@@ -163,5 +163,51 @@ public class ProjectLogger {
       ProjectLogger.log(e.getMessage(), e);
     }
     return jsonMessage;
+  }
+
+  /**
+   * This method will be called from Application class(default startup class). which will
+   * automatically set the Log level by taking its value from system environment file.
+   */
+  public static void setUserOrgServiceProjectLogger(String level) {
+
+    switch (level.toUpperCase()) {
+      case "INFO":
+        changeLogLevel(Level.INFO);
+        break;
+      case "ERROR":
+        changeLogLevel(Level.ERROR);
+        break;
+      case "DEBUG":
+        changeLogLevel(Level.DEBUG);
+        break;
+      case "WARN":
+        changeLogLevel(Level.WARN);
+        break;
+      case "ALL":
+        changeLogLevel(Level.ALL);
+        break;
+      default:
+        changeLogLevel(Level.INFO);
+    }
+  }
+
+  /**
+   * This method will be take Log Level as input params and will set the Log Level dynamically.
+   * Configurator class is in package org.apache.logging.log4j.core.config.
+   *
+   * @param level
+   */
+  public static void changeLogLevel(Level level) {
+    Configurator.setLevel(rootLogger.getName(), level);
+    Configurator.setRootLevel(Level.INFO);
+    log(String.format("Log Level set to :%s", level), level.name());
+  }
+
+  public static String getStackTrace(Throwable throwable) {
+    StringWriter sw = new StringWriter();
+    PrintWriter pw = new PrintWriter(sw, true);
+    throwable.printStackTrace(pw);
+    return sw.getBuffer().toString();
   }
 }

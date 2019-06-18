@@ -49,3 +49,7 @@ POST    /v1.3/org/member/remove   @controllers.orgmanagement.OrgMemberController
 POST    /v1.3/org/type/create     @controllers.orgmanagement.OrgTypeController.createOrgType()
 PATCH   /v1.3/org/type/update     @controllers.orgmanagement.OrgTypeController.updateOrgType()
 GET     /v1.3/org/type/list       @controllers.orgmanagement.OrgTypeController.listOrgType()
+
+# Logs Management APIs
+
+POST    /v1.3/system/log/update           @controllers.logsmanager.LogController.setLogLevel()
