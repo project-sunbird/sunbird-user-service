@@ -2,6 +2,8 @@
 package utils.mapper;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.sunbird.exception.BaseException;
+import org.sunbird.exception.ResponseCode;
 import org.sunbird.util.LoggerEnum;
 import org.sunbird.util.ProjectLogger;
 import play.libs.Json;
@@ -21,7 +23,7 @@ public class RequestMapper {
    * @exception RuntimeException
    * @return <T>
    */
-  public static <T> Object mapRequest(JsonNode requestData, Class<T> obj) throws RuntimeException {
+  public static <T> Object mapRequest(JsonNode requestData, Class<T> obj) throws BaseException {
     ProjectLogger.log(
         "RequestMapper:mapRequest:Requested data:" + requestData, LoggerEnum.INFO.name());
     if (requestData == null) return null;
@@ -29,9 +31,12 @@ public class RequestMapper {
     try {
       return Json.fromJson(requestData, obj);
     } catch (Exception e) {
+      ProjectLogger.log("RequestMapper error : " + e.getMessage(), e);
       ProjectLogger.log(
-          "RequestMapper:mapRequest:error " + e.getMessage(), LoggerEnum.ERROR.name());
-      return null;
+          "RequestMapper:mapRequest Requested data : " + requestData, LoggerEnum.INFO.name());
+      BaseException.throwClientErrorException(ResponseCode.invalidRequestData);
+    }
+    return null;
     }
   }
-}
+

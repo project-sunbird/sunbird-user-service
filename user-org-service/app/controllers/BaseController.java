@@ -2,10 +2,18 @@ package controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import controllers.logsmanager.validator.LogValidator;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.EnumSet;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import javax.inject.Inject;
+
+import akka.actor.ActorRef;
+import org.sunbird.Application;
+import org.sunbird.exception.BaseException;
 import org.sunbird.util.LoggerEnum;
 import org.sunbird.util.ProjectLogger;
 import org.sunbird.util.UserOrgJsonKey;
@@ -86,6 +94,14 @@ public class BaseController extends Controller {
         LoggerEnum.DEBUG.name());
   }
 
+  protected ActorRef getActorRef(String operation) throws BaseException {
+    return Application.getInstance().getActorRef(operation);
+  }
+
+  public CompletionStage<Result> createHandelRequest(play.mvc.Http.Request request) {
+    return new RequestHandler().createHandelRequest(request,httpExecutionContext);
+  }
+
   /**
    * This method will redirect Response object on the basis of error is present or not present in
    * response
@@ -160,7 +176,13 @@ public class BaseController extends Controller {
     startTrace("handleLogRequest");
     Response response = new Response();
     Http.RequestBody requestBody = request().body();
-    Request request = (Request) RequestMapper.mapRequest(requestBody.asJson(), Request.class);
+    Request request = null;
+    try{
+      request = (Request) RequestMapper.mapRequest(requestBody.asJson(), Request.class);
+    } catch (Exception ex){
+      ex.printStackTrace();
+    }
+
     if (LogValidator.isLogParamsPresent(request)) {
       if (LogValidator.isValidLogLevelPresent((String) request.get(UserOrgJsonKey.LOG_LEVEL))) {
         ProjectLogger.setUserOrgServiceProjectLogger(
