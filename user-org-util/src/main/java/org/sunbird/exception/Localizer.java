@@ -13,7 +13,7 @@ public class Localizer {
     private static Localizer instance = null;
 
     private Localizer() {
-        userResourceBundle = ResourceBundle.getBundle("userResponseMessages");
+        userResourceBundle = ResourceBundle.getBundle("responseMessages");
     }
 
     public static Localizer getInstance()
@@ -33,7 +33,7 @@ public class Localizer {
         if (null == locale) {
             return userResourceBundle.getString(key);
         } else {
-            userResourceBundle = ResourceBundle.getBundle("userResponseMessages",locale);
+            userResourceBundle = ResourceBundle.getBundle("responseMessages",locale);
             return userResourceBundle.getString(key);
         }
     }
