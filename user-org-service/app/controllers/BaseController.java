@@ -14,12 +14,12 @@ import javax.inject.Inject;
 import akka.actor.ActorRef;
 import org.sunbird.Application;
 import org.sunbird.exception.BaseException;
+import org.sunbird.exception.ResponseMessage;
+import org.sunbird.request.Request;
+import org.sunbird.response.Response;
 import org.sunbird.util.LoggerEnum;
 import org.sunbird.util.ProjectLogger;
 import org.sunbird.util.UserOrgJsonKey;
-import org.sunbird.util.request.Request;
-import org.sunbird.util.response.Response;
-import org.sunbird.util.responsecode.ResponseCode;
 import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -128,7 +128,7 @@ public class BaseController extends Controller {
       future.complete(response);
       return future.thenApplyAsync(Results::ok, httpExecutionContext.current());
     } else {
-      future.complete(ResponseCode.internalError.getErrorMessage());
+      future.complete(ResponseMessage.INTERNAL_ERROR);
       return future.thenApplyAsync(Results::internalServerError, httpExecutionContext.current());
     }
   }
@@ -145,7 +145,7 @@ public class BaseController extends Controller {
       future.complete(response);
       return future.thenApplyAsync(Results::badRequest, httpExecutionContext.current());
     } else {
-      future.complete(ResponseCode.internalError.getErrorMessage());
+      future.complete(ResponseMessage.INTERNAL_ERROR);
       return future.thenApplyAsync(Results::internalServerError, httpExecutionContext.current());
     }
   }
