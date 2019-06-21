@@ -1,17 +1,14 @@
 package org.sunbird.exception;
 
 
-import org.apache.commons.lang3.StringUtils;
-
+/**
+ * @author  Amit Kumar
+ */
 public class BaseException extends Exception {
 
-    /** serialVersionUID. */
     private static final long serialVersionUID = 1L;
-    /** code String code ResponseCode. */
     private String code;
-    /** message String ResponseCode. */
     private String message;
-    /** responseCode int ResponseCode. */
     private int responseCode;
 
     /**
@@ -74,45 +71,4 @@ public class BaseException extends Exception {
         this.message = message;
         this.responseCode = responseCode;
     }
-
-    public static void throwUnauthorizedErrorException() throws BaseException {
-        throw new BaseException(
-                ResponseCode.unAuthorized.getErrorCode(),
-                ResponseCode.unAuthorized.getErrorMessage(),
-                ResponseCode.UNAUTHORIZED.getResponseCode());
-    }
-
-    public static void throwResourceNotFoundException() throws BaseException {
-        throw new BaseException(
-                ResponseCode.resourceNotFound.getErrorCode(),
-                ResponseCode.resourceNotFound.getErrorMessage(),
-                ResponseCode.RESOURCE_NOT_FOUND.getResponseCode());
-    }
-
-    public static void throwClientErrorException(ResponseCode responseCode) throws BaseException {
-        throw new BaseException(
-                responseCode.getErrorCode(),responseCode.getErrorMessage(),
-                ResponseCode.CLIENT_ERROR.getResponseCode());
-    }
-
-    public static void throwClientErrorException(ResponseCode responseCode, String exceptionMessage) throws BaseException {
-        throw new BaseException(
-                responseCode.getErrorCode(),
-                StringUtils.isBlank(exceptionMessage) ? responseCode.getErrorMessage() : exceptionMessage,
-                ResponseCode.CLIENT_ERROR.getResponseCode());
-    }
-
-    public static void throwServerErrorException(ResponseCode responseCode) throws BaseException {
-        throw new BaseException(
-                responseCode.getErrorCode(), responseCode.getErrorMessage() ,
-                ResponseCode.SERVER_ERROR.getResponseCode());
-    }
-
-    public static void throwServerErrorException(ResponseCode responseCode, String exceptionMessage) throws BaseException {
-        throw new BaseException(
-                responseCode.getErrorCode(),
-                StringUtils.isBlank(exceptionMessage) ? responseCode.getErrorMessage() : exceptionMessage,
-                ResponseCode.SERVER_ERROR.getResponseCode());
-    }
-
 }

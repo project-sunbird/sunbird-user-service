@@ -1,14 +1,16 @@
 package org.sunbird.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.io.Serializable;
-import java.text.MessageFormat;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.commons.lang3.StringUtils;
 import org.sunbird.exception.BaseException;
+import org.sunbird.exception.Localizer;
 import org.sunbird.exception.ResponseCode;
+import org.sunbird.exception.ResponseMessage;
+import org.sunbird.exception.actorservice.ActorServiceException;
+
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 /** @author Manzarul */
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -187,9 +189,10 @@ public class Request implements Serializable {
 
   public void setTimeout(Integer timeout) throws BaseException{
     if (timeout < MIN_TIMEOUT && timeout > MAX_TIMEOUT) {
-      BaseException.throwServerErrorException(
-          ResponseCode.invalidRequestTimeout,
-          MessageFormat.format(ResponseCode.invalidRequestTimeout.getErrorMessage(), timeout));
+      throw new ActorServiceException.InvalidRequestTimeout(
+              ResponseMessage.INVALID_OPERATION_NAME,
+              Localizer.getInstance().getMessage(ResponseMessage.INVALID_OPERATION_NAME,null),
+              ResponseCode.CLIENT_ERROR.getCode());
     }
     this.timeout = timeout;
   }

@@ -5,11 +5,15 @@ import akka.japi.pf.DeciderBuilder;
 import akka.routing.FromConfig;
 import org.apache.commons.lang3.StringUtils;
 import org.sunbird.exception.BaseException;
+import org.sunbird.exception.Localizer;
 import org.sunbird.exception.ResponseCode;
+import org.sunbird.exception.ResponseMessage;
 import org.sunbird.exception.actorservice.ActorServiceException;
 import org.sunbird.request.Request;
 import org.sunbird.util.LoggerEnum;
 import org.sunbird.util.ProjectLogger;
+
+import java.util.Locale;
 
 /**
  * @author Amit Kumar
@@ -17,6 +21,7 @@ import org.sunbird.util.ProjectLogger;
 public abstract class BaseActor extends UntypedAbstractActor {
 
     public abstract void onReceive(Request request) throws Throwable;
+    private Localizer localizer = Localizer.getInstance();
 
     @Override
     public void onReceive(Object message) throws Throwable {
@@ -47,14 +52,20 @@ public abstract class BaseActor extends UntypedAbstractActor {
 
     protected void onReceiveUnsupportedMessage(String callerName) {
         ProjectLogger.log(callerName + ": unsupported operation", LoggerEnum.INFO);
+        /**
+         * TODO Need to replace null reference from getLocalized method and replace with requested local.
+         */
         BaseException exception =
                 new ActorServiceException.InvalidOperationName(
-                        ResponseCode.invalidOperationName.getErrorCode(),
-                        ResponseCode.invalidOperationName.getErrorMessage(),
-                        ResponseCode.CLIENT_ERROR.getResponseCode());
+                        ResponseMessage.INVALID_OPERATION_NAME,
+                        getLocalizedMessage(ResponseMessage.INVALID_OPERATION_NAME,null),
+                        ResponseCode.CLIENT_ERROR.getCode());
         sender().tell(exception, self());
     }
 
+    /**
+     * TODO : Need to remove in future
+     */
     private SupervisorStrategy strategy = new OneForOneStrategy(false, DeciderBuilder.
             match(ArithmeticException.class, e -> {
                 return SupervisorStrategy.restart();
@@ -88,5 +99,9 @@ public abstract class BaseActor extends UntypedAbstractActor {
             props = Props.create(actor);
         }
         return context.actorOf(FromConfig.getInstance().props(props), actor.getSimpleName());
+    }
+
+    protected String getLocalizedMessage(String key, Locale locale){
+        return localizer.getMessage(key, locale);
     }
 }

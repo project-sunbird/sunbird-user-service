@@ -4,7 +4,9 @@ import akka.pattern.Patterns;
 import akka.util.Timeout;
 import org.apache.commons.lang3.StringUtils;
 import org.sunbird.exception.BaseException;
+import org.sunbird.exception.Localizer;
 import org.sunbird.exception.ResponseCode;
+import org.sunbird.exception.ResponseMessage;
 import org.sunbird.request.Request;
 import org.sunbird.response.Response;
 import org.sunbird.util.ProjectLogger;
@@ -58,11 +60,7 @@ public class RequestHandler  extends BaseController{
         if (e instanceof BaseException) {
             exception = (BaseException) e;
         } else {
-            exception =
-                    new BaseException(
-                            ResponseCode.internalError.getErrorCode(),
-                            ResponseCode.internalError.getErrorMessage(),
-                            ResponseCode.SERVER_ERROR.getResponseCode());
+            exception = new BaseException(ResponseMessage.INTERNAL_ERROR, Localizer.getInstance().getMessage("ResponseCode.internalError",null),ResponseCode.SERVER_ERROR.getCode());
         }
         // cleaning request info ...
         return Results.status(
@@ -74,11 +72,14 @@ public class RequestHandler  extends BaseController{
             Request request, BaseException exception) {
         Response response = new Response();
         response.setVer("");
-        response.setResponseCode(ResponseCode.getHeaderResponseCode(exception.getResponseCode()));
-        ResponseCode code = ResponseCode.getResponse(exception.getCode());
-        if (code == null) {
-            code = ResponseCode.SERVER_ERROR;
-        }
+        /**
+         * TODO revisit this code snippet
+         */
+        //response.setResponseCode(ResponseCode.getHeaderResponseCode(exception.getResponseCode()));
+        //ResponseCode code = ResponseCode.getResponse(exception.getCode());
+        //if (code == null) {
+        //    code = ResponseCode.SERVER_ERROR;
+        //}
         if (response.getParams() != null) {
             response.getParams().setStatus(response.getParams().getStatus());
             if (exception.getCode() != null) {

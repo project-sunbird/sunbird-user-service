@@ -4,7 +4,10 @@ import akka.actor.ActorRef;
 import org.sunbird.actor.core.ActorCache;
 import org.sunbird.actor.core.ActorService;
 import org.sunbird.exception.BaseException;
+import org.sunbird.exception.Localizer;
 import org.sunbird.exception.ResponseCode;
+import org.sunbird.exception.ResponseMessage;
+import org.sunbird.exception.actorservice.ActorServiceException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +19,7 @@ public class Application {
 
     // static variable instance of type ActorService
     private static Application instance = null;
+    private Localizer localizer = Localizer.getInstance();
 
     // private constructor restricted to this class itself
     private Application() { }
@@ -36,15 +40,13 @@ public class Application {
         ActorService.getInstance().init("userOrgActorSystem",actorClassPaths);
     }
 
-    public ActorRef getActorRef(String operation) throws BaseException{
+    public ActorRef getActorRef(String operation) throws BaseException {
         ActorRef actorRef = ActorCache.getActorRef(operation);
-        if(null != actorRef){
+        if ( null != actorRef ) {
             return actorRef;
         } else {
-            BaseException.throwClientErrorException(ResponseCode.invalidOperationName);
+            new ActorServiceException.InvalidOperationName(ResponseMessage.INVALID_OPERATION_NAME,localizer.getMessage(ResponseMessage.INVALID_OPERATION_NAME,null),ResponseCode.SERVER_ERROR.getCode());
         }
         return actorRef;
     }
-
-
 }
