@@ -63,7 +63,7 @@ public abstract class BaseActor extends UntypedAbstractActor {
         sender().tell(exception, self());
     }
 
-    
+
     protected String getLocalizedMessage(String key, Locale locale){
         return localizer.getMessage(key, locale);
     }
