@@ -1,12 +1,12 @@
 /** */
-package utils.mapper;
+package utils;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.sunbird.exception.ActorServiceException;
 import org.sunbird.exception.BaseException;
-import org.sunbird.exception.Localizer;
-import org.sunbird.exception.ResponseCode;
-import org.sunbird.exception.ResponseMessage;
-import org.sunbird.exception.actorservice.ActorServiceException;
+import org.sunbird.exception.message.IResponseMessage;
+import org.sunbird.exception.message.Localizer;
+import org.sunbird.exception.message.ResponseCode;
 import org.sunbird.util.LoggerEnum;
 import org.sunbird.util.ProjectLogger;
 import play.libs.Json;
@@ -41,8 +41,8 @@ public class RequestMapper {
        * TODO replcae null with locale param in Localizer.getInstance().getMessage method
        */
       throw new ActorServiceException.InvalidRequestData(
-              ResponseMessage.INVALID_REQUESTED_DATA,
-              Localizer.getInstance().getMessage(ResponseMessage.INVALID_REQUESTED_DATA,null),
+              IResponseMessage.INVALID_REQUESTED_DATA,
+              Localizer.getInstance().getMessage(IResponseMessage.INVALID_REQUESTED_DATA,null),
               ResponseCode.CLIENT_ERROR.getCode());
      }
     }

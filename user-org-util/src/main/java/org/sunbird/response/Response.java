@@ -1,6 +1,6 @@
 package org.sunbird.response;
 
-import org.sunbird.exception.ResponseCode;
+import org.sunbird.exception.message.ResponseCode;
 
 import java.io.Serializable;
 import java.util.HashMap;

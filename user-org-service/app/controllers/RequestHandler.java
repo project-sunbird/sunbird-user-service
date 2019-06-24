@@ -4,9 +4,9 @@ import akka.pattern.Patterns;
 import akka.util.Timeout;
 import org.apache.commons.lang3.StringUtils;
 import org.sunbird.exception.BaseException;
-import org.sunbird.exception.Localizer;
-import org.sunbird.exception.ResponseCode;
-import org.sunbird.exception.ResponseMessage;
+import org.sunbird.exception.message.Localizer;
+import org.sunbird.exception.message.ResponseCode;
+import org.sunbird.exception.message.IResponseMessage;
 import org.sunbird.request.Request;
 import org.sunbird.response.Response;
 import org.sunbird.util.ProjectLogger;
@@ -16,7 +16,7 @@ import play.mvc.Result;
 import play.mvc.Results;
 import scala.concurrent.Await;
 import scala.concurrent.Future;
-import utils.mapper.RequestMapper;
+import utils.RequestMapper;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -60,7 +60,7 @@ public class RequestHandler  extends BaseController{
         if (e instanceof BaseException) {
             exception = (BaseException) e;
         } else {
-            exception = new BaseException(ResponseMessage.INTERNAL_ERROR, Localizer.getInstance().getMessage("ResponseCode.internalError",null),ResponseCode.SERVER_ERROR.getCode());
+            exception = new BaseException(IResponseMessage.INTERNAL_ERROR, Localizer.getInstance().getMessage("ResponseCode.internalError",null),ResponseCode.SERVER_ERROR.getCode());
         }
         // cleaning request info ...
         return Results.status(

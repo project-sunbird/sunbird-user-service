@@ -3,10 +3,7 @@ package controllers.usermanagement;
 import controllers.BaseController;
 import java.util.concurrent.CompletionStage;
 
-import org.sunbird.request.Request;
-import org.sunbird.util.ProjectLogger;
 import play.mvc.*;
-import utils.mapper.RequestMapper;
 
 /**
  * This controller is used to handel request related to user based updation and creation.

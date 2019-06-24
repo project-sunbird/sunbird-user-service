@@ -1,4 +1,4 @@
-package org.sunbird.exception.userexception;
+package org.sunbird.exception;
 
 import org.sunbird.exception.BaseException;
 

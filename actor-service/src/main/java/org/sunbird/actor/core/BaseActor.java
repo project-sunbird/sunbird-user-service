@@ -1,14 +1,11 @@
 package org.sunbird.actor.core;
 
-import akka.actor.*;
-import akka.japi.pf.DeciderBuilder;
-import akka.routing.FromConfig;
-import org.apache.commons.lang3.StringUtils;
+import akka.actor.UntypedAbstractActor;
+import org.sunbird.exception.ActorServiceException;
 import org.sunbird.exception.BaseException;
-import org.sunbird.exception.Localizer;
-import org.sunbird.exception.ResponseCode;
-import org.sunbird.exception.ResponseMessage;
-import org.sunbird.exception.actorservice.ActorServiceException;
+import org.sunbird.exception.message.IResponseMessage;
+import org.sunbird.exception.message.Localizer;
+import org.sunbird.exception.message.ResponseCode;
 import org.sunbird.request.Request;
 import org.sunbird.util.LoggerEnum;
 import org.sunbird.util.ProjectLogger;
@@ -57,8 +54,8 @@ public abstract class BaseActor extends UntypedAbstractActor {
          */
         BaseException exception =
                 new ActorServiceException.InvalidOperationName(
-                        ResponseMessage.INVALID_OPERATION_NAME,
-                        getLocalizedMessage(ResponseMessage.INVALID_OPERATION_NAME,null),
+                        IResponseMessage.INVALID_OPERATION_NAME,
+                        getLocalizedMessage(IResponseMessage.INVALID_OPERATION_NAME,null),
                         ResponseCode.CLIENT_ERROR.getCode());
         sender().tell(exception, self());
     }

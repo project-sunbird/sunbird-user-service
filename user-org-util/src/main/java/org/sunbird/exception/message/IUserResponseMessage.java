@@ -1,9 +1,9 @@
-package org.sunbird.exception;
+package org.sunbird.exception.message;
 
 /**
  * @author Amit Kumar
  */
-public interface UserResponseMessage {
+public interface IUserResponseMessage {
 
     String UNAUTHORIZED_USER = "UNAUTHORIZED_USER";
     String RESOURCE_NOT_FOUND = "RESOURCE_NOT_FOUND";

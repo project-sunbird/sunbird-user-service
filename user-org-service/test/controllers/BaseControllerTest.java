@@ -4,7 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.sunbird.exception.ResponseMessage;
+import org.sunbird.exception.message.IResponseMessage;
 import org.sunbird.response.Response;
 import org.sunbird.util.UserOrgJsonKey;
 import play.Application;
@@ -51,7 +51,7 @@ public class BaseControllerTest {
   public void testJsonifyResponseSuccess() {
     Response response = new Response();
     BaseController controller = new BaseController();
-    response.put(UserOrgJsonKey.MESSAGE, ResponseMessage.INTERNAL_ERROR);
+    response.put(UserOrgJsonKey.MESSAGE, IResponseMessage.INTERNAL_ERROR);
     String jsonifyResponse = controller.jsonifyResponseObject(response);
     assertEquals(
         "{\"result\":{\"message\":\"Process failed,please try again later.\"}}", jsonifyResponse);

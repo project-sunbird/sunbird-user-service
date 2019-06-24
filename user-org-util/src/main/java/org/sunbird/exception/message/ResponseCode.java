@@ -1,4 +1,4 @@
-package org.sunbird.exception;
+package org.sunbird.exception.message;
 
 /** @author Manzarul */
 public enum ResponseCode {

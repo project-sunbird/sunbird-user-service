@@ -14,7 +14,7 @@ import javax.inject.Inject;
 import akka.actor.ActorRef;
 import org.sunbird.Application;
 import org.sunbird.exception.BaseException;
-import org.sunbird.exception.ResponseMessage;
+import org.sunbird.exception.message.IResponseMessage;
 import org.sunbird.request.Request;
 import org.sunbird.response.Response;
 import org.sunbird.util.LoggerEnum;
@@ -25,7 +25,7 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Results;
-import utils.mapper.RequestMapper;
+import utils.RequestMapper;
 
 /**
  * This controller we can use for writing some common method to handel api request.
@@ -128,7 +128,7 @@ public class BaseController extends Controller {
             future.complete(response);
             return future.thenApplyAsync(Results::ok, httpExecutionContext.current());
         } else {
-            future.complete(ResponseMessage.INTERNAL_ERROR);
+            future.complete(IResponseMessage.INTERNAL_ERROR);
             return future.thenApplyAsync(Results::internalServerError, httpExecutionContext.current());
         }
     }
@@ -145,7 +145,7 @@ public class BaseController extends Controller {
             future.complete(response);
             return future.thenApplyAsync(Results::badRequest, httpExecutionContext.current());
         } else {
-            future.complete(ResponseMessage.INTERNAL_ERROR);
+            future.complete(IResponseMessage.INTERNAL_ERROR);
             return future.thenApplyAsync(Results::internalServerError, httpExecutionContext.current());
         }
     }

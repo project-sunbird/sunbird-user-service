@@ -1,4 +1,4 @@
-package org.sunbird.exception;
+package org.sunbird.exception.message;
 
 import java.util.Locale;
 import java.util.ResourceBundle;

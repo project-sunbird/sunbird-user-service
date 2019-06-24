@@ -1,6 +1,4 @@
-package org.sunbird.exception.actorservice;
-
-import org.sunbird.exception.BaseException;
+package org.sunbird.exception;
 
 public class ActorServiceException {
 

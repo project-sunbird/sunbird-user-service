@@ -3,11 +3,11 @@ package org.sunbird;
 import akka.actor.ActorRef;
 import org.sunbird.actor.core.ActorCache;
 import org.sunbird.actor.core.ActorService;
+import org.sunbird.exception.ActorServiceException;
 import org.sunbird.exception.BaseException;
-import org.sunbird.exception.Localizer;
-import org.sunbird.exception.ResponseCode;
-import org.sunbird.exception.ResponseMessage;
-import org.sunbird.exception.actorservice.ActorServiceException;
+import org.sunbird.exception.message.IResponseMessage;
+import org.sunbird.exception.message.Localizer;
+import org.sunbird.exception.message.ResponseCode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +45,7 @@ public class Application {
         if ( null != actorRef ) {
             return actorRef;
         } else {
-            new ActorServiceException.InvalidOperationName(ResponseMessage.INVALID_OPERATION_NAME,localizer.getMessage(ResponseMessage.INVALID_OPERATION_NAME,null),ResponseCode.SERVER_ERROR.getCode());
+            new ActorServiceException.InvalidOperationName(IResponseMessage.INVALID_OPERATION_NAME,localizer.getMessage(IResponseMessage.INVALID_OPERATION_NAME,null),ResponseCode.SERVER_ERROR.getCode());
         }
         return actorRef;
     }
