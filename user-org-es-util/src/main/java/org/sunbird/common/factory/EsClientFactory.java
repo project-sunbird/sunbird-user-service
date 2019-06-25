@@ -51,16 +51,21 @@ public class EsClientFactory {
   }
 
   private static ElasticSearchService getTcpClient() {
-    if (tcpClient == null) {
-      tcpClient = new ElasticSearchTcpImpl();
+    synchronized (tcpClient) {
+      if (tcpClient == null) {
+        tcpClient = new ElasticSearchTcpImpl();
+      }
     }
     return tcpClient;
   }
 
   private static ElasticSearchService getRestClient() {
-    if (restClient == null) {
-      restClient = new ElasticSearchRestHighImpl();
+    synchronized (restClient) {
+      if (restClient == null) {
+        restClient = new ElasticSearchRestHighImpl();
+      }
     }
+
     return restClient;
   }
 }
