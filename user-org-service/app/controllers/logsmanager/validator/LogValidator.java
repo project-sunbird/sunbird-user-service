@@ -1,10 +1,10 @@
 package controllers.logsmanager.validator;
 
 import org.apache.commons.lang3.EnumUtils;
+import org.sunbird.request.Request;
 import org.sunbird.util.LoggerEnum;
 import org.sunbird.util.ProjectLogger;
 import org.sunbird.util.UserOrgJsonKey;
-import org.sunbird.util.request.Request;
 
 public class LogValidator {
 
