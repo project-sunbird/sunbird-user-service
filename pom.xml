@@ -18,5 +18,6 @@
     <modules>
         <module>user-org-service</module>
         <module>user-org-util</module>
+        <module>user-org-es-util</module>
     </modules>
 </project>
