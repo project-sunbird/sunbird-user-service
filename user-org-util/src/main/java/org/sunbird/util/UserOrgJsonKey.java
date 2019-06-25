@@ -23,6 +23,12 @@ public final class UserOrgJsonKey {
   public static final String LOG_LEVEL = "logLevel";
   public static final String ERROR = "error";
   public static final String EMPTY_STRING = "";
+  public static final String UNAUTHORIZED = "Unauthorized";
+
+  public static final String PDATA_ID = "telemetry_pdata_id";
+  public static final String PDATA_PID = "telemetry_pdata_pid";
+  public static final String PDATA_VERSION = "telemetry_pdata_ver";
 
   private UserOrgJsonKey() {}
+
 }

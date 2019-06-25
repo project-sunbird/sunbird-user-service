@@ -2,6 +2,7 @@ package controllers.usermanagement;
 
 import controllers.BaseController;
 import java.util.concurrent.CompletionStage;
+
 import play.mvc.*;
 
 /**
@@ -20,7 +21,7 @@ public class UserController extends BaseController {
    */
   public CompletionStage<Result> createUser() {
     startTrace("createUser");
-    CompletionStage<Result> response = handelRequest();
+    CompletionStage<Result> response = createHandelRequest(request());
     endTrace("createUser");
     return response;
   }
