@@ -1,21 +1,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<parent>
-		<groupId>org.sunbird</groupId>
-		<artifactId>user-org</artifactId>
-		<version>1.0-SNAPSHOT</version>
-	</parent>
+	<groupId>org.sunbird</groupId>
+	<artifactId>user-org-es</artifactId>
+	<version>1.0-SNAPSHOT</version>
 	<modelVersion>4.0.0</modelVersion>
 	<url>http://maven.apache.org</url>
 	<name>user-org-es</name>
-	<artifactId>user-org-es</artifactId>
-
 	<properties>
-		<log4j.version>2.8.2</log4j.version>
 		<es.rest.version>6.3.2</es.rest.version>
 		<es.transport.version>6.3.0</es.transport.version>
 		<powermock.version>1.6.5</powermock.version>
+		<junit.version>4.12</junit.version>
 	</properties>
 
 	<dependencies>
@@ -32,39 +28,9 @@
 			<version>${es.transport.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-api</artifactId>
-			<version>${log4j.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-core</artifactId>
-			<version>${log4j.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-core</artifactId>
-			<version>${jackson.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-			<version>${jackson.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-annotations</artifactId>
-			<version>${jackson.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.typesafe.akka</groupId>
-			<artifactId>akka-actor_2.12</artifactId>
-			<version>${akka.x.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.sunbird</groupId>
