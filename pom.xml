@@ -16,7 +16,9 @@
         <junit.version>4.12</junit.version>
     </properties>
     <modules>
-        <module>user-org-service</module>
         <module>user-org-util</module>
+	<module>actor-service</module>
+	<module>user-org-actor</module>
+        <module>user-org-service</module>
     </modules>
 </project>
