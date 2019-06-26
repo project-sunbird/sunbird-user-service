@@ -18,6 +18,7 @@ import java.util.List;
  * @author  Amit Kumar
  */
 public class Application {
+
     private static Application instance = null;
     public static ApplicationContext applicationContext;
     private Localizer localizer = Localizer.getInstance();

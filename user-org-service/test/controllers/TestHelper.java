@@ -21,6 +21,9 @@ import play.test.WithApplication;
  */
 public class TestHelper extends WithApplication {
 
+  private ObjectMapper mapperObj = new ObjectMapper();
+
+
   /**
    * This method will perform a request call.
    *
@@ -51,7 +54,6 @@ public class TestHelper extends WithApplication {
    * @return String
    */
   public String mapToJson(Map map) {
-    ObjectMapper mapperObj = new ObjectMapper();
     String jsonResp = "";
 
     if (map != null) {

@@ -1,11 +1,5 @@
 package org.sunbird.user;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.opensaber.registry.helper.RegistryHelper;
-import io.opensaber.registry.middleware.MiddlewareHaltException;
-import org.sunbird.Application;
 import org.sunbird.actor.core.ActorConfig;
 import org.sunbird.actor.core.BaseActor;
 import org.sunbird.request.Request;
@@ -42,4 +36,5 @@ public class UserCreateActor  extends BaseActor {
         response = userService.createUser(request);
         sender().tell(response,self());
     }
+
 }

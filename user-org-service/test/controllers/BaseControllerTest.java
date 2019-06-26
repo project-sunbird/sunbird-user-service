@@ -2,8 +2,10 @@ package controllers;
 
 import akka.actor.ActorRef;
 import io.opensaber.registry.app.OpenSaberApplication;
+
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
+
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
@@ -14,6 +16,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
 import org.sunbird.exception.message.IResponseMessage;
 import org.sunbird.exception.message.Localizer;
+
+import org.sunbird.exception.message.IResponseMessage;
+
 import org.sunbird.response.Response;
 import org.sunbird.util.UserOrgJsonKey;
 import play.Application;
@@ -24,10 +29,13 @@ import scala.concurrent.duration.FiniteDuration;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({org.sunbird.Application.class, BaseController.class, ActorRef.class, Await.class, OpenSaberApplication.class,SpringApplication.class})
 @PowerMockIgnore({"javax.management.*", "javax.net.ssl.*", "javax.security.*"})
+
 public class BaseControllerTest {
   Localizer localizer = Localizer.getInstance();
   BaseController controllerObject;
