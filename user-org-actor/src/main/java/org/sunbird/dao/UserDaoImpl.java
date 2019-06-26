@@ -10,6 +10,10 @@ import org.sunbird.Application;
 
 import java.util.Map;
 
+/**
+ * @author Amit Kumar
+ * This class will contains method to interact with open saber
+ */
 public class UserDaoImpl implements IUserDao {
 
     private RegistryHelper registryHelper;

@@ -7,6 +7,10 @@ import org.sunbird.response.Response;
 
 import java.util.Map;
 
+/**
+ * @author Amit Kumar
+ * This class will contains user entity related CRUD method
+ */
 public class UserServiceImpl implements IUserService{
 
     private IUserDao userDao;

@@ -6,6 +6,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import io.opensaber.pojos.Response;
 import io.opensaber.registry.middleware.MiddlewareHaltException;
 
+/**
+ * @author Amit Kumar
+ */
 public interface IUserDao {
 
     public Response addUser(Map<String, Object> user) throws MiddlewareHaltException, JsonProcessingException;
