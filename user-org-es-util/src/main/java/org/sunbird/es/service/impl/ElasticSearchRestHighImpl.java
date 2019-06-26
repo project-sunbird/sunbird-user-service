@@ -42,7 +42,6 @@ import org.sunbird.helper.ElasticSearchHelper;
 import org.sunbird.helper.EsConstant;
 import org.sunbird.util.LoggerEnum;
 import org.sunbird.util.ProjectLogger;
-import org.sunbird.util.PropertiesCache;
 import scala.concurrent.Future;
 import scala.concurrent.Promise;
 
@@ -300,15 +299,6 @@ public class ElasticSearchRestHighImpl implements ElasticSearchService {
     Map<String, Float> constraintsMap = ElasticSearchHelper.getConstraints(searchDTO);
 
     BoolQueryBuilder query = new BoolQueryBuilder();
-
-    // add channel field as mandatory
-    String channel = PropertiesCache.getInstance().readProperty(EsConstant.SUNBIRD_ES_CHANNEL);
-    if (!(StringUtils.isBlank(channel) || EsConstant.SUNBIRD_ES_CHANNEL.equals(channel))) {
-      query.must(
-          ElasticSearchHelper.createMatchQuery(
-              EsConstant.CHANNEL, channel, constraintsMap.get(EsConstant.CHANNEL)));
-    }
-
     // apply simple query string
     if (!StringUtils.isBlank(searchDTO.getQuery())) {
       SimpleQueryStringBuilder sqsb = QueryBuilders.simpleQueryStringQuery(searchDTO.getQuery());
