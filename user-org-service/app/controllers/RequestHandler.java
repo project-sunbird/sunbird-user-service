@@ -34,7 +34,7 @@ public class RequestHandler  extends BaseController{
         ProjectLogger.log("UserController:createUser :: Requested operation "+req.getOperation());
         startTrace("handelRequest");
         Timeout t = new Timeout(Long.valueOf(req.getTimeout()), TimeUnit.SECONDS);
-        Future<Object> future = Patterns.ask(getActorRef("createUser"),req,req.getTimeout());
+        Future<Object> future = Patterns.ask(getActorRef("createUser"),req,t);
         obj = Await.result(future,t.duration());
             if(obj instanceof Response){
                 Response res = (Response)obj;

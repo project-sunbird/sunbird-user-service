@@ -2,6 +2,7 @@ package controllers.usermanagement;
 
 import static org.junit.Assert.assertTrue;
 
+import controllers.BaseControllerTest;
 import controllers.TestHelper;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +14,7 @@ import play.Application;
 import play.mvc.Result;
 import play.test.Helpers;
 
-public class UserControllerTest {
+public class UserControllerTest extends BaseControllerTest {
   TestHelper testHelper;
   public static Application app;
   public static Map<String, String[]> headerMap;
@@ -37,7 +38,7 @@ public class UserControllerTest {
   @Test
   public void testSuccessCreateUserSuccess() {
     Result result =
-        testHelper.performTest("/v1.3/user/create", "POST", getCreateUserRequest(), headerMap);
+        testHelper.performTest("/v1.3/user/create", "POST", getCreateUserRequest(), testHelper.getUserHeaderMap());
     assertTrue(testHelper.getResponseStatus(result) == Status.OK.getStatusCode());
   }
 

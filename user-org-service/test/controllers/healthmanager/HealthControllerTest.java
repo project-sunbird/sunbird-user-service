@@ -1,5 +1,6 @@
 package controllers.healthmanager;
 
+import controllers.BaseControllerTest;
 import controllers.TestHelper;
 import org.junit.After;
 import org.junit.Before;
@@ -14,7 +15,7 @@ import java.util.Map;
 
 import static org.junit.Assert.*;
 
-public class HealthControllerTest {
+public class HealthControllerTest extends BaseControllerTest {
     TestHelper testHelper;
     public static Application app;
     public static Map<String, String[]> headerMap;
