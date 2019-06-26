@@ -4,6 +4,10 @@
   "properties": {
     "request": {
       "$ref": "#/definitions/User"
+    },
+    "params": {
+      "type": "object",
+      "description": "this object is used to get sso, signupType"
     }
   },
   "required": [

@@ -9,12 +9,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 public class TestUserCreateSchema {
 
     private Schema schema;
-    private String filePath="schemas/UserCreate.json";
+    private String filePath = "schemas/UserCreate.json";
 
     @Before
     public void setUp() throws Exception {
@@ -29,55 +30,27 @@ public class TestUserCreateSchema {
 
 
     @Test
-    public void testPhoneNumberValidationWithValueIntegerFailure() {
+    public void testPhoneNumberValidationWithValueIntegerFailure() throws IOException {
 
-        String testRequest = "{\n" +
-                "\t\n" +
-                "\n" +
-                "    \"request\":{                 \n" +
-                "      \"firstName\": \"run1eee\",\n" +
-                "      \"lastName\": \"Kumar\",\n" +
-                "      \"password\": \"password\",\n" +
-                "      \"phone\": 987654321,\n" +
-                "      \"userName\":\"run1df7eee9999d\",\n" +
-                "      \"channel\":\"channel_01\",\n" +
-                "      \"phoneVerified\":true\n" +
-                "    }\n" +
-                "} ";
-
-        JSONObject obj = new JSONObject(testRequest);
+        ObjectNode testReq = prepareBasicCreateUserRequest();
+        testReq.put("phone", 987654321);
+        JSONObject obj = new JSONObject(getNewRequestMap(testReq));
         try {
             schema.validate(obj);
         } catch (ValidationException e) {
-//            Assert.assertEquals("#/request/phone: expected type: String, found: Integer", e.getAllMessages().get(0));
-//            e.getCausingExceptions().stream()
-//                    .map(ValidationException::getAllMessages)
-//                    .forEach(System.out::println);
+            Assert.assertEquals("#/request/phone: expected type: String, found: Integer", e.getAllMessages().get(0));
         }
     }
 
     @Test
     public void testPhoneNumberValidationWithValueStringSuccess() {
-
-        String testRequest = "{\n" +
-                "\t\n" +
-                "\n" +
-                "    \"request\":{                 \n" +
-                "      \"firstName\": \"run1eee\",\n" +
-                "      \"lastName\": \"Kumar\",\n" +
-                "      \"password\": \"password\",\n" +
-                "      \"phone\": \"9878553210\",\n" +
-                "      \"userName\":\"run1df7eee9999d\",\n" +
-                "      \"channel\":\"channel_01\",\n" +
-                "      \"phoneVerified\":true\n" +
-                "    }\n" +
-                "}";
-
-        JSONObject obj = new JSONObject(testRequest);
+        ObjectNode nodes = prepareBasicCreateUserRequest();
+        JSONObject obj = new JSONObject(getNewRequestMap(nodes));
         try {
             schema.validate(obj);
             Assert.assertEquals(true, true);
         } catch (ValidationException e) {
+            System.out.println(e.getAllMessages());
             Assert.assertEquals("#/request/phone: expected type: String, found: Integer", e.getAllMessages().get(0));
         }
     }
@@ -85,26 +58,14 @@ public class TestUserCreateSchema {
     @Test
     public void testPhoneNumberValidationWithExtraDigitsFailure() {
 
-        String testRequest = "{\n" +
-                "\t\n" +
-                "\n" +
-                "    \"request\":{                 \n" +
-                "      \"firstName\": \"run1eee\",\n" +
-                "      \"lastName\": \"Kumar\",\n" +
-                "      \"password\": \"password\",\n" +
-                "      \"phone\": \"8318085722s\",\n" +
-                "      \"userName\":\"run1df7eee9999d\",\n" +
-                "      \"channel\":\"channel_01\",\n" +
-                "      \"phoneVerified\":true\n" +
-                "    }\n" +
-                "}";
-
-        JSONObject obj = new JSONObject(testRequest);
+        ObjectNode testReq = prepareBasicCreateUserRequest();
+        testReq.put("phone", "8318095722s");
+        JSONObject obj = new JSONObject(getNewRequestMap(testReq));
         try {
             schema.validate(obj);
             Assert.assertEquals(true, true);
         } catch (ValidationException e) {
-            Assert.assertEquals("#/request/phone: string [8318085722s] does not match pattern [789][0-9]{9}", e.getAllMessages().get(0));
+            Assert.assertEquals("#/request/phone: string [8318095722s] does not match pattern [789][0-9]{9}", e.getAllMessages().get(0));
         }
     }
 
@@ -112,19 +73,9 @@ public class TestUserCreateSchema {
     @Test
     public void testMandatoryParamUserNameMissingFailure() {
 
-        String testRequest = "{\n" +
-                "\t\n" +
-                "\n" +
-                "    \"request\":{                 \n" +
-                "      \"lastName\": \"Kumar\",\n" +
-                "      \"password\": \"password\",\n" +
-                "      \"phone\": \"8318085722\",\n" +
-                "      \"channel\":\"channel_01\",\n" +
-                "      \"phoneVerified\":true\n" +
-                "    }\n" +
-                "}";
-
-        JSONObject obj = new JSONObject(testRequest);
+        ObjectNode testReq = prepareBasicCreateUserRequest();
+        testReq.remove("userName");
+        JSONObject obj = new JSONObject(getNewRequestMap(testReq));
         try {
             schema.validate(obj);
             Assert.assertEquals(true, true);
@@ -136,20 +87,9 @@ public class TestUserCreateSchema {
     @Test
     public void testMandatoryParamFirstNameMissingFailure() {
 
-        String testRequest = "{\n" +
-                "\t\n" +
-                "\n" +
-                "    \"request\":{                 \n" +
-                "      \"lastName\": \"Kumar\",\n" +
-                "      \"password\": \"password\",\n" +
-                "      \"phone\": \"9878553210\",\n" +
-                "      \"userName\":\"run1df7eee9999d\",\n" +
-                "      \"channel\":\"channel_01\",\n" +
-                "      \"phoneVerified\":true\n" +
-                "    }\n" +
-                "}";
-
-        JSONObject obj = new JSONObject(testRequest);
+        ObjectNode testReq = prepareBasicCreateUserRequest();
+        testReq.remove("firstName");
+        JSONObject obj = new JSONObject(getNewRequestMap(testReq));
         try {
             schema.validate(obj);
             Assert.assertEquals(true, true);
@@ -161,20 +101,9 @@ public class TestUserCreateSchema {
     @Test
     public void testMandatoryParamLastNameMissingFailure() {
 
-        String testRequest = "{\n" +
-                "\t\n" +
-                "\n" +
-                "    \"request\":{                 \n" +
-                "      \"firstName\": \"Kumar\",\n" +
-                "      \"password\": \"password\",\n" +
-                "      \"phone\": \"9878553210\",\n" +
-                "      \"userName\":\"run1df7eee9999d\",\n" +
-                "      \"channel\":\"channel_01\",\n" +
-                "      \"phoneVerified\":true\n" +
-                "    }\n" +
-                "}";
-
-        JSONObject obj = new JSONObject(testRequest);
+        ObjectNode testReq = prepareBasicCreateUserRequest();
+        testReq.remove("lastName");
+        JSONObject obj = new JSONObject(getNewRequestMap(testReq));
         try {
             schema.validate(obj);
             Assert.assertEquals(true, true);
@@ -184,29 +113,16 @@ public class TestUserCreateSchema {
     }
 
     @Test
-    public void testExpectedParamPhoneVerifiedWhenPhoneIsPresentSuccess() {
+    public void testExpectedParamPhoneVerifiedWhenPhoneIsPresentFailure() {
 
-        ObjectNode testReq = JsonNodeFactory.instance.objectNode();
-//        testReq.put()
-
-        String testRequest = "{\n" +
-                "\t\n" +
-                "\n" +
-                "    \"request\":{                 \n" +
-                "      \"firstName\": \"Kumar\",\n" +
-                "      \"lastName\": \"Kumar\",\n" +
-                "      \"password\": \"password\",\n" +
-                "      \"phone\": \"9878553210\",\n" +
-                "      \"userName\":\"run1df7eee9999d\",\n" +
-                "      \"channel\":\"channel_01\",\n" +
-                "    }\n" +
-                "}";
-
-        JSONObject obj = new JSONObject(testRequest);
+        ObjectNode testReq = prepareBasicCreateUserRequest();
+        testReq.remove("phoneVerified");
+        JSONObject obj = new JSONObject(getNewRequestMap(testReq));
         try {
             schema.validate(obj);
             Assert.assertEquals(true, true);
         } catch (ValidationException e) {
+            System.out.println(e.getAllMessages());
             Assert.assertEquals("#/request: property [phoneVerified] is required", e.getAllMessages().get(0));
         }
     }
@@ -700,9 +616,9 @@ public class TestUserCreateSchema {
     }
 
     @Test
-    public void testWebPageWhenAllParamPresentSuccess(){
+    public void testWebPageWhenAllParamPresentSuccess() {
 
-        String testReq="{\n" +
+        String testReq = "{\n" +
                 "    \"request\": {\n" +
                 "        \"firstName\": \"run1eee\",\n" +
                 "        \"lastName\": \"Kumar\",\n" +
@@ -735,9 +651,9 @@ public class TestUserCreateSchema {
     }
 
     @Test
-    public void testWebPageWhenTypeParamIsMissingFailure(){
+    public void testWebPageWhenTypeParamIsMissingFailure() {
 
-        String testReq="{\n" +
+        String testReq = "{\n" +
                 "    \"request\": {\n" +
                 "        \"firstName\": \"run1eee\",\n" +
                 "        \"lastName\": \"Kumar\",\n" +
@@ -763,14 +679,15 @@ public class TestUserCreateSchema {
             schema.validate(s);
             Assert.assertEquals(true, true);
         } catch (ValidationException e) {
-            Assert.assertEquals("#/request/webPages/0: required key [type] not found",e.getAllMessages().get(0));
+            Assert.assertEquals("#/request/webPages/0: required key [type] not found", e.getAllMessages().get(0));
         }
 
     }
-    @Test
-    public void testWebPageWhenUrlParamIsMissingFailure(){
 
-        String testReq="{\n" +
+    @Test
+    public void testWebPageWhenUrlParamIsMissingFailure() {
+
+        String testReq = "{\n" +
                 "    \"request\": {\n" +
                 "        \"firstName\": \"run1eee\",\n" +
                 "        \"lastName\": \"Kumar\",\n" +
@@ -796,9 +713,28 @@ public class TestUserCreateSchema {
             schema.validate(s);
             Assert.assertEquals(true, true);
         } catch (ValidationException e) {
-            Assert.assertEquals("#/request/webPages/1: required key [url] not found",e.getAllMessages().get(0));
+            Assert.assertEquals("#/request/webPages/1: required key [url] not found", e.getAllMessages().get(0));
         }
 
+    }
+
+
+    public ObjectNode prepareBasicCreateUserRequest() {
+
+        ObjectNode testReqMap = JsonNodeFactory.instance.objectNode();
+        testReqMap.put("firstName", "anmol");
+        testReqMap.put("lastName", "gupta");
+        testReqMap.put("phone", "9876543210");
+        testReqMap.put("userName", "xyz");
+        testReqMap.put("phoneVerified", true);
+        return testReqMap.deepCopy();
+
+    }
+
+    public static String getNewRequestMap(ObjectNode node) {
+        ObjectNode testReqMap = JsonNodeFactory.instance.objectNode();
+        testReqMap.put("request", node);
+        return testReqMap.toString();
     }
 
 }
