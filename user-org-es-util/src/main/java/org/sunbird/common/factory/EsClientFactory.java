@@ -45,9 +45,9 @@ public class EsClientFactory {
    */
   public static ElasticSearchService getInstance(String type) {
     if (EsClient.TCP.getName().equals(type)) {
-      return getTcpClient();
+      return tcpClient;
     } else if (EsClient.REST.getName().equals(type)) {
-      return getRestClient();
+      return restClient;
     } else {
       ProjectLogger.log(
           "EsClientFactory:getInstance: value for client type provided null ", LoggerEnum.ERROR);
