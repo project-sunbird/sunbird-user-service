@@ -17,6 +17,11 @@ public class EsClientFactory {
   private static ElasticSearchService tcpClient = null;
   private static ElasticSearchService restClient = null;
 
+  static {
+    getTcpClient();
+    getRestClient();
+  }
+
   public enum EsClient {
     TCP("tcp"),
     REST("rest");
@@ -51,21 +56,12 @@ public class EsClientFactory {
   }
 
   private static ElasticSearchService getTcpClient() {
-    synchronized (tcpClient) {
-      if (tcpClient == null) {
-        tcpClient = new ElasticSearchTcpImpl();
-      }
-    }
+    tcpClient = new ElasticSearchTcpImpl();
     return tcpClient;
   }
 
   private static ElasticSearchService getRestClient() {
-    synchronized (restClient) {
-      if (restClient == null) {
-        restClient = new ElasticSearchRestHighImpl();
-      }
-    }
-
+    restClient = new ElasticSearchRestHighImpl();
     return restClient;
   }
 }
