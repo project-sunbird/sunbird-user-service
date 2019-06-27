@@ -2,11 +2,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<groupId>org.sunbird</groupId>
-	<artifactId>user-org-es-util</artifactId>
+	<artifactId>user-org-es</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<modelVersion>4.0.0</modelVersion>
 	<url>http://maven.apache.org</url>
-	<name>user-org-es-util</name>
+	<name>user-org-es</name>
 	<properties>
 		<es.rest.version>6.3.2</es.rest.version>
 		<es.transport.version>6.3.0</es.transport.version>
