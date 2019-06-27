@@ -1,4 +1,4 @@
-package org.sunbird.dao;
+package org.sunbird.user.dao;
 
 import org.sunbird.response.Response;
 

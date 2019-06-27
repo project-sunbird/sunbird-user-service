@@ -1,12 +1,12 @@
-package org.sunbird.dao;
+package org.sunbird.user.dao;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.sunbird.response.Response;
 import io.opensaber.registry.helper.RegistryHelper;
 import io.opensaber.registry.middleware.MiddlewareHaltException;
 import org.sunbird.Application;
+import org.sunbird.response.Response;
 import org.sunbird.util.ProjectLogger;
 
 import java.util.Map;

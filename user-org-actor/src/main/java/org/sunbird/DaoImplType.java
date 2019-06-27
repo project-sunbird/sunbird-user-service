@@ -1,4 +1,4 @@
-package org.sunbird.dao;
+package org.sunbird;
 
 /**
  * @author Amit Kumar
