@@ -2,10 +2,11 @@ package org.sunbird.user;
 
 import org.sunbird.actor.core.ActorConfig;
 import org.sunbird.actor.core.BaseActor;
+import org.sunbird.dao.DaoImplType;
+import org.sunbird.dao.IUserDao;
+import org.sunbird.dao.UserDaoFactory;
 import org.sunbird.request.Request;
 import org.sunbird.response.Response;
-import org.sunbird.service.IUserService;
-import org.sunbird.service.UserServiceImpl;
 
 /**
  * @author Amit Kumar
@@ -15,11 +16,9 @@ import org.sunbird.service.UserServiceImpl;
         tasks = {"createUser"},
         dispatcher = "user-dispatcher",
         asyncTasks = {}
-
 )
 public class UserCreateActor  extends BaseActor {
 
-    private IUserService userService = null;
     private Response response = null;
 
     @Override
@@ -32,8 +31,8 @@ public class UserCreateActor  extends BaseActor {
     }
 
     private void createUser(Request request) {
-        userService = new UserServiceImpl();
-        response = userService.createUser(request);
+        IUserDao userDao = UserDaoFactory.getInstance().getDaoImpl(DaoImplType.OPEN_SABER.getType());
+        response = userDao.addUser(request.getRequest());
         sender().tell(response,self());
     }
 
