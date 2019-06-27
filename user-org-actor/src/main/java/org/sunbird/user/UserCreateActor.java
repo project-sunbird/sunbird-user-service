@@ -1,7 +1,7 @@
 package org.sunbird.user;
 
+import org.sunbird.BaseActor;
 import org.sunbird.actor.core.ActorConfig;
-import org.sunbird.actor.core.BaseActor;
 import org.sunbird.dao.DaoImplType;
 import org.sunbird.dao.IUserDao;
 import org.sunbird.dao.UserDaoFactory;

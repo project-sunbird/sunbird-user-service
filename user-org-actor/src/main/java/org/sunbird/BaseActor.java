@@ -1,4 +1,4 @@
-package org.sunbird.actor.core;
+package org.sunbird;
 
 import akka.actor.UntypedAbstractActor;
 import org.sunbird.exception.ActorServiceException;
