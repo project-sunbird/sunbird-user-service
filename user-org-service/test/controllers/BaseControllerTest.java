@@ -17,10 +17,8 @@ import org.springframework.boot.WebApplicationType;
 import org.sunbird.exception.message.IResponseMessage;
 import org.sunbird.exception.message.Localizer;
 
-import org.sunbird.exception.message.IResponseMessage;
-
 import org.sunbird.response.Response;
-import org.sunbird.util.UserOrgJsonKey;
+import org.sunbird.util.jsonkey.JsonKey;
 import play.Application;
 import scala.concurrent.Await;
 import scala.concurrent.Future;
@@ -89,7 +87,7 @@ public class BaseControllerTest {
   public void testJsonifyResponseSuccess() {
     Response response = new Response();
     BaseController controller = new BaseController();
-    response.put(UserOrgJsonKey.MESSAGE, localizer.getMessage(IResponseMessage.INTERNAL_ERROR,null));
+    response.put(JsonKey.MESSAGE, localizer.getMessage(IResponseMessage.INTERNAL_ERROR,null));
     String jsonifyResponse = controller.jsonifyResponseObject(response);
     assertEquals(
             "{\"id\":null,\"ver\":null,\"ts\":null,\"params\":null,\"responseCode\":\"OK\",\"result\":{\"message\":\"Process failed,please try again later.\"}}", jsonifyResponse);
@@ -99,7 +97,7 @@ public class BaseControllerTest {
   public void testJsonifyResponseFailure() {
     Response response = new Response();
     BaseController controller = new BaseController();
-    response.put(UserOrgJsonKey.MESSAGE, response.getResult());
+    response.put(JsonKey.MESSAGE, response.getResult());
     String jsonifyResponse = controller.jsonifyResponseObject(response);
     assertEquals(StringUtils.EMPTY, jsonifyResponse);
   }

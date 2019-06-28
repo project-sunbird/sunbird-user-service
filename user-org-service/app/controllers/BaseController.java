@@ -19,7 +19,7 @@ import org.sunbird.request.Request;
 import org.sunbird.response.Response;
 import org.sunbird.util.LoggerEnum;
 import org.sunbird.util.ProjectLogger;
-import org.sunbird.util.UserOrgJsonKey;
+import org.sunbird.util.jsonkey.JsonKey;
 import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -111,7 +111,7 @@ public class BaseController extends Controller {
      */
     public CompletionStage<Result> handelResponse(Response response) {
         String jsonifyResponse = jsonifyResponseObject(response);
-        return (Boolean) response.get(UserOrgJsonKey.ERROR)
+        return (Boolean) response.get(JsonKey.ERROR)
                 ? handelFailureResponse(jsonifyResponse)
                 : handelSuccessResponse(jsonifyResponse);
     }
@@ -162,7 +162,7 @@ public class BaseController extends Controller {
             ObjectMapper mapper = new ObjectMapper();
             return mapper.writeValueAsString(response);
         } catch (Exception e) {
-            return UserOrgJsonKey.EMPTY_STRING;
+            return JsonKey.EMPTY_STRING;
         }
     }
 
@@ -184,24 +184,24 @@ public class BaseController extends Controller {
         }
 
         if (LogValidator.isLogParamsPresent(request)) {
-            if (LogValidator.isValidLogLevelPresent((String) request.get(UserOrgJsonKey.LOG_LEVEL))) {
+            if (LogValidator.isValidLogLevelPresent((String) request.get(JsonKey.LOG_LEVEL))) {
                 ProjectLogger.setUserOrgServiceProjectLogger(
-                        (String) request.get(UserOrgJsonKey.LOG_LEVEL));
-                response.put(UserOrgJsonKey.ERROR, false);
+                        (String) request.get(JsonKey.LOG_LEVEL));
+                response.put(JsonKey.ERROR, false);
                 response.put(
-                        UserOrgJsonKey.MESSAGE,
-                        "Log Level successfully set to " + request.get(UserOrgJsonKey.LOG_LEVEL));
+                        JsonKey.MESSAGE,
+                        "Log Level successfully set to " + request.get(JsonKey.LOG_LEVEL));
             } else {
                 List<Enum> supportedLogLevelsValues = new ArrayList<>(EnumSet.allOf(LoggerEnum.class));
-                response.put(UserOrgJsonKey.ERROR, true);
+                response.put(JsonKey.ERROR, true);
                 response.put(
-                        UserOrgJsonKey.MESSAGE,
+                        JsonKey.MESSAGE,
                         "Valid Log Levels are " + Arrays.asList(supportedLogLevelsValues.toArray()));
             }
         } else {
-            response.put(UserOrgJsonKey.ERROR, true);
+            response.put(JsonKey.ERROR, true);
             response.put(
-                    UserOrgJsonKey.MESSAGE, "Missing Mandatory Request Param " + UserOrgJsonKey.LOG_LEVEL);
+                    JsonKey.MESSAGE, "Missing Mandatory Request Param " + JsonKey.LOG_LEVEL);
         }
         return handelResponse(response);
     }

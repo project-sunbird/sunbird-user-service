@@ -1,5 +1,7 @@
 package org.sunbird.util;
 
+import org.sunbird.util.jsonkey.JsonKey;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -64,15 +66,15 @@ public class LogEvent {
 
   public void setEdata(Map<String, Object> eks) {
     this.edata = new HashMap<String, Object>();
-    edata.put(UserOrgJsonKey.EKS, eks);
+    edata.put(JsonKey.EKS, eks);
   }
 
   public void setContext(String id, String ver) {
     this.context = new HashMap<String, Object>();
     Map<String, String> pdata = new HashMap<String, String>();
-    pdata.put(UserOrgJsonKey.ID, id);
-    pdata.put(UserOrgJsonKey.VER, ver);
-    this.context.put(UserOrgJsonKey.PDATA, pdata);
+    pdata.put(JsonKey.ID, id);
+    pdata.put(JsonKey.VER, ver);
+    this.context.put(JsonKey.PDATA, pdata);
   }
 
   /**
@@ -94,11 +96,11 @@ public class LogEvent {
       Object exception) {
     this.edata = new HashMap<String, Object>();
     Map<String, Object> eks = new HashMap<String, Object>();
-    eks.put(UserOrgJsonKey.LEVEL, level);
-    eks.put(UserOrgJsonKey.CLASSNAME, className);
-    eks.put(UserOrgJsonKey.METHODNAME, method);
-    eks.put(UserOrgJsonKey.DATA, data);
-    eks.put(UserOrgJsonKey.STACKTRACE, stackTrace);
-    edata.put(UserOrgJsonKey.EKS, eks);
+    eks.put(JsonKey.LEVEL, level);
+    eks.put(JsonKey.CLASSNAME, className);
+    eks.put(JsonKey.METHODNAME, method);
+    eks.put(JsonKey.DATA, data);
+    eks.put(JsonKey.STACKTRACE, stackTrace);
+    edata.put(JsonKey.EKS, eks);
   }
 }

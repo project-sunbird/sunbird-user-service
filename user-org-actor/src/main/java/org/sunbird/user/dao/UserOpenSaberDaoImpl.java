@@ -1,22 +1,14 @@
 package org.sunbird.user.dao;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.opensaber.registry.helper.RegistryHelper;
-import io.opensaber.registry.middleware.MiddlewareHaltException;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.tinkerpop.gremlin.driver.message.ResponseMessage;
 import org.sunbird.Application;
-import org.sunbird.exception.BaseException;
-import org.sunbird.exception.ProjectCommonException;
-import org.sunbird.exception.UserException;
-import org.sunbird.exception.message.IResponseMessage;
 import org.sunbird.exception.message.Localizer;
-import org.sunbird.exception.message.ResponseCode;
 import org.sunbird.response.Response;
-import org.sunbird.user.UserJsonKey;
 import org.sunbird.util.ProjectLogger;
+import org.sunbird.util.jsonkey.JsonKey;
 
 import java.util.Map;
 
@@ -42,10 +34,10 @@ public class UserOpenSaberDaoImpl implements IUserDao {
             long startTime = System.currentTimeMillis();
             io.opensaber.pojos.Response osResponse = registryHelper.addEntity(objectMapper.convertValue(user, JsonNode.class));
             if (null != osResponse.getResult()) {
-                Map<String, Object> osResult = (Map<String, Object>) ((Map<String, Object>) osResponse.getResult()).get(StringUtils.capitalize(UserJsonKey.USER));
-                String osId = (String) osResult.get(UserJsonKey.OSID);
+                Map<String, Object> osResult = (Map<String, Object>) ((Map<String, Object>) osResponse.getResult()).get(StringUtils.capitalize(JsonKey.USER));
+                String osId = (String) osResult.get(JsonKey.OSID);
                 ProjectLogger.log("Total time taken by opensaber for processing of userId:: "+osId+", is = "+(System.currentTimeMillis() - startTime));
-                response.put(UserJsonKey.USER_ID, osId);
+                response.put(JsonKey.USER_ID, osId);
                 return response;
             }
         } catch (Exception e) {

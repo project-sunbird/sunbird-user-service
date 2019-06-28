@@ -1,5 +1,6 @@
 package org.sunbird.user.dao;
 
+import org.sunbird.exception.BaseException;
 import org.sunbird.response.Response;
 
 import java.util.Map;
