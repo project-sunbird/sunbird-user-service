@@ -3,7 +3,7 @@ package org.sunbird.helper;
 public class EsConstant {
   public static final String SUNBIRD_ES_CLUSTER = "sunbird_es_cluster";
   public static final String SUNBIRD_ES_IP = "sunbird_es_host";
-  public static final String SUNBIRD_ES_PORT = "sunbird_es_host";
+  public static final String SUNBIRD_ES_PORT = "sunbird_es_port";
   public static final String EXISTS = "exists";
   public static final String NOT_EXISTS = "not_exists";
   public static final String FILTERS = "filters";
