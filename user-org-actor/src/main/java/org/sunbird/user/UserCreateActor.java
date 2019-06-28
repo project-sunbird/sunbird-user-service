@@ -1,7 +1,11 @@
 package org.sunbird.user;
 
+import akka.actor.ActorRef;
+import akka.actor.Props;
+import akka.actor.UntypedAbstractActor;
 import org.sunbird.BaseActor;
 import org.sunbird.actor.core.ActorConfig;
+import org.sunbird.actorOperation.UserActorOperations;
 import org.sunbird.request.Request;
 import org.sunbird.response.Response;
 import org.sunbird.DaoImplType;
@@ -17,13 +21,13 @@ import org.sunbird.user.dao.UserDaoFactory;
         dispatcher = "user-dispatcher",
         asyncTasks = {}
 )
-public class UserCreateActor  extends BaseActor {
+public class UserCreateActor extends BaseActor {
 
     private Response response = null;
 
     @Override
-    public void onReceive(Request request) throws Throwable {
-        if(request.getOperation().equalsIgnoreCase("createUser")){
+    public void onReceive(Request  request) throws Throwable {
+        if(request.getOperation().equalsIgnoreCase(UserActorOperations.CREATE_USER.getOperation())){
             createUser(request);
         } else {
             onReceiveUnsupportedMessage("UserCreateActor");

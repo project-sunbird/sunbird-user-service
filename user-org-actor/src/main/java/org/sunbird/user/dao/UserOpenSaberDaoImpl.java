@@ -5,8 +5,17 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.opensaber.registry.helper.RegistryHelper;
 import io.opensaber.registry.middleware.MiddlewareHaltException;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.tinkerpop.gremlin.driver.message.ResponseMessage;
 import org.sunbird.Application;
+import org.sunbird.exception.BaseException;
+import org.sunbird.exception.ProjectCommonException;
+import org.sunbird.exception.UserException;
+import org.sunbird.exception.message.IResponseMessage;
+import org.sunbird.exception.message.Localizer;
+import org.sunbird.exception.message.ResponseCode;
 import org.sunbird.response.Response;
+import org.sunbird.user.UserJsonKey;
 import org.sunbird.util.ProjectLogger;
 
 import java.util.Map;
@@ -17,6 +26,7 @@ import java.util.Map;
  */
 public class UserOpenSaberDaoImpl implements IUserDao {
 
+    private Localizer localizer = Localizer.getInstance();
     private RegistryHelper registryHelper;
     private ObjectMapper objectMapper;
 
@@ -32,16 +42,14 @@ public class UserOpenSaberDaoImpl implements IUserDao {
             long startTime = System.currentTimeMillis();
             io.opensaber.pojos.Response osResponse = registryHelper.addEntity(objectMapper.convertValue(user, JsonNode.class));
             if (null != osResponse.getResult()) {
-                Map<String, Object> osResult = (Map<String, Object>) ((Map<String, Object>) osResponse.getResult()).get("User");
-                String osId = (String) osResult.get("osid");
-                ProjectLogger.log("Total time taken by opensaber for userId:: "+osId+", is = "+(System.currentTimeMillis() - startTime));
-                response.put("userId", osId);
+                Map<String, Object> osResult = (Map<String, Object>) ((Map<String, Object>) osResponse.getResult()).get(StringUtils.capitalize(UserJsonKey.USER));
+                String osId = (String) osResult.get(UserJsonKey.OSID);
+                ProjectLogger.log("Total time taken by opensaber for processing of userId:: "+osId+", is = "+(System.currentTimeMillis() - startTime));
+                response.put(UserJsonKey.USER_ID, osId);
                 return response;
             }
-        } catch (MiddlewareHaltException e) {
-            e.printStackTrace();
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            ProjectLogger.log("Exception occurred while adding user to open saber.",e);
         }
         return null;
     }
