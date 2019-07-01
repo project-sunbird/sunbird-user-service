@@ -5,11 +5,7 @@ import io.opensaber.registry.app.OpenSaberApplication;
 import org.springframework.context.ApplicationContext;
 import org.sunbird.actor.core.ActorCache;
 import org.sunbird.actor.core.ActorService;
-import org.sunbird.exception.ActorServiceException;
-import org.sunbird.exception.BaseException;
-import org.sunbird.exception.message.IResponseMessage;
 import org.sunbird.exception.message.Localizer;
-import org.sunbird.exception.message.ResponseCode;
 
 import java.util.ArrayList;
 import java.util.List;
