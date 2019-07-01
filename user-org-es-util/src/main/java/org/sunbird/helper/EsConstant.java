@@ -30,4 +30,5 @@ public class EsConstant {
   public static final String ES_METRICS_PORT = "es_metrics_port";
   public static final String ES_URL = "es_search_url";
   public static final String RESPONSE = "response";
+  public static final String INVALID_REQUEST_DATA = "Invalid requested data.";
 }
