@@ -40,7 +40,7 @@ public class UserReadActor extends BaseActor {
         Future<Map<String, Object>> future = es.getDataByIdentifier("user", userId);
         Map<String, Object> responseMap = (Map) ElasticSearchHelper.getResponseFromFuture(future);
         Response response = new Response();
-        response.put("response", "hello");
+        response.put("response", responseMap);
         sender().tell(response, self());
     }
 
