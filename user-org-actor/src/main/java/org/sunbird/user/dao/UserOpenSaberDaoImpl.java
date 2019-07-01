@@ -32,12 +32,10 @@ public class UserOpenSaberDaoImpl implements IUserDao {
         Response response = new Response();
         try {
             long startTime = System.currentTimeMillis();
-            io.opensaber.pojos.Response osResponse = registryHelper.addEntity(objectMapper.convertValue(user, JsonNode.class));
-            if (null != osResponse.getResult()) {
-                Map<String, Object> osResult = (Map<String, Object>) ((Map<String, Object>) osResponse.getResult()).get(StringUtils.capitalize(JsonKey.USER));
-                String osId = (String) osResult.get(JsonKey.OSID);
-                ProjectLogger.log("Total time taken by opensaber for processing of userId:: "+osId+", is = "+(System.currentTimeMillis() - startTime));
-                response.put(JsonKey.USER_ID, osId);
+            String userId = registryHelper.addEntity(objectMapper.convertValue(user, JsonNode.class),"");
+            if (StringUtils.isNotBlank(userId)) {
+                ProjectLogger.log("Total time taken by opensaber for processing of userId:: "+userId+", is = "+(System.currentTimeMillis() - startTime));
+                response.put(JsonKey.USER_ID, userId);
                 return response;
             }
         } catch (Exception e) {
