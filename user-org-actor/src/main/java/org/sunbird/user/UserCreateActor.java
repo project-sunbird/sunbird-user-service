@@ -6,6 +6,7 @@ import akka.actor.UntypedAbstractActor;
 import org.sunbird.BaseActor;
 import org.sunbird.actor.core.ActorConfig;
 import org.sunbird.actorOperation.UserActorOperations;
+import org.sunbird.exception.BaseException;
 import org.sunbird.request.Request;
 import org.sunbird.response.Response;
 import org.sunbird.DaoImplType;
@@ -36,8 +37,12 @@ public class UserCreateActor extends BaseActor {
 
     private void createUser(Request request) {
         IUserDao userDao = UserDaoFactory.getInstance().getDaoImpl(DaoImplType.OPEN_SABER.getType());
-        response = userDao.addUser(request.getRequest());
-        sender().tell(response,self());
+        try {
+            response = userDao.addUser(request.getRequest());
+            sender().tell(response, self());
+        } catch (BaseException ex) {
+            sender().tell(ex, self());
+        }
     }
 
 }

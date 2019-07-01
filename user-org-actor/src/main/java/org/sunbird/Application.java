@@ -45,13 +45,7 @@ public class Application {
         applicationContext = OpenSaberApplication.getContext();
     }
 
-    public ActorRef getActorRef(String operation) throws BaseException {
-        ActorRef actorRef = ActorCache.getActorRef(operation);
-        if ( null != actorRef ) {
-            return actorRef;
-        } else {
-            new ActorServiceException.InvalidOperationName(IResponseMessage.INVALID_OPERATION_NAME,localizer.getMessage(IResponseMessage.INVALID_OPERATION_NAME,null),ResponseCode.SERVER_ERROR.getCode());
-        }
-        return actorRef;
+    public ActorRef getActorRef(String operation) {
+        return ActorCache.getActorRef(operation);
     }
 }
