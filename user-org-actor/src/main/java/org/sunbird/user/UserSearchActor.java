@@ -1,13 +1,12 @@
 package org.sunbird.user;
 
-
 import org.sunbird.SearchDtoMapper;
 import org.sunbird.actor.core.ActorConfig;
-import org.sunbird.actor.core.BaseActor;
 import org.sunbird.common.factory.EsClientFactory;
 import org.sunbird.dto.SearchDTO;
 import org.sunbird.es.service.ElasticSearchService;
 import org.sunbird.helper.ElasticSearchHelper;
+import org.sunbird.BaseActor;
 import org.sunbird.request.Request;
 import org.sunbird.response.Response;
 import scala.concurrent.Future;
@@ -38,10 +37,10 @@ public class UserSearchActor extends BaseActor {
 
     public void  searchUser(Request request) {
         SearchDTO searchDTO= SearchDtoMapper.createSearchDto(request.getRequest());
-        Future<Map<String, Object>> future = es.search(searchDTO, "user");
-        Map<String, Object> responseMap = (Map) ElasticSearchHelper.getResponseFromFuture(future);
+//        Future<Map<String, Object>> future = es.search(searchDTO, "user");
+//        Map<String, Object> responseMap = (Map) ElasticSearchHelper.getResponseFromFuture(future);
         Response response=new Response();
-        response.getResult().put("response",responseMap);
+        response.getResult().put("response","hello");
         sender().tell(response,self());
     }
 

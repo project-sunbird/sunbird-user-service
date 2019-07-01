@@ -1,4 +1,4 @@
-package org.sunbird.actor.core;
+package org.sunbird;
 
 import akka.actor.UntypedAbstractActor;
 import org.sunbird.exception.ActorServiceException;
@@ -18,11 +18,10 @@ import java.util.Locale;
 public abstract class BaseActor extends UntypedAbstractActor {
 
     public abstract void onReceive(Request request) throws Throwable;
-    private Localizer localizer = Localizer.getInstance();
+    protected Localizer localizer = Localizer.getInstance();
 
     @Override
     public void onReceive(Object message) throws Throwable {
-
         if (message instanceof Request) {
             Request request = (Request) message;
             String operation = request.getOperation();

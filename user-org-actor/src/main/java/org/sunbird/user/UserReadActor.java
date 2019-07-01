@@ -1,7 +1,7 @@
 package org.sunbird.user;
 
+import org.sunbird.BaseActor;
 import org.sunbird.actor.core.ActorConfig;
-import org.sunbird.actor.core.BaseActor;
 import org.sunbird.common.factory.EsClientFactory;
 import org.sunbird.es.service.ElasticSearchService;
 import org.sunbird.helper.ElasticSearchHelper;
@@ -40,7 +40,7 @@ public class UserReadActor extends BaseActor {
         Future<Map<String, Object>> future = es.getDataByIdentifier("user", userId);
         Map<String, Object> responseMap = (Map) ElasticSearchHelper.getResponseFromFuture(future);
         Response response = new Response();
-        response.put("response", responseMap);
+        response.put("response", "hello");
         sender().tell(response, self());
     }
 

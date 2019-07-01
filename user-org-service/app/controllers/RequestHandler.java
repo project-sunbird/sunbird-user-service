@@ -9,7 +9,8 @@ import org.sunbird.exception.message.ResponseCode;
 import org.sunbird.request.Request;
 import org.sunbird.response.Response;
 import org.sunbird.util.ProjectLogger;
-import org.sunbird.util.UserOrgJsonKey;
+
+import org.sunbird.util.jsonkey.JsonKey;
 import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.Result;
 import play.mvc.Results;
@@ -47,14 +48,14 @@ public class RequestHandler extends BaseController {
         CompletableFuture<String> future = new CompletableFuture<>();
         if (exception instanceof org.everit.json.schema.ValidationException) {
             String exceptionsMessages = String.join(" , ", ((ValidationException) exception).getAllMessages());
-            response.put(UserOrgJsonKey.MESSAGE, exceptionsMessages);
+            response.put(JsonKey.MESSAGE, exceptionsMessages);
             response.setResponseCode(ResponseCode.BAD_REQUEST);
             future.complete(jsonifyResponseObject(response));
             return future.thenApplyAsync(Results::badRequest, httpExecutionContext.current());
         } else if (exception instanceof BaseException) {
             BaseException ex = (BaseException) exception;
             response.setResponseCode(ResponseCode.BAD_REQUEST);
-            response.put(UserOrgJsonKey.MESSAGE, ex.getMessage());
+            response.put(JsonKey.MESSAGE, ex.getMessage());
             future.complete(jsonifyResponseObject(response));
             if (ex.getResponseCode() == Results.badRequest().status()) {
                 return future.thenApplyAsync(Results::badRequest, httpExecutionContext.current());
@@ -63,7 +64,7 @@ public class RequestHandler extends BaseController {
             }
         } else {
             response.setResponseCode(ResponseCode.SERVER_ERROR);
-            response.put(UserOrgJsonKey.MESSAGE,localizerObject.getMessage(IResponseMessage.INTERNAL_ERROR,null));
+            response.put(JsonKey.MESSAGE,localizerObject.getMessage(IResponseMessage.INTERNAL_ERROR,null));
             future.complete(jsonifyResponseObject(response));
             return future.thenApplyAsync(Results::internalServerError, httpExecutionContext.current());
         }

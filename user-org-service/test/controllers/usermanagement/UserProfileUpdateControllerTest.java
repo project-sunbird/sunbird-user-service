@@ -2,6 +2,7 @@ package controllers.usermanagement;
 
 import static org.junit.Assert.*;
 
+import controllers.BaseControllerTest;
 import controllers.TestHelper;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,7 +17,7 @@ import play.mvc.Result;
 import play.test.Helpers;
 
 /** This is a test Class for UserProfileUpdateController. */
-public class UserProfileUpdateControllerTest {
+public class UserProfileUpdateControllerTest extends BaseControllerTest {
   TestHelper testHelper;
   public static Application app;
   public static Map<String, String[]> headerMap;

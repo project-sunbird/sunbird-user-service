@@ -7,4 +7,8 @@ package org.sunbird.exception.message;
  */
 public interface IResponseMessage extends IUserResponseMessage, IOrgResponseMessage {
 
+    String INVALID_REQUESTED_DATA = "INVALID_REQUESTED_DATA";
+    String INVALID_OPERATION_NAME = "INVALID_OPERATION_NAME";
+    String INTERNAL_ERROR = "INTERNAL_ERROR";
+
 }

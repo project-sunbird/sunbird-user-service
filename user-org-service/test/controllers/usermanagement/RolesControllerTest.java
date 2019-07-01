@@ -2,6 +2,7 @@ package controllers.usermanagement;
 
 import static org.junit.Assert.*;
 
+import controllers.BaseControllerTest;
 import controllers.TestHelper;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +14,7 @@ import play.Application;
 import play.mvc.Result;
 import play.test.Helpers;
 
-public class RolesControllerTest {
+public class RolesControllerTest extends BaseControllerTest {
 
   TestHelper testHelper;
   public static Application app;

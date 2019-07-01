@@ -1,13 +1,11 @@
 package org.sunbird;
 
 import akka.actor.ActorRef;
+import io.opensaber.registry.app.OpenSaberApplication;
+import org.springframework.context.ApplicationContext;
 import org.sunbird.actor.core.ActorCache;
 import org.sunbird.actor.core.ActorService;
-import org.sunbird.exception.ActorServiceException;
-import org.sunbird.exception.BaseException;
-import org.sunbird.exception.message.IResponseMessage;
 import org.sunbird.exception.message.Localizer;
-import org.sunbird.exception.message.ResponseCode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +15,8 @@ import java.util.List;
  */
 public class Application {
 
-    // static variable instance of type ActorService
     private static Application instance = null;
+    public static ApplicationContext applicationContext;
     private Localizer localizer = Localizer.getInstance();
 
     // private constructor restricted to this class itself
@@ -37,11 +35,12 @@ public class Application {
     public void init() {
         List<String> actorClassPaths = new ArrayList<>();
         actorClassPaths.add("org.sunbird");
-        ActorService.getInstance().init("userOrgActorSystem", actorClassPaths);
+        ActorService.getInstance().init("userOrgActorSystem",actorClassPaths);
+//        OpenSaberApplication.main(new String[0]);
+//        applicationContext = OpenSaberApplication.getContext();
     }
 
-    public ActorRef getActorRef(String operation) throws BaseException {
+    public ActorRef getActorRef(String operation) {
         return ActorCache.getActorRef(operation);
-
     }
 }
