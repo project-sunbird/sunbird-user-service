@@ -238,6 +238,7 @@ public class ElasticSearchRestHighImpl implements ElasticSearchService {
       Exception exception = new Exception(EsConstant.INVALID_REQUEST_DATA);
       promise.failure(exception);
     }
+
     return promise.future();
   }
 
