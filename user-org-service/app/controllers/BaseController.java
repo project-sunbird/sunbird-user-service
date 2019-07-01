@@ -104,11 +104,29 @@ public class BaseController extends Controller {
     }
 
 
+    /**
+     * this method will take play.mv.http request and a validation function and lastly operation(Actor operation)
+     * it will map the request to our sunbird Request class.
+     * @param request
+     * @param function
+     * @param operation
+     * @return
+     */
     public CompletionStage<Result> handleRequest(play.mvc.Http.Request request, Function function, String operation) {
         Request req=mapRequest(request);
         return handleRequest(req,function,operation);
     }
 
+
+    /**
+     * this method will take play.mv.http request and a validation function and lastly operation(Actor operation)
+     * this method is validating the request and ,
+     * it will map the request to our sunbird Request class and make a call to requestHandler which is internally calling ask to actor
+     * @param request
+     * @param function
+     * @param operation
+     * @return
+     */
     public CompletionStage<Result> handleRequest(Request request, Function function, String operation) {
         try {
             if (function != null) {
