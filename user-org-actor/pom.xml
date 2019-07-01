@@ -22,6 +22,7 @@
             <artifactId>user-org-util</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <!--        open saber depndency-->
         <dependency>
             <groupId>io.opensaber</groupId>
             <artifactId>registry</artifactId>
