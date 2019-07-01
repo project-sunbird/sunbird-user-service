@@ -1,8 +1,8 @@
 package org.sunbird.user;
 
 
+import org.sunbird.BaseActor;
 import org.sunbird.actor.core.ActorConfig;
-import org.sunbird.actor.core.BaseActor;
 import org.sunbird.request.Request;
 import org.sunbird.response.Response;
 

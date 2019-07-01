@@ -2,6 +2,7 @@ package controllers.orgmanagement;
 
 import static org.junit.Assert.assertTrue;
 
+import controllers.BaseControllerTest;
 import controllers.TestHelper;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +14,7 @@ import play.Application;
 import play.mvc.Result;
 import play.test.Helpers;
 
-public class OrgTypeControllerTest {
+public class OrgTypeControllerTest extends BaseControllerTest {
   TestHelper testHelper;
   public static Application app;
   public static Map<String, String[]> headerMap;

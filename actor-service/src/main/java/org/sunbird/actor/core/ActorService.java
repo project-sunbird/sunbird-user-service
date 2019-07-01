@@ -67,34 +67,32 @@ public class ActorService {
      * initialize the actors
      */
     private void initActors(List<String> actorsClassPathList) {
-        Set<Class<? extends BaseActor>> actors = getActors(actorsClassPathList);
-        for (Class<? extends BaseActor> actor : actors) {
+        Set<Class<?>> actors = getActors(actorsClassPathList);
+        for (Class<?> actor : actors) {
             ActorConfig routerDetails = actor.getAnnotation(ActorConfig.class);
             if (null != routerDetails) {
                 String[] operations = routerDetails.tasks();
                 String dispatcher = (StringUtils.isNotBlank(routerDetails.dispatcher())) ? routerDetails.dispatcher() : "default-dispatcher";
                 createActor(actor,operations, dispatcher);
-            } else {
-                System.out.println(actor.getSimpleName() + " don't have config.");
             }
         }
     }
 
 
-    private Set<Class<? extends BaseActor>> getActors(List<String> actorsClassPathList) {
+    private Set<Class<?>> getActors(List<String> actorsClassPathList) {
         synchronized (ActorService.class) {
             Reflections reflections = null;
-            Set<Class<? extends BaseActor>> actors = new HashSet<>();
+            Set<Class<?>> actors = new HashSet<>();
             for(String classpath : actorsClassPathList){
                 reflections = new Reflections(classpath);
-                actors.addAll(reflections.getSubTypesOf(BaseActor.class));
+                actors.addAll(reflections.getTypesAnnotatedWith(ActorConfig.class));
             }
             return actors;
         }
     }
 
 
-    private void createActor(Class<? extends BaseActor> actor,
+    private void createActor(Class actor,
             String[] operations,
             String dispatcher) {
 

@@ -6,7 +6,7 @@ import java.util.Stack;
 
 import org.apache.commons.lang3.StringUtils;
 import org.sunbird.response.Response;
-import org.sunbird.util.UserOrgJsonKey;
+import org.sunbird.util.jsonkey.JsonKey;
 
 /** @author Manzarul */
 public class ExecutionContext {
@@ -39,9 +39,9 @@ public class ExecutionContext {
       };
 
   private static void initializeGlobalContext(ExecutionContext context) {
-    context.getGlobalContext().put(UserOrgJsonKey.PDATA_ID, getContextValue(UserOrgJsonKey.PDATA_ID));
-    context.getGlobalContext().put(UserOrgJsonKey.PDATA_PID, getContextValue(UserOrgJsonKey.PDATA_PID));
-    context.getGlobalContext().put(UserOrgJsonKey.PDATA_VERSION, getContextValue(UserOrgJsonKey.PDATA_VERSION));
+    context.getGlobalContext().put(JsonKey.PDATA_ID, getContextValue(JsonKey.PDATA_ID));
+    context.getGlobalContext().put(JsonKey.PDATA_PID, getContextValue(JsonKey.PDATA_PID));
+    context.getGlobalContext().put(JsonKey.PDATA_VERSION, getContextValue(JsonKey.PDATA_VERSION));
   }
 
   private static String getContextValue(String key) {

@@ -28,6 +28,17 @@
                 <enabled>false</enabled>
             </snapshots>
         </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <url>https://jitpack.io</url>
+        </repository>
+        <repository>
+            <id>registry</id>
+            <url>env.SUNBIRD_M2_REPO_PATH</url>
+        </repository>
     </repositories>
     <pluginRepositories>
         <pluginRepository>
@@ -39,11 +50,6 @@
         </pluginRepository>
     </pluginRepositories>
     <dependencies>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>

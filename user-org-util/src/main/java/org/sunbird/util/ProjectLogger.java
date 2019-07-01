@@ -1,15 +1,17 @@
 package org.sunbird.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.sunbird.util.jsonkey.JsonKey;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.config.Configurator;
 
 /**
  * This class will used to log the project message in any level.
@@ -134,17 +136,17 @@ public class ProjectLogger {
     long unixTime = System.currentTimeMillis();
     LogEvent te = new LogEvent();
     Map<String, Object> eks = new HashMap<>();
-    eks.put(UserOrgJsonKey.LEVEL, logLevel);
-    eks.put(UserOrgJsonKey.MESSAGE, message);
+    eks.put(JsonKey.LEVEL, logLevel);
+    eks.put(JsonKey.MESSAGE, message);
     String msgId = UUID.randomUUID().toString();
     if (null != msgId) {
-      eks.put(UserOrgJsonKey.REQUEST_MESSAGE_ID, msgId);
+      eks.put(JsonKey.REQUEST_MESSAGE_ID, msgId);
     }
     if (null != data) {
-      eks.put(UserOrgJsonKey.DATA, data);
+      eks.put(JsonKey.DATA, data);
     }
     if (null != exception) {
-      eks.put(UserOrgJsonKey.STACKTRACE, getStackTrace(exception));
+      eks.put(JsonKey.STACKTRACE, getStackTrace(exception));
     }
     if (logEnum != null) {
       te.setEid(logEnum.name());
