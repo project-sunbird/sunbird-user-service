@@ -35,17 +35,12 @@ public class UserOpenSaberDaoImpl implements IUserDao {
     public Response addUser(Map<String, Object> user) throws BaseException {
         Response response = new Response();
         try {
-            long startTime = System.currentTimeMillis();
             String userId = registryHelper.addEntity(objectMapper.convertValue(user, JsonNode.class),"");
-            if (StringUtils.isNotBlank(userId)) {
-                ProjectLogger.log("Total time taken by opensaber for processing of userId:: "+userId+", is = "+(System.currentTimeMillis() - startTime));
-                response.put(JsonKey.USER_ID, userId);
-                return response;
-            }
+            response.put(JsonKey.USER_ID, userId);
+            return response;
         } catch (Exception e) {
             ProjectLogger.log("Exception occurred while adding user to open saber.",e);
             throw new ProjectCommonException.ServerError(IResponseMessage.INTERNAL_ERROR,localizer.getMessage(IResponseMessage.INTERNAL_ERROR, null), ResponseCode.SERVER_ERROR.getCode());
         }
-        return null;
     }
 }
