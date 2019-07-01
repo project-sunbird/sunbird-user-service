@@ -11,8 +11,6 @@ import org.sunbird.helper.ElasticSearchHelper;
 import org.sunbird.request.Request;
 import org.sunbird.response.Response;
 import scala.concurrent.Future;
-
-import java.math.BigInteger;
 import java.util.*;
 
 /**

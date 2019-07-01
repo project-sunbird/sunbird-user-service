@@ -32,7 +32,7 @@ public class RequestHandler extends BaseController {
         Future<Object> future = Patterns.ask(getActorRef(operation), request, t);
         obj = Await.result(future, t.duration());
         endTrace("handleRequest");
-        return handelResponse(obj,httpExecutionContext);
+        return handleResponse(obj,httpExecutionContext);
     }
 
     /**
@@ -41,7 +41,7 @@ public class RequestHandler extends BaseController {
      * @param exception
      * @return
      */
-    public static CompletionStage<Result> handelFailureResponse(Object exception, HttpExecutionContext httpExecutionContext) {
+    public static CompletionStage<Result> handleFailureResponse(Object exception, HttpExecutionContext httpExecutionContext) {
 
         Response response = new Response();
         CompletableFuture<String> future = new CompletableFuture<>();
@@ -75,13 +75,13 @@ public class RequestHandler extends BaseController {
      * @param httpExecutionContext
      * @return
      */
-    public  static CompletionStage<Result> handelResponse(Object object, HttpExecutionContext httpExecutionContext) {
+    public  static CompletionStage<Result> handleResponse(Object object, HttpExecutionContext httpExecutionContext) {
 
         if (object instanceof Response) {
             Response response = (Response) object;
-            return handelSuccessResponse(response, httpExecutionContext);
+            return handleSuccessResponse(response, httpExecutionContext);
         } else {
-            return handelFailureResponse(object, httpExecutionContext);
+            return handleFailureResponse(object, httpExecutionContext);
         }
     }
 
@@ -92,7 +92,7 @@ public class RequestHandler extends BaseController {
      * @return
      */
 
-    public static CompletionStage<Result> handelSuccessResponse(Response response, HttpExecutionContext httpExecutionContext) {
+    public static CompletionStage<Result> handleSuccessResponse(Response response, HttpExecutionContext httpExecutionContext) {
         CompletableFuture<String> future = new CompletableFuture<>();
         future.complete(jsonifyResponseObject(response));
         return future.thenApplyAsync(Results::ok, httpExecutionContext.current());

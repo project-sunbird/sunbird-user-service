@@ -117,9 +117,9 @@ public class BaseController extends Controller {
             }
             return new RequestHandler().handleRequest(request, httpExecutionContext, operation);
         } catch (org.everit.json.schema.ValidationException ex) {
-            return RequestHandler.handelFailureResponse(ex, httpExecutionContext);
+            return RequestHandler.handleFailureResponse(ex, httpExecutionContext);
         } catch (Exception ex) {
-            return RequestHandler.handelFailureResponse(ex, httpExecutionContext);
+            return RequestHandler.handleFailureResponse(ex, httpExecutionContext);
         }
 
 
@@ -179,7 +179,7 @@ public class BaseController extends Controller {
             response.put(
                     UserOrgJsonKey.MESSAGE, "Missing Mandatory Request Param " + UserOrgJsonKey.LOG_LEVEL);
         }
-        return RequestHandler.handelSuccessResponse(response, httpExecutionContext);
+        return RequestHandler.handleSuccessResponse(response, httpExecutionContext);
     }
 
 

@@ -7,7 +7,6 @@ import java.util.*;
 
 public class SearchDtoMapper {
 
-
     public static SearchDTO createSearchDto(Map<String, Object> searchQueryMap) {
         SearchDTO search = new SearchDTO();
         if (searchQueryMap.containsKey("query")) {
