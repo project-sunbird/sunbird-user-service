@@ -36,7 +36,7 @@ public class RequestHandler extends BaseController {
     }
 
     /**
-     * This method will handel all the failure response of Api calls.
+     * This method will handle all the failure response of Api calls.
      *
      * @param exception
      * @return
@@ -86,7 +86,7 @@ public class RequestHandler extends BaseController {
     }
 
     /**
-     * This method will handel all the success response of Api calls.
+     * This method will handle all the success response of Api calls.
      *
      * @param response
      * @return
