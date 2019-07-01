@@ -3,7 +3,6 @@ package org.sunbird.user.dao;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.opensaber.registry.helper.RegistryHelper;
-import org.apache.commons.lang3.StringUtils;
 import org.sunbird.Application;
 import org.sunbird.exception.BaseException;
 import org.sunbird.exception.ProjectCommonException;
@@ -20,13 +19,13 @@ import java.util.Map;
  * @author Amit Kumar
  * This class will contains method to interact with open saber
  */
-public class UserOpenSaberDaoImpl implements IUserDao {
+public class UserOpenSaberOSDaoImpl implements IUserOSDao {
 
     private Localizer localizer = Localizer.getInstance();
     private RegistryHelper registryHelper;
     private ObjectMapper objectMapper;
 
-    public UserOpenSaberDaoImpl() {
+    public UserOpenSaberOSDaoImpl() {
         objectMapper = new ObjectMapper();
         registryHelper = Application.applicationContext.getBean(RegistryHelper.class);
     }

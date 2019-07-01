@@ -7,7 +7,7 @@ import org.sunbird.actorOperation.UserActorOperations;
 import org.sunbird.exception.BaseException;
 import org.sunbird.request.Request;
 import org.sunbird.response.Response;
-import org.sunbird.user.dao.IUserDao;
+import org.sunbird.user.dao.IUserOSDao;
 import org.sunbird.user.dao.UserDaoFactory;
 
 /**
@@ -28,12 +28,12 @@ public class UserCreateActor extends BaseActor {
         if(request.getOperation().equalsIgnoreCase(UserActorOperations.CREATE_USER.getOperation())){
             createUser(request);
         } else {
-            onReceiveUnsupportedMessage("UserCreateActor");
+            onReceiveUnsupportedMessage(this.getClass().getName());
         }
     }
 
     private void createUser(Request request) {
-        IUserDao userDao = UserDaoFactory.getInstance().getDaoImpl(DaoImplType.OPEN_SABER.getType());
+        IUserOSDao userDao = (IUserOSDao) UserDaoFactory.getInstance().getDaoImpl(DaoImplType.OPEN_SABER.getType());
         try {
             response = userDao.addUser(request.getRequest());
             sender().tell(response, self());

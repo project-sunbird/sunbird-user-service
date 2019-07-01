@@ -20,13 +20,20 @@ public class UserDaoFactory {
         return instance;
     }
 
-    private IUserDao userDao;
 
-    public IUserDao getDaoImpl(String daoImplType){
+
+    private IUserOSDao userDao;
+
+    public Object getDaoImpl(String daoImplType){
 
         if(daoImplType.equalsIgnoreCase(DaoImplType.OPEN_SABER.getType())) {
-            return new UserOpenSaberDaoImpl();
+            return new UserOpenSaberOSDaoImpl();
         }
+        else if(daoImplType.equalsIgnoreCase(DaoImplType.ES.getType())){
+            return new UserEsOSDaoImpl();
+        }
+
+
         return null;
     }
 }

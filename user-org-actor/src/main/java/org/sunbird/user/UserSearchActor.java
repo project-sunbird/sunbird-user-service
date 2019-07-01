@@ -1,16 +1,16 @@
 package org.sunbird.user;
 
-import org.sunbird.SearchDtoMapper;
-import org.sunbird.actor.core.ActorConfig;
-import org.sunbird.common.factory.EsClientFactory;
-import org.sunbird.dto.SearchDTO;
-import org.sunbird.es.service.ElasticSearchService;
-import org.sunbird.helper.ElasticSearchHelper;
 import org.sunbird.BaseActor;
+import org.sunbird.DaoImplType;
+import org.sunbird.actor.core.ActorConfig;
+import org.sunbird.actorOperation.UserActorOperations;
+import org.sunbird.common.factory.EsClientFactory;
+import org.sunbird.es.service.ElasticSearchService;
+import org.sunbird.exception.BaseException;
 import org.sunbird.request.Request;
 import org.sunbird.response.Response;
-import scala.concurrent.Future;
-import java.util.*;
+import org.sunbird.user.dao.IUserESDao;
+import org.sunbird.user.dao.UserDaoFactory;
 
 /**
  * @author Amit Kumar
@@ -24,24 +24,21 @@ import java.util.*;
 )
 public class UserSearchActor extends BaseActor {
 
-    static ElasticSearchService es= EsClientFactory.getInstance("rest");
+    IUserESDao userESDao = (IUserESDao) UserDaoFactory.getInstance().getDaoImpl(DaoImplType.ES.getType());
+
 
     @Override
     public void onReceive(Request request) throws Throwable {
-        if(request.getOperation().equalsIgnoreCase("searchUser")){
+        if (request.getOperation().equalsIgnoreCase(UserActorOperations.SEARCH_USER.getOperation())) {
             searchUser(request);
         } else {
-            onReceiveUnsupportedMessage("UserSearchActor");
+            onReceiveUnsupportedMessage(this.getClass().getName());
         }
     }
 
-    public void  searchUser(Request request) {
-        SearchDTO searchDTO= SearchDtoMapper.createSearchDto(request.getRequest());
-//        Future<Map<String, Object>> future = es.search(searchDTO, "user");
-//        Map<String, Object> responseMap = (Map) ElasticSearchHelper.getResponseFromFuture(future);
-        Response response=new Response();
-        response.getResult().put("response","hello");
-        sender().tell(response,self());
+    public void searchUser(Request request) throws BaseException {
+        Response response = userESDao.searchUser(request.getRequest());
+        sender().tell(response, self());
     }
 
 }

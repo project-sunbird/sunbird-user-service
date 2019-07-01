@@ -11,8 +11,10 @@ import java.util.Map;
 /**
  * @author Amit Kumar
  */
-public interface IUserDao {
+public interface IUserOSDao {
     Localizer localizer = Localizer.getInstance();
 
     public Response addUser(Map<String, Object> user) throws BaseException;
+
+
 }
