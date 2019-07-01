@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author  Amit Kumar
+ * @author Amit Kumar
  */
 public class Application {
 
@@ -22,11 +22,11 @@ public class Application {
     private Localizer localizer = Localizer.getInstance();
 
     // private constructor restricted to this class itself
-    private Application() { }
+    private Application() {
+    }
 
     // static method to create instance of ActorService class
-    public static Application getInstance()
-    {
+    public static Application getInstance() {
         if (instance == null)
             instance = new Application();
 
@@ -37,16 +37,11 @@ public class Application {
     public void init() {
         List<String> actorClassPaths = new ArrayList<>();
         actorClassPaths.add("org.sunbird");
-        ActorService.getInstance().init("userOrgActorSystem",actorClassPaths);
+        ActorService.getInstance().init("userOrgActorSystem", actorClassPaths);
     }
 
     public ActorRef getActorRef(String operation) throws BaseException {
-        ActorRef actorRef = ActorCache.getActorRef(operation);
-        if ( null != actorRef ) {
-            return actorRef;
-        } else {
-            new ActorServiceException.InvalidOperationName(IResponseMessage.INVALID_OPERATION_NAME,localizer.getMessage(IResponseMessage.INVALID_OPERATION_NAME,null),ResponseCode.SERVER_ERROR.getCode());
-        }
-        return actorRef;
+        return ActorCache.getActorRef(operation);
+
     }
 }

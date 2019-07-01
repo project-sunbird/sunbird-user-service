@@ -19,16 +19,6 @@
         <powermock.version>1.6.5</powermock.version>
         <httpClient.version>4.5.1</httpClient.version>
     </properties>
-    <repositories>
-        <repository>
-            <id>scalaz-bintray</id>
-            <name>Scalaz Bintray - releases</name>
-            <url>https://dl.bintray.com/scalaz/releases/</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
     <pluginRepositories>
         <pluginRepository>
             <id>typesafe-releases-plugins</id>
@@ -224,4 +214,25 @@
             </plugin>
         </plugins>
     </build>
+    <repositories>
+        <repository>
+            <id>scalaz-bintray</id>
+            <name>Scalaz Bintray - releases</name>
+            <url>https://dl.bintray.com/scalaz/releases/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <url>https://jitpack.io</url>
+        </repository>
+        <repository>
+            <id>registry</id>
+            <url>env.SUNBIRD_M2_REPO_PATH</url>
+        </repository>
+    </repositories>
 </project>

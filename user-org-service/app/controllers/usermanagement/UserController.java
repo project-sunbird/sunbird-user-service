@@ -21,7 +21,7 @@ public class UserController extends BaseController {
    */
   public CompletionStage<Result> createUser() {
     startTrace("createUser");
-    CompletionStage<Result> response = createHandelRequest(request());
+    CompletionStage<Result> response = handleRequest(request(),null,"createUser");
     endTrace("createUser");
     return response;
   }
@@ -33,7 +33,7 @@ public class UserController extends BaseController {
    */
   public CompletionStage<Result> createUserV2() {
     startTrace("createUserV2");
-    CompletionStage<Result> response = handelRequest();
+    CompletionStage<Result> response = handleRequest(request(),null,"createUser");
     endTrace("createUserV2");
     return response;
   }

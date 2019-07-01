@@ -2,6 +2,8 @@ package controllers.usermanagement;
 
 import controllers.BaseController;
 import java.util.concurrent.CompletionStage;
+
+import org.sunbird.request.Request;
 import play.mvc.Result;
 
 /**
@@ -55,7 +57,9 @@ public class UserProfileReadController extends BaseController {
    */
   public CompletionStage<Result> getUserById(String userId) {
     startTrace("getUserById");
-    CompletionStage<Result> response = handelRequest();
+    Request request=new Request();
+    request.getRequest().put("userId",userId);
+    CompletionStage<Result> response = handleRequest(request,null,"readUserById");
     endTrace("getUserById");
     return response;
   }
@@ -102,10 +106,10 @@ public class UserProfileReadController extends BaseController {
    *
    * @return Return a promise of user response
    */
-  public CompletionStage<Result> searchUser() {
 
+  public CompletionStage<Result> searchUser() {
     startTrace("searchUser");
-    CompletionStage<Result> response = handelRequest();
+    CompletionStage<Result> response = handleRequest(request(),null,"searchUser");
     endTrace("searchUser");
     return response;
   }

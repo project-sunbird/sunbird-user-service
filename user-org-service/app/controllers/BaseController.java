@@ -9,12 +9,13 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
+import java.util.function.Function;
 import javax.inject.Inject;
 
 import akka.actor.ActorRef;
 import org.sunbird.Application;
 import org.sunbird.exception.BaseException;
-import org.sunbird.exception.message.IResponseMessage;
+import org.sunbird.exception.message.Localizer;
 import org.sunbird.request.Request;
 import org.sunbird.response.Response;
 import org.sunbird.util.LoggerEnum;
@@ -38,8 +39,12 @@ import utils.RequestMapper;
  */
 public class BaseController extends Controller {
 
-    /** We injected HttpExecutionContext to decrease the response time of APIs. */
-    @Inject private HttpExecutionContext httpExecutionContext;
+    /**
+     * We injected HttpExecutionContext to decrease the response time of APIs.
+     */
+    @Inject
+    private HttpExecutionContext httpExecutionContext;
+    protected static Localizer localizerObject = Localizer.getInstance();
 
     /**
      * This is temporary method we use get dummyresponse to check APIs.
@@ -98,57 +103,28 @@ public class BaseController extends Controller {
         return Application.getInstance().getActorRef(operation);
     }
 
-    public CompletionStage<Result> createHandelRequest(play.mvc.Http.Request request) {
-        return new RequestHandler().createHandelRequest(request,httpExecutionContext);
+
+
+    public CompletionStage<Result> handleRequest(play.mvc.Http.Request request, Function function, String operation) {
+        Request req=mapRequest(request);
+        return handleRequest(req,function,operation);
     }
 
-    /**
-     * This method will redirect Response object on the basis of error is present or not present in
-     * response
-     *
-     * @param response
-     * @return CompletionStage<Result>
-     */
-    public CompletionStage<Result> handelResponse(Response response) {
-        String jsonifyResponse = jsonifyResponseObject(response);
-        return (Boolean) response.get(UserOrgJsonKey.ERROR)
-                ? handelFailureResponse(jsonifyResponse)
-                : handelSuccessResponse(jsonifyResponse);
-    }
-
-    /**
-     * This method will handel all the success response of Api calls.
-     *
-     * @param response
-     * @return
-     */
-    public CompletionStage<Result> handelSuccessResponse(String response) {
-        CompletableFuture<String> future = new CompletableFuture<>();
-        if (!response.isEmpty()) {
-            future.complete(response);
-            return future.thenApplyAsync(Results::ok, httpExecutionContext.current());
-        } else {
-            future.complete(IResponseMessage.INTERNAL_ERROR);
-            return future.thenApplyAsync(Results::internalServerError, httpExecutionContext.current());
+    public CompletionStage<Result> handleRequest(Request request, Function function, String operation) {
+        try {
+            if (function != null) {
+                function.apply(request);
+            }
+            return new RequestHandler().handleRequest(request, httpExecutionContext, operation);
+        } catch (org.everit.json.schema.ValidationException ex) {
+            return RequestHandler.handelFailureResponse(ex, httpExecutionContext);
+        } catch (Exception ex) {
+            return RequestHandler.handelFailureResponse(ex, httpExecutionContext);
         }
+
+
     }
 
-    /**
-     * This method will handel all the failure response of Api calls.
-     *
-     * @param response
-     * @return
-     */
-    public CompletionStage<Result> handelFailureResponse(String response) {
-        CompletableFuture<String> future = new CompletableFuture<>();
-        if (!response.isEmpty()) {
-            future.complete(response);
-            return future.thenApplyAsync(Results::badRequest, httpExecutionContext.current());
-        } else {
-            future.complete(IResponseMessage.INTERNAL_ERROR);
-            return future.thenApplyAsync(Results::internalServerError, httpExecutionContext.current());
-        }
-    }
 
     /**
      * This method is responsible to convert Response object into json
@@ -156,7 +132,7 @@ public class BaseController extends Controller {
      * @param response
      * @return string
      */
-    public String jsonifyResponseObject(Response response) {
+    public static String jsonifyResponseObject(Response response) {
 
         try {
             ObjectMapper mapper = new ObjectMapper();
@@ -177,9 +153,9 @@ public class BaseController extends Controller {
         Response response = new Response();
         Http.RequestBody requestBody = request().body();
         Request request = null;
-        try{
+        try {
             request = (Request) RequestMapper.mapRequest(requestBody.asJson(), Request.class);
-        } catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
 
@@ -203,6 +179,23 @@ public class BaseController extends Controller {
             response.put(
                     UserOrgJsonKey.MESSAGE, "Missing Mandatory Request Param " + UserOrgJsonKey.LOG_LEVEL);
         }
-        return handelResponse(response);
+        return RequestHandler.handelSuccessResponse(response, httpExecutionContext);
+    }
+
+
+    /**
+     * this method will map the play request to the org.sunbird.request.Request class.
+     * @param requestBody
+     * @return
+     */
+
+    public static Request mapRequest(Http.Request requestBody) {
+
+        Request request = new Request();
+        try {
+            return (Request) RequestMapper.mapRequest(requestBody.body().asJson(), Request.class);
+        } catch (Exception e) {
+            return request;
+        }
     }
 }
