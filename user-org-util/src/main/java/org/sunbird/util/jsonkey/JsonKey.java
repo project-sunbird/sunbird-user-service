@@ -26,5 +26,6 @@ public interface JsonKey extends UserJsonKey{
   String PDATA_ID = "telemetry_pdata_id";
   String PDATA_PID = "telemetry_pdata_pid";
   String PDATA_VERSION = "telemetry_pdata_ver";
+  String GET_METHOD="get";
 
 }

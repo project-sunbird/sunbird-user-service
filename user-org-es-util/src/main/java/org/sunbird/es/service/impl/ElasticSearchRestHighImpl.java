@@ -1,11 +1,8 @@
 package org.sunbird.es.service.impl;
 
 import akka.dispatch.Futures;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 import java.util.stream.Collectors;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
@@ -186,7 +183,7 @@ public class ElasticSearchRestHighImpl implements ElasticSearchService {
    * This method will provide data form ES based on incoming identifier. we can get data by passing
    * index and identifier values , or all the three
    *
-   * @param type String
+   * @param index String
    * @param identifier String
    * @return Map<String,Object> or empty map
    */
@@ -197,22 +194,19 @@ public class ElasticSearchRestHighImpl implements ElasticSearchService {
     ElasticSearchHelper.logMethodStart(
         "ElasticSearchRestHighImpl:getDataByIdentifier: method started at ==", startTime);
     GetRequest getRequest = new GetRequest(index, _DOC, identifier);
-
     ActionListener<GetResponse> listener =
         new ActionListener<GetResponse>() {
           @Override
           public void onResponse(GetResponse getResponse) {
+            Map<String, Object> sourceAsMap= Collections.emptyMap();
             if (getResponse.isExists()) {
-              Map<String, Object> sourceAsMap = getResponse.getSourceAsMap();
+              sourceAsMap = getResponse.getSourceAsMap();
               if (MapUtils.isNotEmpty(sourceAsMap)) {
-                promise.success(sourceAsMap);
                 ElasticSearchHelper.logMethodEnd(
                     "ElasticSearchRestHighImpl:getDataByIdentifier: method end ==", startTime);
-              } else {
-                promise.success(new HashMap<>());
               }
             }
-            promise.success(new HashMap<>());
+            promise.success(sourceAsMap);
           }
 
           @Override

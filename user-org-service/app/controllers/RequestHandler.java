@@ -8,6 +8,7 @@ import org.sunbird.exception.message.IResponseMessage;
 import org.sunbird.exception.message.ResponseCode;
 import org.sunbird.request.Request;
 import org.sunbird.response.Response;
+import org.sunbird.util.LoggerEnum;
 import org.sunbird.util.ProjectLogger;
 
 import org.sunbird.util.jsonkey.JsonKey;
@@ -21,13 +22,26 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.TimeUnit;
 
+
+/**
+ * this class is used to handle the request and ask from actor and return response on the basis of success and failure to user.
+ * @author amitkumar
+ */
 public class RequestHandler extends BaseController {
 
+    /**
+     * this methis responsible to handle the request and ask from actor
+     * @param request
+     * @param httpExecutionContext
+     * @param operation
+     * @return CompletionStage<Result>
+     * @throws Exception
+     */
     public CompletionStage<Result> handleRequest(Request request, HttpExecutionContext httpExecutionContext, String operation) throws Exception {
         Object obj;
         CompletableFuture<String> cf = new CompletableFuture<>();
         request.setOperation(operation);
-        ProjectLogger.log("UserController:createUser :: Requested operation " + request.getOperation());
+        ProjectLogger.log(String.format("%s:%s:Requested operation %s",this.getClass().getSimpleName(),"handleRequest",operation), LoggerEnum.DEBUG.name());
         startTrace("handleRequest");
         Timeout t = new Timeout(Long.valueOf(request.getTimeout()), TimeUnit.SECONDS);
         Future<Object> future = Patterns.ask(getActorRef(operation), request, t);

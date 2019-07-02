@@ -9,10 +9,13 @@ import org.sunbird.request.Request;
 import org.sunbird.response.Response;
 import org.sunbird.user.dao.IUserESDao;
 import org.sunbird.user.dao.UserDaoFactory;
+import org.sunbird.util.LoggerEnum;
+import org.sunbird.util.ProjectLogger;
 import org.sunbird.util.jsonkey.JsonKey;
 
 
 /**
+ * this actor class is used to read a used when operation provided is readUserById.
  * @author Amit Kumar
  */
 
@@ -24,7 +27,7 @@ import org.sunbird.util.jsonkey.JsonKey;
 )
 public class UserReadActor extends BaseActor {
 
-    IUserESDao userESDao = (IUserESDao) UserDaoFactory.getInstance().getDaoImpl(DaoImplType.ES.getType());
+    IUserESDao userESDao = (IUserESDao) UserDaoFactory.getDaoImpl(DaoImplType.ES.getType());
 
 
     @Override
@@ -36,8 +39,15 @@ public class UserReadActor extends BaseActor {
         }
     }
 
+    /**
+     * this method is used to read user from elastic search.
+     * @param request
+     * @throws BaseException
+     */
     public void readUserById(Request request) throws BaseException {
+        ProjectLogger.log(String.format("%s:%s:method started at %s",this.getClass().getSimpleName(),"readUserById",System.currentTimeMillis()), LoggerEnum.DEBUG.name());
         Response response = userESDao.getUserById((String) request.getRequest().get(JsonKey.USER_ID));
+        ProjectLogger.log(String.format("%s:%s:method ended at %s",this.getClass().getSimpleName(),"readUserById",System.currentTimeMillis()), LoggerEnum.DEBUG.name());
         sender().tell(response, self());
     }
 

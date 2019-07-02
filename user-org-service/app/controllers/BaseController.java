@@ -107,32 +107,54 @@ public class BaseController extends Controller {
     /**
      * this method will take play.mv.http request and a validation function and lastly operation(Actor operation)
      * it will map the request to our sunbird Request class.
+     *
      * @param request
      * @param function
      * @param operation
      * @return
      */
-    public CompletionStage<Result> handleRequest(play.mvc.Http.Request request, Function function, String operation) {
-        Request req=mapRequest(request);
-        return handleRequest(req,function,operation);
-    }
+//    public CompletionStage<Result> handleRequest(play.mvc.Http.Request request, Function function, String operation) {
+//
+//        return handleRequest(req, function, operation);
+//    }
 
 
     /**
      * this method will take play.mv.http request and a validation function and lastly operation(Actor operation)
      * this method is validating the request and ,
      * it will map the request to our sunbird Request class and make a call to requestHandler which is internally calling ask to actor
-     * @param request
-     * @param function
+     * this method is used to handle all the request type which has requestBody
+     *
+     * @param req
+     * @param validatorFunction
      * @param operation
      * @return
      */
-    public CompletionStage<Result> handleRequest(Request request, Function function, String operation) {
+    public CompletionStage<Result> handleRequest(play.mvc.Http.Request req, Function validatorFunction, String operation) {
         try {
-            if (function != null) {
-                function.apply(request);
+            Request request = (Request) RequestMapper.mapRequest(req, Request.class);
+            if (validatorFunction != null) {
+                validatorFunction.apply(request);
             }
             return new RequestHandler().handleRequest(request, httpExecutionContext, operation);
+        } catch (org.everit.json.schema.ValidationException ex) {
+            return RequestHandler.handleFailureResponse(ex, httpExecutionContext);
+        } catch (Exception ex) {
+            return RequestHandler.handleFailureResponse(ex, httpExecutionContext);
+        }
+
+    }
+
+    /**
+     * this method is used to handle the only GET request
+     *
+     * @param req
+     * @param operation
+     * @return
+     */
+    public CompletionStage<Result> handleRequest(Request req, String operation) {
+        try {
+            return new RequestHandler().handleRequest(req, httpExecutionContext, operation);
         } catch (org.everit.json.schema.ValidationException ex) {
             return RequestHandler.handleFailureResponse(ex, httpExecutionContext);
         } catch (Exception ex) {
@@ -168,12 +190,12 @@ public class BaseController extends Controller {
     public CompletionStage<Result> handleLogRequest() {
         startTrace("handleLogRequest");
         Response response = new Response();
-        Http.RequestBody requestBody = request().body();
         Request request = null;
         try {
-            request = (Request) RequestMapper.mapRequest(requestBody.asJson(), Request.class);
+            request = (Request) RequestMapper.mapRequest(request(), Request.class);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            ProjectLogger.log(String.format("%s:%s:exception occurred in mapping request", this.getClass().getSimpleName(), "handleLogRequest"), LoggerEnum.ERROR.name());
+            return RequestHandler.handleFailureResponse(ex, httpExecutionContext);
         }
 
         if (LogValidator.isLogParamsPresent(request)) {
@@ -199,20 +221,4 @@ public class BaseController extends Controller {
         return RequestHandler.handleSuccessResponse(response, httpExecutionContext);
     }
 
-
-    /**
-     * this method will map the play request to the org.sunbird.request.Request class.
-     * @param requestBody
-     * @return
-     */
-
-    public static Request mapRequest(Http.Request requestBody) {
-
-        Request request = new Request();
-        try {
-            return (Request) RequestMapper.mapRequest(requestBody.body().asJson(), Request.class);
-        } catch (Exception e) {
-            return request;
-        }
-    }
 }

@@ -22,12 +22,30 @@ import java.util.Map;
 /**
  * @author anmolgupta
  */
-public class UserEsOSDaoImpl implements IUserESDao {
+public class UserESDaoImpl implements IUserESDao {
 
     private ElasticSearchService es = EsClientFactory.getInstance(EsClientFactory.EsClient.REST.getName());
     private Localizer localizer = Localizer.getInstance();
-    private Response response = null;
 
+
+    private UserESDaoImpl() {
+    }
+
+    /**
+     * this method is used to get the instance of the current class
+     * @return
+     */
+    public static UserESDaoImpl getInstance() {
+        return new UserESDaoImpl();
+    }
+
+
+    /**
+     * this method  is used to get the user W.R.T id
+     * @param userId
+     * @return response
+     * @throws BaseException
+     */
     @Override
     public Response getUserById(String userId) throws BaseException {
         Future<Map<String, Object>> future = es.getDataByIdentifier(EsIndex.USER.getIndexName(), userId);
@@ -39,9 +57,13 @@ public class UserEsOSDaoImpl implements IUserESDao {
         }
     }
 
+    /**
+     * this method is used to search the user W.R.T request
+     * @param searchDTO
+     * @return response
+     */
     @Override
-    public Response searchUser(Map<String, Object> request) {
-        SearchDTO searchDTO = SearchDtoMapper.createSearchDto(request);
+    public Response searchUser(SearchDTO searchDTO) {
         Future<Map<String, Object>> future = es.search(searchDTO, EsIndex.USER.getIndexName());
         Map<String, Object> responseMap = (Map) ElasticSearchHelper.getResponseFromFuture(future);
         return prepareEsSuccessResponse(responseMap);
@@ -49,7 +71,7 @@ public class UserEsOSDaoImpl implements IUserESDao {
 
 
     private Response prepareEsSuccessResponse(Map<String, Object> responseMap) {
-        response = new Response();
+        Response response = new Response();
         response.put(JsonKey.RESPONSE, responseMap);
         return response;
     }

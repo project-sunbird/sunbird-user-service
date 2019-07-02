@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * this class is used to instantiate the actor system and open saber.
  * @author Amit Kumar
  */
 public class Application {

@@ -59,7 +59,7 @@ public class UserProfileReadController extends BaseController {
     startTrace("getUserById");
     Request request=new Request();
     request.getRequest().put("userId",userId);
-    CompletionStage<Result> response = handleRequest(request,null,"readUserById");
+    CompletionStage<Result> response = handleRequest(request,"readUserById");
     endTrace("getUserById");
     return response;
   }
