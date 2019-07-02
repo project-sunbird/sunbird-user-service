@@ -3,6 +3,7 @@ package controllers.usermanagement;
 import controllers.BaseController;
 import java.util.concurrent.CompletionStage;
 
+import org.sunbird.actorOperation.UserActorOperations;
 import play.mvc.*;
 
 /**
@@ -21,7 +22,7 @@ public class UserController extends BaseController {
    */
   public CompletionStage<Result> createUser() {
     startTrace("createUser");
-    CompletionStage<Result> response = handleRequest(request(),null,"createUser");
+    CompletionStage<Result> response = handleRequest(request(),null, UserActorOperations.CREATE_USER.getOperation());
     endTrace("createUser");
     return response;
   }
@@ -33,7 +34,7 @@ public class UserController extends BaseController {
    */
   public CompletionStage<Result> createUserV2() {
     startTrace("createUserV2");
-    CompletionStage<Result> response = handleRequest(request(),null,"createUser");
+    CompletionStage<Result> response = handleRequest(request(),null,UserActorOperations.CREATE_USER.getOperation());
     endTrace("createUserV2");
     return response;
   }

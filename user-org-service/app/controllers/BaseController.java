@@ -146,7 +146,7 @@ public class BaseController extends Controller {
     }
 
     /**
-     * this method is used to handle the only GET request
+     * this method is used to handle the only GET requests.
      *
      * @param req
      * @param operation

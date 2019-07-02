@@ -3,7 +3,9 @@ package controllers.usermanagement;
 import controllers.BaseController;
 import java.util.concurrent.CompletionStage;
 
+import org.sunbird.actorOperation.UserActorOperations;
 import org.sunbird.request.Request;
+import org.sunbird.util.jsonkey.JsonKey;
 import play.mvc.Result;
 
 /**
@@ -58,8 +60,8 @@ public class UserProfileReadController extends BaseController {
   public CompletionStage<Result> getUserById(String userId) {
     startTrace("getUserById");
     Request request=new Request();
-    request.getRequest().put("userId",userId);
-    CompletionStage<Result> response = handleRequest(request,"readUserById");
+    request.getRequest().put(JsonKey.USER_ID,userId);
+    CompletionStage<Result> response = handleRequest(request,UserActorOperations.READ_USER_BY_ID.getOperation());
     endTrace("getUserById");
     return response;
   }
@@ -71,9 +73,11 @@ public class UserProfileReadController extends BaseController {
    * @return Return a promise of user response
    */
   public CompletionStage<Result> getUserByIdV2(String userId) {
-    startTrace("getUserByIdV2");
-    CompletionStage<Result> response = handelRequest();
-    endTrace("getUserByIdV2");
+    startTrace("getUserById");
+    Request request=new Request();
+    request.getRequest().put(JsonKey.USER_ID,userId);
+    CompletionStage<Result> response = handleRequest(request,UserActorOperations.READ_USER_BY_ID.getOperation());
+    endTrace("getUserById");
     return response;
   }
 
@@ -109,7 +113,7 @@ public class UserProfileReadController extends BaseController {
 
   public CompletionStage<Result> searchUser() {
     startTrace("searchUser");
-    CompletionStage<Result> response = handleRequest(request(),null,"searchUser");
+    CompletionStage<Result> response = handleRequest(request(),null, UserActorOperations.SEARCH_USER.getOperation());
     endTrace("searchUser");
     return response;
   }
