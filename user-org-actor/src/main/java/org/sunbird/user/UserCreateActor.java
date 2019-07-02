@@ -24,8 +24,8 @@ public class UserCreateActor extends BaseActor {
     private Response response = null;
 
     @Override
-    public void onReceive(Request  request) throws Throwable {
-        if(request.getOperation().equalsIgnoreCase(UserActorOperations.CREATE_USER.getOperation())){
+    public void onReceive(Request request) {
+        if (UserActorOperations.CREATE_USER.getOperation().equalsIgnoreCase(request.getOperation())) {
             createUser(request);
         } else {
             onReceiveUnsupportedMessage(this.getClass().getName());

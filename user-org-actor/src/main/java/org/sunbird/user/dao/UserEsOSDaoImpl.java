@@ -1,6 +1,6 @@
 package org.sunbird.user.dao;
 
-import org.sunbird.SearchDtoMapper;
+import org.sunbird.dto.SearchDtoMapper;
 import org.sunbird.common.factory.EsClientFactory;
 import org.sunbird.dto.SearchDTO;
 import org.sunbird.es.service.ElasticSearchService;

@@ -4,8 +4,6 @@ import org.sunbird.BaseActor;
 import org.sunbird.DaoImplType;
 import org.sunbird.actor.core.ActorConfig;
 import org.sunbird.actorOperation.UserActorOperations;
-import org.sunbird.common.factory.EsClientFactory;
-import org.sunbird.es.service.ElasticSearchService;
 import org.sunbird.exception.BaseException;
 import org.sunbird.request.Request;
 import org.sunbird.response.Response;
@@ -29,7 +27,8 @@ public class UserSearchActor extends BaseActor {
 
     @Override
     public void onReceive(Request request) throws Throwable {
-        if (request.getOperation().equalsIgnoreCase(UserActorOperations.SEARCH_USER.getOperation())) {
+
+        if (UserActorOperations.SEARCH_USER.getOperation().equalsIgnoreCase(request.getOperation())) {
             searchUser(request);
         } else {
             onReceiveUnsupportedMessage(this.getClass().getName());
