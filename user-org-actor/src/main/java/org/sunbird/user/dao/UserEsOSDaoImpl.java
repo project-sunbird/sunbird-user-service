@@ -18,6 +18,10 @@ import scala.concurrent.Future;
 
 import java.util.Map;
 
+
+/**
+ * @author anmolgupta
+ */
 public class UserEsOSDaoImpl implements IUserESDao {
 
     private ElasticSearchService es = EsClientFactory.getInstance(EsClientFactory.EsClient.REST.getName());
