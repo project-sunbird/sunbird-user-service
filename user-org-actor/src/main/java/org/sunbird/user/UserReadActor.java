@@ -16,6 +16,7 @@ import org.sunbird.util.jsonkey.JsonKey;
 
 /**
  * this actor class is used to read a used when operation provided is readUserById.
+ *
  * @author Amit Kumar
  */
 
@@ -41,13 +42,14 @@ public class UserReadActor extends BaseActor {
 
     /**
      * this method is used to read user from elastic search.
+     *
      * @param request
      * @throws BaseException
      */
     public void readUserById(Request request) throws BaseException {
-        ProjectLogger.log(String.format("%s:%s:method started at %s",this.getClass().getSimpleName(),"readUserById",System.currentTimeMillis()), LoggerEnum.DEBUG.name());
+        startTrace("readUserById");
         Response response = userESDao.getUserById((String) request.getRequest().get(JsonKey.USER_ID));
-        ProjectLogger.log(String.format("%s:%s:method ended at %s",this.getClass().getSimpleName(),"readUserById",System.currentTimeMillis()), LoggerEnum.DEBUG.name());
+        endTrace("readUserById");
         sender().tell(response, self());
     }
 

@@ -48,12 +48,11 @@ public class UserSearchActor extends BaseActor {
      * @throws BaseException
      */
     public void searchUser(Request request) throws BaseException {
-        ProjectLogger.log(String.format("%s:%s:method started at %s", this.getClass().getSimpleName(), "searchUser", System.currentTimeMillis()), LoggerEnum.DEBUG.name());
+        startTrace("searchUser");
         SearchDtoMapper searchDTOMapper = SearchDtoMapper.getInstance();
-        SearchDTO searchDto = searchDTOMapper.createSearchDto(request.getRequest());
+        SearchDTO searchDto = searchDTOMapper.map(request.getRequest());
         Response response = userESDao.searchUser(searchDto);
-        ProjectLogger.log(String.format("%s:%s:method ended at %s", this.getClass().getSimpleName(), "searchUser", System.currentTimeMillis()), LoggerEnum.DEBUG.name());
+        endTrace("searchUser");
         sender().tell(response, self());
     }
-
 }

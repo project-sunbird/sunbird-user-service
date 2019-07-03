@@ -14,6 +14,7 @@ import org.sunbird.util.ProjectLogger;
 
 /**
  * this actor class is used when the operation provided is createUser , to create a user
+ *
  * @author Amit Kumar
  */
 
@@ -38,14 +39,15 @@ public class UserCreateActor extends BaseActor {
 
     /**
      * this method is used to create the user
+     *
      * @param request
      */
     private void createUser(Request request) {
-        ProjectLogger.log(String.format("%s:%s:method started at %s",this.getClass().getSimpleName(),"createUser",System.currentTimeMillis()), LoggerEnum.DEBUG.name());
+        startTrace("createUser");
         IUserOSDao userDao = (IUserOSDao) UserDaoFactory.getDaoImpl(DaoImplType.OS.getType());
         try {
             response = userDao.createUser(request.getRequest());
-            ProjectLogger.log(String.format("%s:%s:method ended at %s",this.getClass().getSimpleName(),"createUser",System.currentTimeMillis()), LoggerEnum.DEBUG.name());
+            endTrace("createUser");
             sender().tell(response, self());
         } catch (BaseException ex) {
             sender().tell(ex, self());

@@ -29,7 +29,7 @@ public abstract class BaseActor extends UntypedAbstractActor {
             try {
                 ProjectLogger.log(String.format("%s:%s:method started at %s",this.getClass().getSimpleName(),operation,System.currentTimeMillis()), LoggerEnum.DEBUG);
                 onReceive(request);
-                ProjectLogger.log(String.format("%s:%s:method started at %s",this.getClass().getSimpleName(),operation,System.currentTimeMillis()), LoggerEnum.DEBUG);
+                ProjectLogger.log(String.format("%s:%s:method ended at %s",this.getClass().getSimpleName(),operation,System.currentTimeMillis()), LoggerEnum.DEBUG);
             } catch (Exception e) {
                 onReceiveException(operation, e);
             }
@@ -82,5 +82,36 @@ public abstract class BaseActor extends UntypedAbstractActor {
 
     protected String getLocalizedMessage(String key, Locale locale){
         return localizer.getMessage(key, locale);
+    }
+
+    /**
+     * This method will return the current timestamp.
+     *
+     * @return long
+     */
+    public long getTimeStamp() {
+        return System.currentTimeMillis();
+    }
+
+    /**
+     * This method we used to print the logs of starting time of methods
+     *
+     * @param tag
+     */
+    public void startTrace(String tag) {
+        ProjectLogger.log(
+                String.format("%s:%s:started at %s", this.getClass().getSimpleName(), tag, getTimeStamp()),
+                LoggerEnum.DEBUG.name());
+    }
+
+    /**
+     * This method we used to print the logs of ending time of methods
+     *
+     * @param tag
+     */
+    public void endTrace(String tag) {
+        ProjectLogger.log(
+                String.format("%s:%s:ended at %s", this.getClass().getSimpleName(), tag, getTimeStamp()),
+                LoggerEnum.DEBUG.name());
     }
 }

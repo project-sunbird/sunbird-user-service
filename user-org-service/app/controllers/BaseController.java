@@ -139,6 +139,8 @@ public class BaseController extends Controller {
             return new RequestHandler().handleRequest(request, httpExecutionContext, operation);
         } catch (org.everit.json.schema.ValidationException ex) {
             return RequestHandler.handleFailureResponse(ex, httpExecutionContext);
+        } catch (BaseException ex) {
+            return RequestHandler.handleFailureResponse(ex, httpExecutionContext);
         } catch (Exception ex) {
             return RequestHandler.handleFailureResponse(ex, httpExecutionContext);
         }
@@ -156,6 +158,8 @@ public class BaseController extends Controller {
         try {
             return new RequestHandler().handleRequest(req, httpExecutionContext, operation);
         } catch (org.everit.json.schema.ValidationException ex) {
+            return RequestHandler.handleFailureResponse(ex, httpExecutionContext);
+        } catch (BaseException ex) {
             return RequestHandler.handleFailureResponse(ex, httpExecutionContext);
         } catch (Exception ex) {
             return RequestHandler.handleFailureResponse(ex, httpExecutionContext);

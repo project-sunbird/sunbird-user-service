@@ -1,7 +1,5 @@
 package org.sunbird.dto;
 
-import org.sunbird.helper.EsConstant;
-
 import java.math.BigInteger;
 import java.util.*;
 
@@ -13,133 +11,170 @@ import java.util.*;
 
 
 public class SearchDtoMapper {
+    private SearchDTO search;
+    private Map<String, Object> searchQueryMap = null;
+    private static final String EXISTS = "exists";
+    private static final String NOT_EXISTS = "not_exists";
+    private static final String FILTERS = "filters";
+    private static final String GROUP_QUERY = "groupQuery";
+    private static final String SOFT_CONSTRAINTS = "softConstraints";
+    private static final String LIMIT = "limit";
+    private static final String OFFSET = "offset";
+    private static final String QUERY = "query";
+    private static final String QUERY_FIELDS = "queryFields";
+    private static final String FACETS = "facets";
+    private static final String FIELDS = "fields";
+    private static final String SORT_BY = "sort_by";
+
+    private SearchDtoMapper() {
+    }
 
 
+    /**
+     * this method will only return the instance for the class.
+     *
+     * @return
+     */
     public static SearchDtoMapper getInstance() {
         return new SearchDtoMapper();
     }
 
     /**
-     * this method will create SearchDto pojo object.
+     * this method will create SearchDto POJO object.
      *
-     * @param searchQueryMap
      * @return
      */
-    public SearchDTO createSearchDto(Map<String, Object> searchQueryMap) {
-        SearchDTO search = new SearchDTO();
-        setQuery(searchQueryMap, search);
-        setQueryFields(searchQueryMap, search);
-        setFacets(searchQueryMap, search);
-        setFields(searchQueryMap, search);
-        setFilters(searchQueryMap, search);
-        setExists(searchQueryMap, search);
-        setNotExists(searchQueryMap, search);
-        setSortBy(searchQueryMap, search);
-        setLimit(searchQueryMap, search);
-        setOffset(searchQueryMap, search);
-        setSoftConstraints(searchQueryMap, search);
-        setGroupQuery(searchQueryMap, search);
-        setSearchLimit(search);
-        setSearchLimitWithOffset(search);
+    public SearchDTO map(Map<String, Object> map) {
+        this.searchQueryMap = map;
+        search = new SearchDTO();
+        setQuery();
+        setQueryFields();
+        setFacets();
+        setFields();
+        setFilters();
+        setExists();
+        setNotExists();
+        setSortBy();
+        setLimit();
+        setOffset();
+        setSoftConstraints();
+        setGroupQuery();
+        setSearchLimit();
+        setSearchLimitWithOffset();
         return search;
     }
 
 
-    public SearchDTO setQuery(Map<String, Object> searchQueryMap, SearchDTO search) {
-        if (searchQueryMap.containsKey(EsConstant.QUERY)) {
-            search.setQuery((String) searchQueryMap.get(EsConstant.QUERY));
-            return search;
+    private void setQuery() {
+        if (searchQueryMap.containsKey(QUERY)) {
+            search.setQuery((String) searchQueryMap.get(QUERY));
         }
-        return search;
     }
 
-    public SearchDTO setQueryFields(Map<String, Object> searchQueryMap, SearchDTO search) {
-        if (searchQueryMap.containsKey(EsConstant.QUERY_FIELDS)) {
-            search.setQueryFields((List) searchQueryMap.get(EsConstant.QUERY_FIELDS));
+    private void setQueryFields() {
+        if (searchQueryMap.containsKey(QUERY_FIELDS)) {
+            search.setQueryFields((List) searchQueryMap.get(QUERY_FIELDS));
         }
-        return search;
+
+
     }
 
-    public SearchDTO setFacets(Map<String, Object> searchQueryMap, SearchDTO search) {
-        if (searchQueryMap.containsKey(EsConstant.FACETS)) {
-            search.setFacets((List) searchQueryMap.get(EsConstant.FACETS));
+    private void setFacets() {
+        if (searchQueryMap.containsKey(
+                FACETS)) {
+            search.setFacets((List) searchQueryMap.get(FACETS));
         }
-        return search;
+
+
     }
 
-    public SearchDTO setFields(Map<String, Object> searchQueryMap, SearchDTO search) {
-        if (searchQueryMap.containsKey(EsConstant.FIELDS)) {
-            search.setFields((List) searchQueryMap.get(EsConstant.FIELDS));
+    private void setFields() {
+        if (searchQueryMap.containsKey(FIELDS)) {
+            search.setFields((List) searchQueryMap.get(FIELDS));
         }
-        return search;
+
+
     }
 
-    public SearchDTO setFilters(Map<String, Object> searchQueryMap, SearchDTO search) {
-        if (searchQueryMap.containsKey(EsConstant.FILTERS)) {
-            search.getAdditionalProperties().put(EsConstant.FILTERS, searchQueryMap.get(EsConstant.FILTERS));
+    private void setFilters() {
+        if (searchQueryMap.containsKey(FILTERS)) {
+            search.getAdditionalProperties().put(FILTERS, searchQueryMap.get(FILTERS));
         }
-        return search;
+
+
     }
 
-    public SearchDTO setExists(Map<String, Object> searchQueryMap, SearchDTO search) {
-        if (searchQueryMap.containsKey(EsConstant.EXISTS)) {
-            search.getAdditionalProperties().put(EsConstant.EXISTS, searchQueryMap.get(EsConstant.EXISTS));
+    private void setExists() {
+        if (searchQueryMap.containsKey(EXISTS)) {
+            search.getAdditionalProperties().put(EXISTS, searchQueryMap.get(EXISTS));
         }
-        return search;
+
+
     }
 
-    public SearchDTO setNotExists(Map<String, Object> searchQueryMap, SearchDTO search) {
-        if (searchQueryMap.containsKey(EsConstant.NOT_EXISTS)) {
-            search.getAdditionalProperties().put(EsConstant.NOT_EXISTS, searchQueryMap.get(EsConstant.NOT_EXISTS));
+    private void setNotExists() {
+        if (searchQueryMap.containsKey(NOT_EXISTS)) {
+            search.getAdditionalProperties().put(NOT_EXISTS, searchQueryMap.get(NOT_EXISTS));
         }
-        return search;
+
+
     }
 
-    public SearchDTO setSortBy(Map<String, Object> searchQueryMap, SearchDTO search) {
+    private void setSortBy() {
 
-        if (searchQueryMap.containsKey(EsConstant.SORT_BY)) {
-            search.getSortBy().putAll((Map) searchQueryMap.get(EsConstant.SORT_BY));
+        if (searchQueryMap.containsKey(SORT_BY)) {
+            search.getSortBy().putAll((Map) searchQueryMap.get(SORT_BY));
         }
-        return search;
+
+
     }
 
-    public SearchDTO setOffset(Map<String, Object> searchQueryMap, SearchDTO search) {
+    private void setOffset() {
 
-        if (searchQueryMap.containsKey(EsConstant.OFFSET)) {
-            if (searchQueryMap.get(EsConstant.OFFSET) instanceof Integer) {
-                search.setOffset((Integer) searchQueryMap.get(EsConstant.OFFSET));
+        if (searchQueryMap.containsKey(OFFSET)) {
+            if (searchQueryMap.get(OFFSET) instanceof Integer) {
+                search.setOffset((Integer) searchQueryMap.get(OFFSET));
             } else {
-                search.setOffset(((BigInteger) searchQueryMap.get(EsConstant.OFFSET)).intValue());
+                search.setOffset(((BigInteger) searchQueryMap.get(OFFSET)).intValue());
             }
         }
-        return search;
+
+
     }
 
-    public SearchDTO setLimit(Map<String, Object> searchQueryMap, SearchDTO search) {
+    /**
+     * by default if not limit is passed default limit set to 250
+     *
+     */
+    private void setLimit() {
 
-        if (searchQueryMap.containsKey(EsConstant.LIMIT)) {
-            if (searchQueryMap.get(EsConstant.LIMIT) instanceof Integer) {
-                search.setLimit((Integer) searchQueryMap.get(EsConstant.LIMIT));
+        if (searchQueryMap.containsKey(
+                LIMIT)) {
+            if (searchQueryMap.get(LIMIT) instanceof Integer) {
+                search.setLimit((Integer) searchQueryMap.get(LIMIT));
             } else {
-                search.setLimit(((BigInteger) searchQueryMap.get(EsConstant.LIMIT)).intValue());
+                search.setLimit(((BigInteger) searchQueryMap.get(LIMIT)).intValue());
             }
         }
-        return search;
+
+
     }
 
-    public SearchDTO setGroupQuery(Map<String, Object> searchQueryMap, SearchDTO search) {
+    private void setGroupQuery() {
 
-        if (searchQueryMap.containsKey(EsConstant.GROUP_QUERY)) {
-            search.getGroupQuery().addAll((Collection) searchQueryMap.get(EsConstant.GROUP_QUERY));
+        if (searchQueryMap.containsKey(
+                GROUP_QUERY)) {
+            search.getGroupQuery().addAll((Collection) searchQueryMap.get(GROUP_QUERY));
         }
-        return search;
+
     }
 
-    public SearchDTO setSoftConstraints(Map<String, Object> searchQueryMap, SearchDTO search) {
+    private void setSoftConstraints() {
 
-        if (searchQueryMap.containsKey(EsConstant.SOFT_CONSTRAINTS)) {
+        if (searchQueryMap.containsKey(
+                SOFT_CONSTRAINTS)) {
             Map<String, Integer> constraintsMap = new HashMap();
-            Set<Map.Entry<String, BigInteger>> entrySet = ((Map) searchQueryMap.get(EsConstant.SOFT_CONSTRAINTS)).entrySet();
+            Set<Map.Entry<String, BigInteger>> entrySet = ((Map) searchQueryMap.get(SOFT_CONSTRAINTS)).entrySet();
             Iterator itr = entrySet.iterator();
 
             while (itr.hasNext()) {
@@ -148,24 +183,20 @@ public class SearchDtoMapper {
             }
             search.setSoftConstraints(constraintsMap);
         }
-        return search;
     }
 
-    public SearchDTO setSearchLimit(SearchDTO search) {
+    private void setSearchLimit() {
 
         if (search.getLimit() > 10000) {
             search.setLimit(10000);
         }
-        return search;
     }
 
-    public SearchDTO setSearchLimitWithOffset(SearchDTO search) {
+    private void setSearchLimitWithOffset() {
 
         if (search.getLimit() + search.getOffset() > 10000) {
             search.setLimit(10000 - search.getOffset());
         }
-        return search;
     }
-
 
 }

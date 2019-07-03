@@ -17,7 +17,6 @@ public class SearchDTO {
 
     @SuppressWarnings("rawtypes")
     private List<Map> properties;
-
     private List<Map<String, String>> facets = new ArrayList<>();
     private List<String> fields;
     private List<String> excludedFields;
@@ -26,7 +25,7 @@ public class SearchDTO {
     private String query;
     private List<String> queryFields;
 
-    private Integer limit = 250;
+    private Integer limit = 250;      // default limit set to 250
     private Integer offset = 0;
     private boolean fuzzySearch = false;
     // additional properties will hold , filters, exist , not exist
@@ -43,9 +42,10 @@ public class SearchDTO {
         this.groupQuery = groupQuery;
     }
 
-  public SearchDTO() {
-    super();
-  }
+
+    public SearchDTO() {
+        super();
+    }
 
     @SuppressWarnings("rawtypes")
     public SearchDTO(List<Map> properties, String operation, int limit) {
@@ -176,4 +176,6 @@ public class SearchDTO {
     public void setQueryFields(List<String> queryFields) {
         this.queryFields = queryFields;
     }
+
+
 }
