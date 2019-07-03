@@ -52,7 +52,7 @@ public class UserControllerTest extends BaseControllerTest {
   @Test
   public void testSuccessCreateUserV2Success() {
     Result result =
-        testHelper.performTest("/v2.3/user/create", "POST", getCreateUserRequest(), headerMap);
+        testHelper.performTest("/v2.3/user/create", "POST", getCreateUserRequest(), testHelper.getUserHeaderMap());
     assertTrue(testHelper.getResponseStatus(result) == Status.OK.getStatusCode());
   }
 
