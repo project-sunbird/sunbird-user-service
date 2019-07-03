@@ -1,4 +1,5 @@
 FROM openjdk:8-jdk-alpine
+MAINTAINER "S M Y ALTAMASH" "smy.altamash@gmail.com"
 WORKDIR /opt
 RUN apk update \
     && mkdir -p /opt/ \
@@ -10,5 +11,4 @@ ENV  PATH ${M2_HOME}/bin:${PATH}
 COPY . /opt/
 WORKDIR /opt/user-org-service
 RUN mvn clean install -DskipTests
-WORKDIR /opt/user-org-service
 RUN mvn play2:dist
