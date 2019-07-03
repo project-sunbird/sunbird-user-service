@@ -32,10 +32,9 @@ node('build-slave') {
             stage('Build') {
                 env.NODE_ENV = "build"
                 print "Environment will be : ${env.NODE_ENV}"
-//                sh('git submodule update --init')
-//                sh('git submodule update --init --recursive --remote')
+                sh('git submodule update --init')
+                sh('git submodule update --init --recursive --remote')
                 sh 'git log -1'
-//                sh 'cat service/conf/routes | grep v2'
                 sh 'mvn clean install'
             }
             stage('Package') {
