@@ -469,28 +469,6 @@ public class ElasticSearchHelper {
   }
 
   /**
-   * This method will create searchdto on this of searchquery provided
-   *
-   * @param searchQueryMap Map<String,Object> contains query
-   * @return SearchDto for search data in elastic search
-   */
-//  public static SearchDTO createSearchDTO(Map<String, Object> searchQueryMap) {
-//    SearchDTO search = new SearchDTO();
-//    search = getBasicBuiders(search, searchQueryMap);
-//    search = setOffset(search, searchQueryMap);
-//    search = getLimits(search, searchQueryMap);
-//    if (searchQueryMap.containsKey(EsConstant.GROUP_QUERY)) {
-//      search
-//          .getGroupQuery()
-//          .addAll(
-//              (Collection<? extends Map<String, Object>>)
-//                  searchQueryMap.get(EsConstant.GROUP_QUERY));
-//    }
-//    search = getSoftConstraints(search, searchQueryMap);
-//    return search;
-//  }
-
-  /**
    * This method add any softconstraints present in seach query to search DTo
    *
    * @param SearchDTO search which contains the search parameters for elastic search.
