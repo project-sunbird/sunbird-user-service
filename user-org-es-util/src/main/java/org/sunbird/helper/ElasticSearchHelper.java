@@ -62,7 +62,7 @@ public class ElasticSearchHelper {
   protected static Map<String, Boolean> indexMap = new HashMap<>();
   protected static Map<String, Boolean> typeMap = new HashMap<>();
   protected static final String ES_CONFIG_FILE = "elasticsearch.conf";
-  public static final int WAIT_TIME = 30;
+  public static final int WAIT_TIME = 5;     // elastic search time out
   public static Timeout timeout = new Timeout(WAIT_TIME, TimeUnit.SECONDS);
   public static final List<String> upsertResults =
       new ArrayList<>(Arrays.asList("CREATED", "UPDATED", "NOOP"));
@@ -466,28 +466,6 @@ public class ElasticSearchHelper {
    */
   public static long calculateEndTime(long startTime) {
     return System.currentTimeMillis() - startTime;
-  }
-
-  /**
-   * This method will create searchdto on this of searchquery provided
-   *
-   * @param searchQueryMap Map<String,Object> contains query
-   * @return SearchDto for search data in elastic search
-   */
-  public static SearchDTO createSearchDTO(Map<String, Object> searchQueryMap) {
-    SearchDTO search = new SearchDTO();
-    search = getBasicBuiders(search, searchQueryMap);
-    search = setOffset(search, searchQueryMap);
-    search = getLimits(search, searchQueryMap);
-    if (searchQueryMap.containsKey(EsConstant.GROUP_QUERY)) {
-      search
-          .getGroupQuery()
-          .addAll(
-              (Collection<? extends Map<String, Object>>)
-                  searchQueryMap.get(EsConstant.GROUP_QUERY));
-    }
-    search = getSoftConstraints(search, searchQueryMap);
-    return search;
   }
 
   /**

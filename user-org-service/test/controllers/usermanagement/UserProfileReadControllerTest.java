@@ -146,7 +146,7 @@ public class UserProfileReadControllerTest extends BaseControllerTest {
   public void testSearchUserSuccess() {
     Map<String, Object> reqMap = new HashMap<>();
     reqMap.put("id", "123555");
-    Result result = testHelper.performTest("/v1.3/user/search", "POST", reqMap, headerMap);
+    Result result = testHelper.performTest("/v1.3/user/search", "POST", reqMap, testHelper.getUserHeaderMap());
     assertTrue(testHelper.getResponseStatus(result) == Status.OK.getStatusCode());
   }
 
@@ -162,7 +162,8 @@ public class UserProfileReadControllerTest extends BaseControllerTest {
   public void testSearchPrivateUserSuccess() {
     Map<String, Object> reqMap = new HashMap<>();
     reqMap.put("id", "123555");
-    Result result = testHelper.performTest("/private/user/v1.3/search", "POST", reqMap, headerMap);
+    Result result = testHelper.performTest("/private/user/v1.3/search", "POST", reqMap, testHelper.getUserHeaderMap());
+    System.out.println( "the search api result "+Helpers.contentAsString(result));
     assertTrue(testHelper.getResponseStatus(result) == Status.OK.getStatusCode());
   }
 

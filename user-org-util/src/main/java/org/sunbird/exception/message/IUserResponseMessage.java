@@ -5,6 +5,8 @@ package org.sunbird.exception.message;
  */
 public interface IUserResponseMessage {
 
+    String USER_NOT_FOUND="USER_NOT_FOUND";
+
 
 
 }
