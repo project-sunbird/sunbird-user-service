@@ -27,8 +27,7 @@ import scala.concurrent.duration.FiniteDuration;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({org.sunbird.Application.class, BaseController.class, ActorRef.class, Await.class, OpenSaberApplication.class,SpringApplication.class})
@@ -78,7 +77,7 @@ public class BaseControllerTest {
   private Response getResponseObject() {
 
     Response response = new Response();
-    response.put("userId", "123");
+    response.put("ResponseCode", "success");
     return response;
   }
 

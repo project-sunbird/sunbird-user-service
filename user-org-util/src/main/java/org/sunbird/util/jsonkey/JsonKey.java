@@ -22,9 +22,10 @@ public interface JsonKey extends UserJsonKey{
   String LOG_LEVEL = "logLevel";
   String ERROR = "error";
   String EMPTY_STRING = "";
-
+  String RESPONSE="response";
   String PDATA_ID = "telemetry_pdata_id";
   String PDATA_PID = "telemetry_pdata_pid";
   String PDATA_VERSION = "telemetry_pdata_ver";
+  String GET_METHOD="get";
 
 }
