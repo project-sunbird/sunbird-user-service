@@ -2,94 +2,114 @@ package controllers;
 
 import akka.pattern.Patterns;
 import akka.util.Timeout;
-import org.apache.commons.lang3.StringUtils;
+import org.everit.json.schema.ValidationException;
 import org.sunbird.exception.BaseException;
 import org.sunbird.exception.message.IResponseMessage;
-import org.sunbird.exception.message.Localizer;
 import org.sunbird.exception.message.ResponseCode;
 import org.sunbird.request.Request;
 import org.sunbird.response.Response;
+import org.sunbird.util.LoggerEnum;
 import org.sunbird.util.ProjectLogger;
-import play.libs.Json;
+
+import org.sunbird.util.jsonkey.JsonKey;
 import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.Result;
 import play.mvc.Results;
 import scala.concurrent.Await;
 import scala.concurrent.Future;
-import utils.RequestMapper;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.TimeUnit;
 
-public class RequestHandler  extends BaseController{
 
-    public CompletionStage<Result> createHandelRequest(play.mvc.Http.Request request, HttpExecutionContext httpExecutionContext) {
-        Object obj = null;
+/**
+ * this class is used to handle the request and ask from actor and return response on the basis of success and failure to user.
+ * @author amitkumar
+ */
+public class RequestHandler extends BaseController {
+
+    /**
+     * this methis responsible to handle the request and ask from actor
+     * @param request
+     * @param httpExecutionContext
+     * @param operation
+     * @return CompletionStage<Result>
+     * @throws Exception
+     */
+    public CompletionStage<Result> handleRequest(Request request, HttpExecutionContext httpExecutionContext, String operation) throws Exception {
+        Object obj;
         CompletableFuture<String> cf = new CompletableFuture<>();
-        Request req = new Request();
-        try {
-        req = (Request) RequestMapper.mapRequest(request.body().asJson(), Request.class);
-        req.setOperation("createUser");
-        ProjectLogger.log("UserController:createUser :: Requested operation "+req.getOperation());
-        startTrace("handelRequest");
-        Timeout t = new Timeout(Long.valueOf(req.getTimeout()), TimeUnit.SECONDS);
-        Future<Object> future = Patterns.ask(getActorRef("createUser"),req,t);
-        obj = Await.result(future,t.duration());
-            if(obj instanceof Response){
-                Response res = (Response)obj;
-                cf.complete(String.valueOf(Json.toJson(res)));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        endTrace("handelRequest");
-        return cf.thenApplyAsync(Results::ok, httpExecutionContext.current());
+        request.setOperation(operation);
+        ProjectLogger.log(String.format("%s:%s:Requested operation %s",this.getClass().getSimpleName(),"handleRequest",operation), LoggerEnum.DEBUG.name());
+        startTrace("handleRequest");
+        Timeout t = new Timeout(Long.valueOf(request.getTimeout()), TimeUnit.SECONDS);
+        Future<Object> future = Patterns.ask(getActorRef(operation), request, t);
+        obj = Await.result(future, t.duration());
+        endTrace("handleRequest");
+        return handleResponse(obj,httpExecutionContext);
     }
 
     /**
-     * Common exception response handler method.
+     * This method will handle all the failure response of Api calls.
      *
-     * @param e Exception
-     * @param request play.mvc.Http.Request
-     * @return Result
+     * @param exception
+     * @return
      */
-    public Result createExceptionResponse(Exception e, Request request) {
-        Request req = request;
-        BaseException exception = null;
-        if (e instanceof BaseException) {
-            exception = (BaseException) e;
+    public static CompletionStage<Result> handleFailureResponse(Object exception, HttpExecutionContext httpExecutionContext) {
+
+        Response response = new Response();
+        CompletableFuture<String> future = new CompletableFuture<>();
+        if (exception instanceof org.everit.json.schema.ValidationException) {
+            String exceptionsMessages = String.join(" , ", ((ValidationException) exception).getAllMessages());
+            response.put(JsonKey.MESSAGE, exceptionsMessages);
+            response.setResponseCode(ResponseCode.BAD_REQUEST);
+            future.complete(jsonifyResponseObject(response));
+            return future.thenApplyAsync(Results::badRequest, httpExecutionContext.current());
+        } else if (exception instanceof BaseException) {
+            BaseException ex = (BaseException) exception;
+            response.setResponseCode(ResponseCode.BAD_REQUEST);
+            response.put(JsonKey.MESSAGE, ex.getMessage());
+            future.complete(jsonifyResponseObject(response));
+            if (ex.getResponseCode() == Results.badRequest().status()) {
+                return future.thenApplyAsync(Results::badRequest, httpExecutionContext.current());
+            } else {
+                return future.thenApplyAsync(Results::internalServerError, httpExecutionContext.current());
+            }
         } else {
-            exception = new BaseException(IResponseMessage.INTERNAL_ERROR, Localizer.getInstance().getMessage("ResponseCode.internalError",null),ResponseCode.SERVER_ERROR.getCode());
+            response.setResponseCode(ResponseCode.SERVER_ERROR);
+            response.put(JsonKey.MESSAGE,localizerObject.getMessage(IResponseMessage.INTERNAL_ERROR,null));
+            future.complete(jsonifyResponseObject(response));
+            return future.thenApplyAsync(Results::internalServerError, httpExecutionContext.current());
         }
-        // cleaning request info ...
-        return Results.status(
-                exception.getResponseCode(),
-                Json.toJson(createResponseOnException(req, exception)));
     }
 
-    public static Response createResponseOnException(
-            Request request, BaseException exception) {
-        Response response = new Response();
-        response.setVer("");
-        /**
-         * TODO revisit this code snippet
-         */
-        //response.setResponseCode(ResponseCode.getHeaderResponseCode(exception.getResponseCode()));
-        //ResponseCode code = ResponseCode.getResponse(exception.getCode());
-        //if (code == null) {
-        //    code = ResponseCode.SERVER_ERROR;
-        //}
-        if (response.getParams() != null) {
-            response.getParams().setStatus(response.getParams().getStatus());
-            if (exception.getCode() != null) {
-                response.getParams().setStatus(exception.getCode());
-            }
-            if (!StringUtils.isBlank(response.getParams().getErrmsg())
-                    && response.getParams().getErrmsg().contains("{0}")) {
-                response.getParams().setErrmsg(exception.getMessage());
-            }
+    /**
+     * this method will divert the response on the basis of success and failure
+     * @param object
+     * @param httpExecutionContext
+     * @return
+     */
+    public  static CompletionStage<Result> handleResponse(Object object, HttpExecutionContext httpExecutionContext) {
+
+        if (object instanceof Response) {
+            Response response = (Response) object;
+            return handleSuccessResponse(response, httpExecutionContext);
+        } else {
+            return handleFailureResponse(object, httpExecutionContext);
         }
-        return response;
+    }
+
+    /**
+     * This method will handle all the success response of Api calls.
+     *
+     * @param response
+     * @return
+     */
+
+    public static CompletionStage<Result> handleSuccessResponse(Response response, HttpExecutionContext httpExecutionContext) {
+        CompletableFuture<String> future = new CompletableFuture<>();
+        future.complete(jsonifyResponseObject(response));
+        return future.thenApplyAsync(Results::ok, httpExecutionContext.current());
     }
 }

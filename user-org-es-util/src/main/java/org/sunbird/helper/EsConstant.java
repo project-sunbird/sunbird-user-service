@@ -20,14 +20,10 @@ public class EsConstant {
   public static final String COUNT = "count";
   public static final String DATE_HISTOGRAM = "DATE_HISTOGRAM";
   public static final String NAME = "name";
-  public static final String SUNBIRD_ES_CHANNEL = "es.channel.name";
-  public static final String CHANNEL = "channel";
   public static final String TERM = "term";
   public static final String ORDER = "order";
   public static final String ID = "id";
   public static final String IDENTIFIER = "identifier";
   public static final String USER_INDEX_NAME = "user";
-  public static final String ES_METRICS_PORT = "es_metrics_port";
-  public static final String ES_URL = "es_search_url";
   public static final String RESPONSE = "response";
 }
