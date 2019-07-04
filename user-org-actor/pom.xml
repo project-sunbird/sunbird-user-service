@@ -27,13 +27,12 @@
             <groupId>io.opensaber</groupId>
             <artifactId>registry</artifactId>
             <version>2.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>io.opensaber</groupId>
+            <artifactId>registry</artifactId>
+            <version>2.0.2</version>
             <classifier>app</classifier>
-            <exclusions>
-                <exclusion>
-                    <groupId>io.opensaber</groupId>
-                    <artifactId>elastic-search</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
         <dependency>
