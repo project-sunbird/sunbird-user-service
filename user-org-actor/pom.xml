@@ -20,8 +20,8 @@
         </dependency>
         <!--  open saber dependency-->
         <dependency>
-            <groupId>io.opensaber</groupId>
-            <artifactId>registry</artifactId>
+            <groupId>org.sunbird</groupId>
+            <artifactId>user-registry</artifactId>
             <version>2.0.2</version>
             <exclusions>
                  <!--these dependencies needs to be excluded to avoid ElasticSearch jar conflict with open saber-->
@@ -42,8 +42,8 @@
             <!--end-->
         </dependency>
         <dependency>
-            <groupId>io.opensaber</groupId>
-            <artifactId>registry</artifactId>
+            <groupId>org.sunbird</groupId>
+            <artifactId>user-registry</artifactId>
             <version>2.0.2</version>
             <classifier>app</classifier>
         </dependency>
