@@ -1,3 +1,4 @@
 [submodule "sunbird-user-registry"]
 	path = sunbird-user-registry
 	url = https://github.com/project-sunbird/sunbird-user-registry
+	branch = master
