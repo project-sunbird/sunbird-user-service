@@ -1,5 +1,4 @@
 FROM openjdk:8-jre-alpine
-MAINTAINER "S M Y ALTAMASH" "smy.altamash@gmail.com"
 RUN apk update \
     && apk add  unzip \
     && apk add curl \
