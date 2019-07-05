@@ -39,9 +39,7 @@ node('build-slave') {
 		// build opensaber jar
 		dir('sunbird-user-registry') {
 	            sh './sb-registry-configure-dependencies.sh'
-		    sh 'cd java'
-		    sh 'ls'
-		    sh 'mvn clean install -DskipTests'
+		    sh 'cd java && mvn clean install -DskipTests'
 		}
 		sh "cd $currentDir"
 		// Build the dependencies for sunbird user-org service
