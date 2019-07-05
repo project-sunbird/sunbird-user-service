@@ -55,7 +55,7 @@ public class HealthControllerTest extends BaseControllerTest {
     public void testGetUserOrgServiceHealthSuccess() {
         Map<String, Object> reqMap = new HashMap<>();
         reqMap.put("accept", "yes");
-        Result result = testHelper.performTest("/user-org-service/health", "GET", reqMap, headerMap);
+        Result result = testHelper.performTest("/service/health", "GET", reqMap, headerMap);
         assertTrue(testHelper.getResponseStatus(result) == Response.Status.OK.getStatusCode());
     }
     @Test
