@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>user-org</artifactId>
         <groupId>org.sunbird</groupId>
@@ -24,7 +25,7 @@
             <artifactId>user-registry</artifactId>
             <version>2.0.2</version>
             <exclusions>
-                 <!--these dependencies needs to be excluded to avoid ElasticSearch jar conflict with open saber-->
+                <!--these dependencies needs to be excluded to avoid ElasticSearch jar conflict with open saber-->
                 <!--started-->
                 <exclusion>
                     <groupId>org.elasticsearch.client</groupId>
@@ -37,6 +38,11 @@
                 <exclusion>
                     <groupId>org.elasticsearch</groupId>
                     <artifactId>elasticsearch</artifactId>
+                </exclusion>
+                <!--dependency removed from akka-->
+                <exclusion>
+                    <groupId>com.typesafe.akka</groupId>
+                    <artifactId>akka-remote_2.11</artifactId>
                 </exclusion>
             </exclusions>
             <!--end-->
