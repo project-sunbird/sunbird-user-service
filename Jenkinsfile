@@ -40,6 +40,7 @@ node('build-slave') {
 		dir('sunbird-user-registry') {
 	            sh './sb-registry-configure-dependencies.sh'
 		    sh 'cd java'
+		    sh 'ls'
 		    sh 'mvn clean install -DskipTests'
 		}
 		sh "cd $currentDir"
