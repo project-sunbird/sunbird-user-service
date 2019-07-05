@@ -37,8 +37,9 @@ node('build-slave') {
                 sh('git submodule update --init --recursive --remote')
                 sh 'git log -1'
 		// build opensaber jar
-		dir('sunbird-user-registry/java') {
-	     
+		dir('sunbird-user-registry') {
+	            sh './sb-registry-configure-dependencies.sh'
+		    sh 'cd java'
 		    sh 'mvn clean install -DskipTests'
 		}
 		sh "cd $currentDir"
