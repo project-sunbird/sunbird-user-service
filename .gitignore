@@ -22,3 +22,4 @@ RUNNING_PID
 /bin/
 /logs
 .DS_Store
+setVars.sh

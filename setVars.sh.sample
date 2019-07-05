@@ -1,0 +1,34 @@
+# Sets up all environment vars.
+
+################### USER_ORG_SERVICE configuration ###################################
+export sunbird_es_host=127.0.0.1
+export sunbird_es_port=9300
+
+################### END - USER_ORG_SERVICE configuration #############################
+
+
+################### OpenSABER configuration ###################################
+############## Refer to application.yml.sample in user-registry ###############
+
+# Shard configuration - START
+export database_connectionInfo_0_shardId=1
+export database_connectionInfo_0_shardLabel=1
+export database_connectionInfo_0_username=postgres
+export database_connectionInfo_0_password=postgres1!
+export database_connectionInfo_0_uri=jdbc:postgresql://localhost:5432/tenantAdb
+
+export database_connectionInfo_1_shardId=2
+export database_connectionInfo_1_shardLabel=2
+export database_connectionInfo_1_username=postgres
+export database_connectionInfo_1_password=postgres1!
+export database_connectionInfo_1_uri=jdbc:postgresql://localhost:5432/tenantBdb
+
+export database_connectionInfo_2_shardId=3
+export database_connectionInfo_2_shardLabel=3
+export database_connectionInfo_2_username=postgres
+export database_connectionInfo_2_password=postgres1!
+export database_connectionInfo_2_uri=jdbc:postgresql://localhost:5432/custdb
+# Shard configuration - END
+
+
+######################## END - OpenSABER integration #########################
