@@ -39,6 +39,7 @@
                     <groupId>org.elasticsearch</groupId>
                     <artifactId>elasticsearch</artifactId>
                 </exclusion>
+                <!--dependency removed from akka-->
                 <exclusion>
                     <groupId>com.typesafe.akka</groupId>
                     <artifactId>akka-remote_2.11</artifactId>
