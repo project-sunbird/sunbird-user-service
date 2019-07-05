@@ -35,9 +35,16 @@ node('build-slave') {
                 sh('git submodule update --init')
                 sh('git submodule update --init --recursive --remote')
                 sh 'git log -1'
+		// build opensaber jar
+		dir('sunbird-user-registry') {
+		    sh 'mvn clean install -DskipTests'
+		}
+		sh "cd $currentWs"
+		// Build the dependencies for sunbird user-org service
                 sh 'mvn clean install'
             }
             stage('Package') {
+		// Create a deployment package
                 dir('user-org-service') {
                     sh 'mvn play2:dist'
 		    sh 'cp target/user-org-service-1.0.0-dist.zip ../../'
