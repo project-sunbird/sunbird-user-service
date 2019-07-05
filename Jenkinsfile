@@ -30,6 +30,7 @@ node('build-slave') {
             echo "build_tag: " + build_tag
 
             stage('Build') {
+		currentDir = sh(returnStdout: true, script: 'pwd').trim()
                 env.NODE_ENV = "build"
                 print "Environment will be : ${env.NODE_ENV}"
                 sh('git submodule update --init')
@@ -40,7 +41,7 @@ node('build-slave') {
 	     
 		    sh 'mvn clean install -DskipTests'
 		}
-		sh "cd $currentWs"
+		sh "cd $currentDir"
 		// Build the dependencies for sunbird user-org service
                 sh 'mvn clean install'
             }
