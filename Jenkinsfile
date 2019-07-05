@@ -40,6 +40,7 @@ node('build-slave') {
             stage('Package') {
                 dir('user-org-service') {
                     sh 'mvn play2:dist'
+		    sh 'cp target/user-org-service-1.0.0-dist.zip ../../'
                 }
                 sh('chmod 777 ./build.sh')
                 sh("./build.sh ${build_tag} ${env.NODE_NAME} ${hub_org}")

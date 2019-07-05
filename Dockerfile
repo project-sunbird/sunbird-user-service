@@ -7,7 +7,7 @@ RUN apk update \
     && mkdir -p /home/sunbird/ 
 RUN chown -R sunbird:sunbird /home/sunbird
 USER sunbird
-COPY ./user-org-service/target/user-org-service-1.0.0-dist.zip /home/sunbird/
+ADD . /home/sunbird/
 RUN unzip /home/sunbird/user-org-service-1.0.0-dist.zip -d /home/sunbird/
 EXPOSE 9000
 WORKDIR /home/sunbird/

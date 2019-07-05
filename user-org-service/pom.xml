@@ -230,9 +230,5 @@
             </snapshots>
             <url>https://jitpack.io</url>
         </repository>
-        <repository>
-            <id>registry</id>
-            <url>env.SUNBIRD_M2_REPO_PATH</url>
-        </repository>
     </repositories>
 </project>
