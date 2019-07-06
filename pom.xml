@@ -16,6 +16,7 @@
         <junit.version>4.12</junit.version>
     </properties>
     <modules>
+        <module>sunbird-user-registry/java</module>
         <module>user-org-util</module>
         <module>user-org-es-util</module>
         <module>actor-service</module>
