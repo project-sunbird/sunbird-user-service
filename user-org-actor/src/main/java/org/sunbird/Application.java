@@ -33,8 +33,7 @@ public class Application {
         List<String> actorClassPaths = new ArrayList<>();
         actorClassPaths.add("org.sunbird");
         ActorService.getInstance().init(USER_ORG_ACTOR_SYSTEM,actorClassPaths);
-        OpenSaberApplication.main(new String[0]);
-        applicationContext = OpenSaberApplication.getContext();
+        applicationContext = OpenSaberApplication.getAppContext();
     }
 
 
