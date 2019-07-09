@@ -26,4 +26,5 @@ public class EsConstant {
   public static final String IDENTIFIER = "identifier";
   public static final String USER_INDEX_NAME = "user";
   public static final String RESPONSE = "response";
+  public static final String INVALID_REQUEST_DATA = "Invalid requested data.";
 }
