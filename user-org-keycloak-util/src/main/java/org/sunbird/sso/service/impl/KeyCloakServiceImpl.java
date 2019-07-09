@@ -54,12 +54,9 @@ public class KeyCloakServiceImpl implements ISSOService {
   public String verifyToken(String accessToken) throws Exception {
     try {
       PublicKey publicKey = getPublicKey();
-      if (publicKey == null) {
-        ProjectLogger.log(
-            "KeyCloakServiceImpl: SSO_PUBLIC_KEY is NULL. Keycloak server may need to be started. Read value from environment variable.",
-            LoggerEnum.INFO);
-        publicKey = toPublicKey(System.getenv(SSOConstant.SSO_PUBLIC_KEY));
-      }
+      ProjectLogger.log(
+          "KeyCloakServiceImpl:verifyToken sso public key value " + publicKey,
+          LoggerEnum.INFO.name());
       if (publicKey != null) {
         AccessToken token =
             RSATokenVerifier.verifyToken(

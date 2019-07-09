@@ -43,7 +43,7 @@ public class KeyCloakRsaKeyFetcher {
       String publicKeyString = requestKeyFromKeycloak(url, realm);
       if (publicKeyString != null) {
         valueMap = getValuesFromJson(publicKeyString);
-        if (valueMap != null) {
+        if (valueMap != null && valueMap.size() > 0) {
           BigInteger modulus = new BigInteger(1, urlDecoder.decode(valueMap.get(MODULUS)));
           BigInteger publicExponent = new BigInteger(1, urlDecoder.decode(valueMap.get(EXPONENT)));
           PublicKey key = keyFactory.generatePublic(new RSAPublicKeySpec(modulus, publicExponent));
@@ -125,7 +125,7 @@ public class KeyCloakRsaKeyFetcher {
           "KeyCloakRsaKeyFetcher:getValuesFromJson: Exception occurred with message = "
               + e.getMessage(),
           LoggerEnum.ERROR);
-      return null;
+      return values;
     }
 
     return values;
