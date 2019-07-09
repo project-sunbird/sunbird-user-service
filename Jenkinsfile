@@ -30,17 +30,26 @@ node('build-slave') {
             echo "build_tag: " + build_tag
 
             stage('Build') {
+		currentDir = sh(returnStdout: true, script: 'pwd').trim()
                 env.NODE_ENV = "build"
                 print "Environment will be : ${env.NODE_ENV}"
-//                sh('git submodule update --init')
-//                sh('git submodule update --init --recursive --remote')
+                sh('git submodule update --init')
+                sh('git submodule update --init --recursive --remote')
                 sh 'git log -1'
-//                sh 'cat service/conf/routes | grep v2'
+		// build opensaber jar
+		dir('sunbird-user-registry') {
+	            sh './sb-registry-configure-dependencies.sh'
+		    sh 'cd java && mvn clean install -DskipTests'
+		}
+		sh "cd $currentDir"
+		// Build the dependencies for sunbird user-org service
                 sh 'mvn clean install'
             }
             stage('Package') {
+		// Create a deployment package
                 dir('user-org-service') {
                     sh 'mvn play2:dist'
+		    sh 'cp target/user-org-service-1.0.0-dist.zip ../'
                 }
                 sh('chmod 777 ./build.sh')
                 sh("./build.sh ${build_tag} ${env.NODE_NAME} ${hub_org}")

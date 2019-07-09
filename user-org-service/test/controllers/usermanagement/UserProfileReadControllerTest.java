@@ -2,6 +2,7 @@ package controllers.usermanagement;
 
 import static org.junit.Assert.*;
 
+import controllers.BaseControllerTest;
 import controllers.TestHelper;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +15,7 @@ import play.mvc.Result;
 import play.test.Helpers;
 
 /** This is a testClass for testing UserProfileReadController */
-public class UserProfileReadControllerTest {
+public class UserProfileReadControllerTest extends BaseControllerTest {
   TestHelper testHelper;
   public static Application app;
   public static Map<String, String[]> headerMap;
@@ -145,7 +146,7 @@ public class UserProfileReadControllerTest {
   public void testSearchUserSuccess() {
     Map<String, Object> reqMap = new HashMap<>();
     reqMap.put("id", "123555");
-    Result result = testHelper.performTest("/v1.3/user/search", "POST", reqMap, headerMap);
+    Result result = testHelper.performTest("/v1.3/user/search", "POST", reqMap, testHelper.getUserHeaderMap());
     assertTrue(testHelper.getResponseStatus(result) == Status.OK.getStatusCode());
   }
 
@@ -161,7 +162,8 @@ public class UserProfileReadControllerTest {
   public void testSearchPrivateUserSuccess() {
     Map<String, Object> reqMap = new HashMap<>();
     reqMap.put("id", "123555");
-    Result result = testHelper.performTest("/private/user/v1.3/search", "POST", reqMap, headerMap);
+    Result result = testHelper.performTest("/private/user/v1.3/search", "POST", reqMap, testHelper.getUserHeaderMap());
+    System.out.println( "the search api result "+Helpers.contentAsString(result));
     assertTrue(testHelper.getResponseStatus(result) == Status.OK.getStatusCode());
   }
 

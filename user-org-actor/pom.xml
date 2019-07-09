@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>user-org</artifactId>
@@ -8,9 +7,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
     <artifactId>user-org-actor</artifactId>
-
     <dependencies>
         <dependency>
             <groupId>org.reflections</groupId>
@@ -22,11 +19,55 @@
             <artifactId>user-org-util</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <!--  open saber dependency-->
+        <dependency>
+            <groupId>org.sunbird</groupId>
+            <artifactId>user-registry</artifactId>
+            <version>2.0.2</version>
+            <exclusions>
+                <!--these dependencies needs to be excluded to avoid ElasticSearch jar conflict with open saber-->
+                <!--started-->
+                <exclusion>
+                    <groupId>org.elasticsearch.client</groupId>
+                    <artifactId>elasticsearch-rest-client</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.elasticsearch.client</groupId>
+                    <artifactId>elasticsearch-rest-high-level-client</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.elasticsearch</groupId>
+                    <artifactId>elasticsearch</artifactId>
+                </exclusion>
+                <!--dependency removed from akka-->
+                <exclusion>
+                    <groupId>com.typesafe.akka</groupId>
+                    <artifactId>akka-remote_2.11</artifactId>
+                </exclusion>
+            </exclusions>
+            <!--end-->
+        </dependency>
+        <dependency>
+            <groupId>org.sunbird</groupId>
+            <artifactId>user-registry</artifactId>
+            <version>2.0.2</version>
+            <classifier>app</classifier>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>5.0.4.RELEASE</version>
+        </dependency>
         <dependency>
             <groupId>org.sunbird</groupId>
             <artifactId>actor-service</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>org.sunbird</groupId>
+            <artifactId>user-org-es</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
-
 </project>

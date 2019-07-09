@@ -1,11 +1,8 @@
 package org.sunbird.es.service.impl;
 
 import akka.dispatch.Futures;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 import java.util.stream.Collectors;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
@@ -186,7 +183,7 @@ public class ElasticSearchRestHighImpl implements ElasticSearchService {
    * This method will provide data form ES based on incoming identifier. we can get data by passing
    * index and identifier values , or all the three
    *
-   * @param type String
+   * @param index String
    * @param identifier String
    * @return Map<String,Object> or empty map
    */
@@ -215,7 +212,6 @@ public class ElasticSearchRestHighImpl implements ElasticSearchService {
                 }
               }
             }
-
             @Override
             public void onFailure(Exception e) {
 

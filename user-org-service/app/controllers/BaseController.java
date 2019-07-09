@@ -9,17 +9,18 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
+import java.util.function.Function;
 import javax.inject.Inject;
 
 import akka.actor.ActorRef;
 import org.sunbird.Application;
 import org.sunbird.exception.BaseException;
-import org.sunbird.exception.message.IResponseMessage;
+import org.sunbird.exception.message.Localizer;
 import org.sunbird.request.Request;
 import org.sunbird.response.Response;
 import org.sunbird.util.LoggerEnum;
 import org.sunbird.util.ProjectLogger;
-import org.sunbird.util.UserOrgJsonKey;
+import org.sunbird.util.jsonkey.JsonKey;
 import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -38,8 +39,12 @@ import utils.RequestMapper;
  */
 public class BaseController extends Controller {
 
-    /** We injected HttpExecutionContext to decrease the response time of APIs. */
-    @Inject private HttpExecutionContext httpExecutionContext;
+    /**
+     * We injected HttpExecutionContext to decrease the response time of APIs.
+     */
+    @Inject
+    private HttpExecutionContext httpExecutionContext;
+    protected static Localizer localizerObject = Localizer.getInstance();
 
     /**
      * This is temporary method we use get dummyresponse to check APIs.
@@ -98,57 +103,71 @@ public class BaseController extends Controller {
         return Application.getInstance().getActorRef(operation);
     }
 
-    public CompletionStage<Result> createHandelRequest(play.mvc.Http.Request request) {
-        return new RequestHandler().createHandelRequest(request,httpExecutionContext);
-    }
 
     /**
-     * This method will redirect Response object on the basis of error is present or not present in
-     * response
+     * this method will take play.mv.http request and a validation function and lastly operation(Actor operation)
+     * it will map the request to our sunbird Request class.
      *
-     * @param response
-     * @return CompletionStage<Result>
-     */
-    public CompletionStage<Result> handelResponse(Response response) {
-        String jsonifyResponse = jsonifyResponseObject(response);
-        return (Boolean) response.get(UserOrgJsonKey.ERROR)
-                ? handelFailureResponse(jsonifyResponse)
-                : handelSuccessResponse(jsonifyResponse);
-    }
-
-    /**
-     * This method will handel all the success response of Api calls.
-     *
-     * @param response
+     * @param request
+     * @param function
+     * @param operation
      * @return
      */
-    public CompletionStage<Result> handelSuccessResponse(String response) {
-        CompletableFuture<String> future = new CompletableFuture<>();
-        if (!response.isEmpty()) {
-            future.complete(response);
-            return future.thenApplyAsync(Results::ok, httpExecutionContext.current());
-        } else {
-            future.complete(IResponseMessage.INTERNAL_ERROR);
-            return future.thenApplyAsync(Results::internalServerError, httpExecutionContext.current());
+//    public CompletionStage<Result> handleRequest(play.mvc.Http.Request request, Function function, String operation) {
+//
+//        return handleRequest(req, function, operation);
+//    }
+
+
+    /**
+     * this method will take play.mv.http request and a validation function and lastly operation(Actor operation)
+     * this method is validating the request and ,
+     * it will map the request to our sunbird Request class and make a call to requestHandler which is internally calling ask to actor
+     * this method is used to handle all the request type which has requestBody
+     *
+     * @param req
+     * @param validatorFunction
+     * @param operation
+     * @return
+     */
+    public CompletionStage<Result> handleRequest(play.mvc.Http.Request req, Function validatorFunction, String operation) {
+        try {
+            Request request = (Request) RequestMapper.mapRequest(req, Request.class);
+            if (validatorFunction != null) {
+                validatorFunction.apply(request);
+            }
+            return new RequestHandler().handleRequest(request, httpExecutionContext, operation);
+        } catch (org.everit.json.schema.ValidationException ex) {
+            return RequestHandler.handleFailureResponse(ex, httpExecutionContext);
+        } catch (BaseException ex) {
+            return RequestHandler.handleFailureResponse(ex, httpExecutionContext);
+        } catch (Exception ex) {
+            return RequestHandler.handleFailureResponse(ex, httpExecutionContext);
         }
+
     }
 
     /**
-     * This method will handel all the failure response of Api calls.
+     * this method is used to handle the only GET requests.
      *
-     * @param response
+     * @param req
+     * @param operation
      * @return
      */
-    public CompletionStage<Result> handelFailureResponse(String response) {
-        CompletableFuture<String> future = new CompletableFuture<>();
-        if (!response.isEmpty()) {
-            future.complete(response);
-            return future.thenApplyAsync(Results::badRequest, httpExecutionContext.current());
-        } else {
-            future.complete(IResponseMessage.INTERNAL_ERROR);
-            return future.thenApplyAsync(Results::internalServerError, httpExecutionContext.current());
+    public CompletionStage<Result> handleRequest(Request req, String operation) {
+        try {
+            return new RequestHandler().handleRequest(req, httpExecutionContext, operation);
+        } catch (org.everit.json.schema.ValidationException ex) {
+            return RequestHandler.handleFailureResponse(ex, httpExecutionContext);
+        } catch (BaseException ex) {
+            return RequestHandler.handleFailureResponse(ex, httpExecutionContext);
+        } catch (Exception ex) {
+            return RequestHandler.handleFailureResponse(ex, httpExecutionContext);
         }
+
+
     }
+
 
     /**
      * This method is responsible to convert Response object into json
@@ -156,13 +175,13 @@ public class BaseController extends Controller {
      * @param response
      * @return string
      */
-    public String jsonifyResponseObject(Response response) {
+    public static String jsonifyResponseObject(Response response) {
 
         try {
             ObjectMapper mapper = new ObjectMapper();
             return mapper.writeValueAsString(response);
         } catch (Exception e) {
-            return UserOrgJsonKey.EMPTY_STRING;
+            return JsonKey.EMPTY_STRING;
         }
     }
 
@@ -175,34 +194,35 @@ public class BaseController extends Controller {
     public CompletionStage<Result> handleLogRequest() {
         startTrace("handleLogRequest");
         Response response = new Response();
-        Http.RequestBody requestBody = request().body();
         Request request = null;
-        try{
-            request = (Request) RequestMapper.mapRequest(requestBody.asJson(), Request.class);
-        } catch (Exception ex){
-            ex.printStackTrace();
+        try {
+            request = (Request) RequestMapper.mapRequest(request(), Request.class);
+        } catch (Exception ex) {
+            ProjectLogger.log(String.format("%s:%s:exception occurred in mapping request", this.getClass().getSimpleName(), "handleLogRequest"), LoggerEnum.ERROR.name());
+            return RequestHandler.handleFailureResponse(ex, httpExecutionContext);
         }
 
         if (LogValidator.isLogParamsPresent(request)) {
-            if (LogValidator.isValidLogLevelPresent((String) request.get(UserOrgJsonKey.LOG_LEVEL))) {
+            if (LogValidator.isValidLogLevelPresent((String) request.get(JsonKey.LOG_LEVEL))) {
                 ProjectLogger.setUserOrgServiceProjectLogger(
-                        (String) request.get(UserOrgJsonKey.LOG_LEVEL));
-                response.put(UserOrgJsonKey.ERROR, false);
+                        (String) request.get(JsonKey.LOG_LEVEL));
+                response.put(JsonKey.ERROR, false);
                 response.put(
-                        UserOrgJsonKey.MESSAGE,
-                        "Log Level successfully set to " + request.get(UserOrgJsonKey.LOG_LEVEL));
+                        JsonKey.MESSAGE,
+                        "Log Level successfully set to " + request.get(JsonKey.LOG_LEVEL));
             } else {
                 List<Enum> supportedLogLevelsValues = new ArrayList<>(EnumSet.allOf(LoggerEnum.class));
-                response.put(UserOrgJsonKey.ERROR, true);
+                response.put(JsonKey.ERROR, true);
                 response.put(
-                        UserOrgJsonKey.MESSAGE,
+                        JsonKey.MESSAGE,
                         "Valid Log Levels are " + Arrays.asList(supportedLogLevelsValues.toArray()));
             }
         } else {
-            response.put(UserOrgJsonKey.ERROR, true);
+            response.put(JsonKey.ERROR, true);
             response.put(
-                    UserOrgJsonKey.MESSAGE, "Missing Mandatory Request Param " + UserOrgJsonKey.LOG_LEVEL);
+                    JsonKey.MESSAGE, "Missing Mandatory Request Param " + JsonKey.LOG_LEVEL);
         }
-        return handelResponse(response);
+        return RequestHandler.handleSuccessResponse(response, httpExecutionContext);
     }
+
 }

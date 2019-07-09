@@ -4,7 +4,7 @@ import org.apache.commons.lang3.EnumUtils;
 import org.sunbird.request.Request;
 import org.sunbird.util.LoggerEnum;
 import org.sunbird.util.ProjectLogger;
-import org.sunbird.util.UserOrgJsonKey;
+import org.sunbird.util.jsonkey.JsonKey;
 
 public class LogValidator {
 
@@ -29,7 +29,7 @@ public class LogValidator {
    * @return boolean
    */
   public static boolean isLogParamsPresent(Request request) {
-    return (request != null && request.get(UserOrgJsonKey.LOG_LEVEL) != null) ? true : false;
+    return (request != null && request.get(JsonKey.LOG_LEVEL) != null) ? true : false;
   }
 
   /**

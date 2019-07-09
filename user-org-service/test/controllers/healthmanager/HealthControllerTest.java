@@ -1,5 +1,6 @@
 package controllers.healthmanager;
 
+import controllers.BaseControllerTest;
 import controllers.TestHelper;
 import org.junit.After;
 import org.junit.Before;
@@ -14,7 +15,7 @@ import java.util.Map;
 
 import static org.junit.Assert.*;
 
-public class HealthControllerTest {
+public class HealthControllerTest extends BaseControllerTest {
     TestHelper testHelper;
     public static Application app;
     public static Map<String, String[]> headerMap;
@@ -54,7 +55,7 @@ public class HealthControllerTest {
     public void testGetUserOrgServiceHealthSuccess() {
         Map<String, Object> reqMap = new HashMap<>();
         reqMap.put("accept", "yes");
-        Result result = testHelper.performTest("/user-org-service/health", "GET", reqMap, headerMap);
+        Result result = testHelper.performTest("/service/health", "GET", reqMap, headerMap);
         assertTrue(testHelper.getResponseStatus(result) == Response.Status.OK.getStatusCode());
     }
     @Test

@@ -1,35 +1,30 @@
 package org.sunbird;
 
 import akka.actor.ActorRef;
+import io.opensaber.registry.app.OpenSaberApplication;
+import org.springframework.context.ApplicationContext;
 import org.sunbird.actor.core.ActorCache;
 import org.sunbird.actor.core.ActorService;
-import org.sunbird.exception.ActorServiceException;
-import org.sunbird.exception.BaseException;
-import org.sunbird.exception.message.IResponseMessage;
-import org.sunbird.exception.message.Localizer;
-import org.sunbird.exception.message.ResponseCode;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author  Amit Kumar
+ * this class is used to instantiate the actor system and open saber.
+ * @author Amit Kumar
  */
 public class Application {
 
-    // static variable instance of type ActorService
-    private static Application instance = null;
-    private Localizer localizer = Localizer.getInstance();
+    private static Application instance = new Application();
+    public static ApplicationContext applicationContext;
+    private static final String USER_ORG_ACTOR_SYSTEM="userOrgActorSystem";
 
     // private constructor restricted to this class itself
-    private Application() { }
+    private Application() {
+    }
 
     // static method to create instance of ActorService class
-    public static Application getInstance()
-    {
-        if (instance == null)
-            instance = new Application();
-
+    public static Application getInstance() {
         return instance;
     }
 
@@ -37,16 +32,17 @@ public class Application {
     public void init() {
         List<String> actorClassPaths = new ArrayList<>();
         actorClassPaths.add("org.sunbird");
-        ActorService.getInstance().init("userOrgActorSystem",actorClassPaths);
+        ActorService.getInstance().init(USER_ORG_ACTOR_SYSTEM,actorClassPaths);
+        applicationContext = OpenSaberApplication.getAppContext();
     }
 
-    public ActorRef getActorRef(String operation) throws BaseException {
-        ActorRef actorRef = ActorCache.getActorRef(operation);
-        if ( null != actorRef ) {
-            return actorRef;
-        } else {
-            new ActorServiceException.InvalidOperationName(IResponseMessage.INVALID_OPERATION_NAME,localizer.getMessage(IResponseMessage.INVALID_OPERATION_NAME,null),ResponseCode.SERVER_ERROR.getCode());
-        }
-        return actorRef;
+
+    /**
+     * this method is used to get the reference of actor from in memory cache.
+     * @param operation
+     * @return
+     */
+    public ActorRef getActorRef(String operation) {
+        return ActorCache.getActorRef(operation);
     }
 }
