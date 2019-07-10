@@ -22,6 +22,12 @@ where <release_name> is typically the branch specified in the .gitmodules file.
 5. Build
 The user-registry is packaged with the necessities of this service. One can override those values, by running setupVars.sh script.
 
+> cd sunbird-user-registry 
+
+> ./sb-registry-configure-dependencies.sh
+
+> cd ..
+
 > mvn clean install
 
 5.1 Set vars (optional)
