@@ -7,7 +7,7 @@ export sunbird_es_port=9300
 ################### END - USER_ORG_SERVICE configuration #############################
 
 
-################### OpenSABER configuration ###################################
+################### USER_REGISTRY configuration ###################################
 ############## Refer to application.yml.sample in user-registry ###############
 
 # Shard configuration - START
@@ -31,4 +31,4 @@ export database_connectionInfo_2_uri=jdbc:postgresql://localhost:5432/custdb
 # Shard configuration - END
 
 
-######################## END - OpenSABER integration #########################
+######################## END - USER_REGISTRY integration #########################

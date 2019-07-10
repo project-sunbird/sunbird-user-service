@@ -30,19 +30,25 @@ public class ConnectionManager {
   private static RestHighLevelClient restClient = null;
   private static List<String> host = new ArrayList<>();
   private static List<Integer> ports = new ArrayList<>();
-  private static PropertiesCache propertiesCache = PropertiesCache.getInstance();
-  private static String cluster = propertiesCache.readProperty("es.cluster.name");
-  private static String hostName = propertiesCache.readProperty("es.host.name");
-  private static String port = propertiesCache.readProperty("es.host.port");
+  private static PropertiesCache propertiesCache = null;
+  private static String cluster = null;
+  private static String hostName = null;
+  private static String port = null;
 
-  static {
-    System.setProperty("es.set.netty.runtime.available.processors", "false");
-    initialiseConnection();
-    registerShutDownHook();
-    initialiseRestClientConnection();
+  private static void init() {
+    if (null == propertiesCache) {
+      // Ok to check for one of the properties.
+      propertiesCache = PropertiesCache.getInstance();
+      cluster = propertiesCache.readProperty("es.cluster.name");
+      hostName = propertiesCache.readProperty("es.host.name");
+      port = propertiesCache.readProperty("es.host.port");
+
+      System.setProperty("es.set.netty.runtime.available.processors", "false");
+      initialiseConnection();
+      registerShutDownHook();
+      initialiseRestClientConnection();
+    }
   }
-
-  private ConnectionManager() {}
 
   private static boolean initialiseRestClientConnection() {
     boolean response = false;
@@ -89,6 +95,7 @@ public class ConnectionManager {
    * @return TransportClient
    */
   public static TransportClient getClient() {
+    init();
     if (client == null) {
       ProjectLogger.log(
           "ConnectionManager:getClient: ELastic search clinet is null", LoggerEnum.INFO.name());
@@ -107,8 +114,9 @@ public class ConnectionManager {
    * @return TransportClient
    */
   public static RestHighLevelClient getRestClient() {
-    if (restClient == null) {
+    init();
 
+    if (restClient == null) {
       ProjectLogger.log(
           "ConnectionManager:getRestClient: eLastic search rest clinet is null",
           LoggerEnum.INFO.name());
@@ -209,6 +217,7 @@ public class ConnectionManager {
   public static boolean initialiseConnectionFromPropertiesFile(
       String cluster, String hostName, String port) {
     try {
+      init();
       String[] splitedHost = hostName.split(",");
       for (String val : splitedHost) {
         host.add(val);
