@@ -31,17 +31,46 @@ The user-registry is packaged with the necessities of this service. One can over
 > mvn clean install
 
 5.1 Set vars (optional)
-Make your own copy of setVars.sh.sample provided in this repo and let's call it setVars.sh
+Make your own copy of setVars.sh.sample provided in this repo and let's call it setVars.sh. You will have to set execute permissions in unix environments.
 >  ./setVars.sh
 
-6. Debug
+6. Run
 
+> cd user-org-service
+
+Debug mode
 > mvn play2:run
 
-7. Run (detached mode)
-
+Detached mode
 > mvn play2:start
 
-### Ensure the project is running
+### How to ensure the service is running
 
-> 
+Query the health status using the following curl command.
+
+` curl -X GET \
+    http://localhost:9000/health \
+    -H 'Postman-Token: 5a18db13-553c-42e6-9580-ebe2559646ad' \
+    -H 'cache-control: no-cache'    
+`
+
+Success response will be like 
+
+`{"id":"api.user.apiId",
+  "ver":"v1",
+  "ts":"2019-01-17 16:53:26:286+0530",
+  "params":{
+      "resmsgid":null,
+      "msgid":"8e27cbf5-e299-43b0-bca7-8347f7ejk5abcf",
+      "err":null,
+      "status":"success",
+      "errmsg":null
+  },
+  "responseCode":"OK",
+  "result":{
+     "response":{
+        "response":"SUCCESS",
+        "errors":[]
+     }
+  }
+}`
