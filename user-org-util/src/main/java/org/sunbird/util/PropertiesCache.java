@@ -11,7 +11,7 @@ import java.util.Properties;
  */
 public class PropertiesCache {
 
-  private final String[] fileName = {"externalResource.properties"};
+  private final String[] fileName = {"externalResource.properties", "sso.properties"};
   private final Properties configProp = new Properties();
   private static PropertiesCache propertiesCache = null;
 
