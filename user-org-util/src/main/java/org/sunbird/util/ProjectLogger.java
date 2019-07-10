@@ -1,17 +1,16 @@
 package org.sunbird.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.config.Configurator;
-import org.sunbird.util.jsonkey.JsonKey;
-
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.sunbird.util.jsonkey.JsonKey;
 
 /**
  * This class will used to log the project message in any level.
@@ -25,7 +24,6 @@ public class ProjectLogger {
   private static String dataId = "Sunbird";
   private static ObjectMapper mapper = new ObjectMapper();
   private static Logger rootLogger = (Logger) LogManager.getLogger("defaultLogger");
-  static PropertiesCache propertiesCache = PropertiesCache.getInstance();
 
   /** To log only message. */
   public static void log(String message) {
