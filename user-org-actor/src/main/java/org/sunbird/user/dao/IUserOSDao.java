@@ -21,7 +21,7 @@ public interface IUserOSDao {
      * @return response
      * @throws BaseException
      */
-    public Response createUser(Map<String, Object> user) throws BaseException;
+    Response createUser(Map<String, Object> user) throws BaseException;
 
 
 }
