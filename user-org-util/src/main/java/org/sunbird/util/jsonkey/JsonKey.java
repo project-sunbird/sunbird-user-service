@@ -22,12 +22,12 @@ public interface JsonKey extends UserJsonKey,OrgJsonKey {
   String ERROR = "error";
   String EMPTY_STRING = "";
   String RESPONSE="response";
-
   String ADDRESS = "address";
   String KEY = "key";
   String ERROR_MSG = "error_msg";
   String ATTRIBUTE = "attribute";
   String ERRORS = "errors";
   String SUCCESS = "success";
+
 
 }
