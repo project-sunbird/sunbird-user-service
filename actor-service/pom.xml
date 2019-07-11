@@ -11,22 +11,11 @@
 
     <artifactId>actor-service</artifactId>
 
-    <properties>
-        <version.compiler.plugin>2.3.1</version.compiler.plugin>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <scoverage.plugin.version>1.1.1</scoverage.plugin.version>
-        <slf4j.version>1.6.1</slf4j.version>
-        <logback.version>1.0.7</logback.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>com.typesafe.akka</groupId>
-            <artifactId>akka-actor_2.11</artifactId>
-            <version>2.5.23</version>
+            <artifactId>akka-actor_2.12</artifactId>
+            <version>${akka.x.version}</version>
         </dependency>
         <dependency>
             <groupId>org.reflections</groupId>
