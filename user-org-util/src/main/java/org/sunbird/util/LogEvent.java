@@ -69,14 +69,6 @@ public class LogEvent {
     edata.put(JsonKey.EKS, eks);
   }
 
-  public void setContext(String id, String ver) {
-    this.context = new HashMap<String, Object>();
-    Map<String, String> pdata = new HashMap<String, String>();
-    pdata.put(JsonKey.ID, id);
-    pdata.put(JsonKey.VER, ver);
-    this.context.put(JsonKey.PDATA, pdata);
-  }
-
   /**
    * Set the error data with this method
    *
