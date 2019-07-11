@@ -49,9 +49,12 @@ public class UserOSDaoImpl implements IUserOSDao {
     @Override
     public Response createUser(Map<String, Object> user) throws BaseException {
         Response response = new Response();
+        JsonNode userJsonNode = objectMapper.convertValue(user, JsonNode.class);
         try {
-            String userId = registryHelper.addEntity(objectMapper.convertValue(user, JsonNode.class), "");
-            response.put(JsonKey.USER_ID, userId);
+            String userId = registryHelper.addEntity(userJsonNode, "");
+            Map<String,Object> userMap = objectMapper.convertValue(userJsonNode, Map.class);
+            userMap.put(JsonKey.USER_ID,userId);
+            response.putAll(userMap);
             return response;
         } catch (Exception e) {
             ProjectLogger.log("Exception occurred while adding user to open saber.", e);

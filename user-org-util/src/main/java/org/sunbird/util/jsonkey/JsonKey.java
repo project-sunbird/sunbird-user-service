@@ -5,7 +5,7 @@ package org.sunbird.util.jsonkey;
  *
  * @author Manzarul
  */
-public interface JsonKey extends UserJsonKey{
+public interface JsonKey extends UserJsonKey,OrgJsonKey {
 
   String CLASS = "class";
   String DATA = "data";
@@ -26,6 +26,11 @@ public interface JsonKey extends UserJsonKey{
   String PDATA_ID = "telemetry_pdata_id";
   String PDATA_PID = "telemetry_pdata_pid";
   String PDATA_VERSION = "telemetry_pdata_ver";
-  String GET_METHOD="get";
+
+  String ADDRESS = "address";
+  String KEY = "key";
+  String ERROR_MSG = "error_msg";
+  String ATTRIBUTE = "attribute";
+  String ERRORS = "errors";
 
 }
