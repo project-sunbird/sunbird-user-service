@@ -1,7 +1,5 @@
 package org.sunbird.es.service.impl;
 
-import akka.dispatch.Futures;
-import akka.util.Timeout;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -10,6 +8,9 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+
+import akka.dispatch.Futures;
+import akka.util.Timeout;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.action.bulk.BulkItemResponse;
@@ -401,7 +402,7 @@ public class ElasticSearchTcpImpl implements ElasticSearchService {
   }
 
   /**
-   * @param List of document's ids
+   * @param ids of document's ids
    * @param fields List of fields which needs to captured
    * @param index of elastic search in which search need to be done
    * @return Map<String,Map<String,Object>> It will return a map with id as key and the data from ES

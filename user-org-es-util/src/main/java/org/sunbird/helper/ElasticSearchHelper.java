@@ -1,10 +1,8 @@
 package org.sunbird.helper;
 
-import akka.util.Timeout;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -14,6 +12,8 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+
+import akka.util.Timeout;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.action.search.SearchRequestBuilder;
@@ -471,8 +471,8 @@ public class ElasticSearchHelper {
   /**
    * This method add any softconstraints present in seach query to search DTo
    *
-   * @param SearchDTO search which contains the search parameters for elastic search.
-   * @param Map searchQueryMap which contains soft_constraints
+   * @param search which contains the search parameters for elastic search.
+   * @param searchQueryMap which contains soft_constraints
    * @return SearchDTO updated searchDTO which contains soft_constraits
    */
   private static SearchDTO getSoftConstraints(
@@ -497,8 +497,8 @@ public class ElasticSearchHelper {
   /**
    * This method adds any limits present in the search query
    *
-   * @param SearchDTO search which contains the search parameters for elastic search.
-   * @param Map searchQueryMap which contain limit
+   * @param search which contains the search parameters for elastic search.
+   * @param searchQueryMap which contain limit
    * @return SearchDTO updated searchDTO which contains limit
    */
   private static SearchDTO getLimits(SearchDTO search, Map<String, Object> searchQueryMap) {
@@ -515,8 +515,8 @@ public class ElasticSearchHelper {
   /**
    * This method adds offset if any present in the searchQuery
    *
-   * @param SearchDTO search which contains the search parameters for elastic search.
-   * @param map searchQueryMap which contains offset
+   * @param search which contains the search parameters for elastic search.
+   * @param  searchQueryMap which contains offset
    * @return SearchDTO updated searchDTO which contain offset
    */
   private static SearchDTO setOffset(SearchDTO search, Map<String, Object> searchQueryMap) {
@@ -533,8 +533,8 @@ public class ElasticSearchHelper {
   /**
    * This method adds basic query parameter to SearchDTO if any provided
    *
-   * @param SearchDTO search
-   * @param Map searchQueryMap
+   * @param search
+   * @param searchQueryMap
    * @return SearchDTO
    */
   private static SearchDTO getBasicBuiders(SearchDTO search, Map<String, Object> searchQueryMap) {
@@ -576,7 +576,7 @@ public class ElasticSearchHelper {
   /**
    * Method returns map which contains all the request data from elasticsearch
    *
-   * @param SearchResponse response from elastic search
+   * @param response response from elastic search
    * @param searchDTO searchDTO which was used to search data
    * @param finalFacetList Facets provide aggregated data based on a search query
    * @return Map which will have all the requested data
@@ -668,7 +668,7 @@ public class ElasticSearchHelper {
    * THis method will print when start time of the method
    *
    * @param message expected format of message is className:methodName: message
-   * @param time method start time
+   * @param startTime method start time
    */
   public static void logMethodEnd(String message, long startTime) {
     ProjectLogger.log(message + calculateEndTime(startTime), LoggerEnum.PERFLOG.name());
