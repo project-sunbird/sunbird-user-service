@@ -39,38 +39,12 @@ public class Request implements Serializable {
   public Request() {
     this.params = new RequestParams();
     this.params.setMsgid(requestId);
-    init();
   }
 
-  private void init() {
-    // Set the context here.
-    Map<String, Object> currContext = ExecutionContext.getCurrent().getContextValues();
-    context = currContext == null ? new HashMap<>() : new HashMap<>(currContext);
-    if (ExecutionContext.getCurrent()
-        .getGlobalContext()
-        .containsKey(HeaderParam.CURRENT_INVOCATION_PATH.getParamName())) {
-      context.put(
-          HeaderParam.REQUEST_PATH.getParamName(),
-          ExecutionContext.getCurrent()
-              .getGlobalContext()
-              .get(HeaderParam.CURRENT_INVOCATION_PATH.getParamName()));
-    }
-
-    // set request_id
-    requestId =
-        (String)
-            ExecutionContext.getCurrent()
-                .getGlobalContext()
-                .get(HeaderParam.REQUEST_ID.getParamName());
-  }
 
   public Request(Request request) {
     this.params = request.getParams();
     if (null == this.params) this.params = new RequestParams();
-    else if (!StringUtils.isBlank(this.params.getMsgid())) {
-      ExecutionContext.setRequestId(this.params.getMsgid());
-      this.requestId = this.params.getMsgid();
-    }
     if (StringUtils.isBlank(this.params.getMsgid()) && !StringUtils.isBlank(requestId))
       this.params.setMsgid(requestId);
     this.context.putAll(request.getContext());
