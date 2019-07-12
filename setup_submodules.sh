@@ -28,5 +28,3 @@ unset modName
 echo "done setting submodules..."
 
 ./setVars.sh
-echo "Copied your local application.yml"
-
