@@ -45,11 +45,6 @@
                     <groupId>org.elasticsearch</groupId>
                     <artifactId>elasticsearch</artifactId>
                 </exclusion>
-                <!--dependency removed for akka and scala-->
-                <exclusion>
-                    <groupId>com.typesafe.akka</groupId>
-                    <artifactId>akka-remote_2.11</artifactId>
-                </exclusion>
                 <exclusion>
                     <groupId>org.parboiled</groupId>
                     <artifactId>parboiled-scala_2.11</artifactId>
