@@ -39,16 +39,16 @@ node('build-slave') {
 		// build opensaber jar
 		dir('sunbird-user-registry') {
 	            sh './sb-registry-configure-dependencies.sh'
-		    sh 'cd java && mvn clean install -DskipTests'
+		    sh 'cd java && mvn clean install -u -DskipTests'
 		}
 		sh "cd $currentDir"
 		// Build the dependencies for sunbird user-org service
-                sh 'mvn clean install'
+                sh 'mvn clean install -u'
             }
             stage('Package') {
 		// Create a deployment package
                 dir('user-org-service') {
-                    sh 'mvn play2:dist'
+                    sh 'mvn play2:dist -u'
 		    sh 'cp target/user-org-service-1.0.0-dist.zip ../'
                 }
                 sh('chmod 777 ./build.sh')
