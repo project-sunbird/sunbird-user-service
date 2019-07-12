@@ -3,13 +3,16 @@ package org.sunbird.user;
 import akka.dispatch.Futures;
 import akka.dispatch.Mapper;
 import akka.pattern.Patterns;
+import akka.util.Timeout;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.sunbird.BaseActor;
 import org.sunbird.actor.core.ActorConfig;
+import org.sunbird.actorOperation.UserActorOperations;
 import org.sunbird.exception.BaseException;
 import org.sunbird.request.Request;
 import org.sunbird.response.Response;
+import org.sunbird.util.ProjectLogger;
 import org.sunbird.util.jsonkey.JsonKey;
 import scala.concurrent.Future;
 
@@ -17,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * this actor class is used to process the user attributes or entity
@@ -31,7 +35,7 @@ import java.util.Map;
 )
 public class UserAttributeProcessorActor extends BaseActor {
     @Override
-    public void onReceive(Request request) throws Throwable {
+    public void onReceive(Request request) {
         saveUserAttributes(request);
     }
 
@@ -47,29 +51,41 @@ public class UserAttributeProcessorActor extends BaseActor {
     private List<Future<Object>> getFutures(Map<String, Object> userMap) {
         List<Future<Object>> futures = new ArrayList<>();
 
-        if (userMap.containsKey(JsonKey.ADDRESS)
-                && CollectionUtils.isNotEmpty((List<Map<String, Object>>) userMap.get(JsonKey.ADDRESS))) {
-            futures.add(saveAddress(userMap));
+        if (CollectionUtils.isNotEmpty((List<Map<String, Object>>) userMap.get(JsonKey.ADDRESS))) {
+            Future<Object> future = saveAddress(userMap);
+            if (null != future) {
+                futures.add(future);
+            }
         }
 
-        if (userMap.containsKey(JsonKey.EDUCATION)
-                && CollectionUtils.isNotEmpty((List<Map<String, Object>>) userMap.get(JsonKey.EDUCATION))) {
-            futures.add(saveEducation(userMap));
+        if (CollectionUtils.isNotEmpty((List<Map<String, Object>>) userMap.get(JsonKey.EDUCATION))) {
+            Future<Object> future = saveEducation(userMap);
+            if (null != future) {
+                futures.add(future);
+            }
         }
 
-        if (userMap.containsKey(JsonKey.JOB_PROFILE)
-                && CollectionUtils.isNotEmpty(
+        if (CollectionUtils.isNotEmpty(
                 (List<Map<String, Object>>) userMap.get(JsonKey.JOB_PROFILE))) {
-            futures.add(saveJobProfile(userMap));
+            Future<Object> future = saveJobProfile(userMap);
+            if (null != future) {
+                futures.add(future);
+            }
         }
 
         if (CollectionUtils.isNotEmpty((List<Map<String, String>>) userMap.get(JsonKey.EXTERNAL_IDS))) {
-            futures.add(saveUserExternalIds(userMap));
+            Future<Object> future = saveUserExternalIds(userMap);
+            if (null != future) {
+                futures.add(future);
+            }
         }
 
         if (StringUtils.isNotBlank((String) userMap.get(JsonKey.ORGANISATION_ID))
                 || StringUtils.isNotBlank((String) userMap.get(JsonKey.ROOT_ORG_ID))) {
-            futures.add(saveUserOrgDetails(userMap));
+            Future<Object> future = saveUserOrgDetails(userMap);
+            if (null != future) {
+                futures.add(future);
+            }
         }
 
         return futures;
@@ -133,7 +149,25 @@ public class UserAttributeProcessorActor extends BaseActor {
     }
 
     private Future<Object> saveAddress(Map<String, Object> userMap) {
-        return null;
+        Map<String,Object> entity = new HashMap<>();
+        entity.put(JsonKey.ADDRESS,userMap.get(JsonKey.ADDRESS));
+        entity.put(JsonKey.USER_ID,userMap.get(JsonKey.USER_ID));
+        return saveEntity(entity, UserActorOperations.INSERT_ADDRESS.getOperation());
     }
 
+    private Future<Object> saveEntity(Map<String, Object> entity, String actorOperation) {
+        try {
+            Request request = new Request();
+            request.getRequest().putAll(entity);
+            request.setOperation(actorOperation);
+            Timeout t = new Timeout(Long.valueOf(request.getTimeout()), TimeUnit.SECONDS);
+            return Patterns.ask(getActorRef(actorOperation), request, t);
+        } catch (Exception ex) {
+            ProjectLogger.log(
+                    "UserAttributeProcessorActor:saveEntity: Exception occurred with error message = "
+                            + ex.getMessage(),
+                    ex);
+        }
+        return null;
+    }
 }

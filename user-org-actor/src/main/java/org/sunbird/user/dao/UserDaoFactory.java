@@ -19,8 +19,10 @@ public class UserDaoFactory {
      */
     public static Object getDaoImpl(String daoImplType) {
 
-        if (daoImplType.equalsIgnoreCase(DaoImplType.OS.getType())) {
+        if (daoImplType.equalsIgnoreCase(DaoImplType.USER_OS.getType())) {
             return UserOSDaoImpl.getInstance();
+        } else if (daoImplType.equalsIgnoreCase(DaoImplType.USER_ADDRESS.getType())) {
+            return UserOSAddressDaoImpl.getInstance();
         } else if (daoImplType.equalsIgnoreCase(DaoImplType.ES.getType())) {
             return UserESDaoImpl.getInstance();
         }

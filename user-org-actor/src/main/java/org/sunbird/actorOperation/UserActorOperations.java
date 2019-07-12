@@ -5,7 +5,8 @@ public enum UserActorOperations {
     CREATE_USER("createUser"),
     SEARCH_USER("searchUser"),
     READ_USER_BY_ID("readUserById"),
-    SAVE_USER_ATTRIBUTES("saveUserAttributes");
+    SAVE_USER_ATTRIBUTES("saveUserAttributes"),
+    INSERT_ADDRESS("insertUserAddress");
 
     private String operation;
 

@@ -5,7 +5,8 @@ package org.sunbird;
  */
 public enum DaoImplType {
 
-    OS("openSaber"),
+    USER_OS("userOpenSaber"),
+    USER_ADDRESS("userAddressOpenSaber"),
     ES("elasticsearch");
 
     private String type;

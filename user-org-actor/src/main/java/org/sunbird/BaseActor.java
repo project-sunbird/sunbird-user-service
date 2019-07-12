@@ -1,5 +1,6 @@
 package org.sunbird;
 
+import akka.actor.ActorRef;
 import akka.actor.UntypedAbstractActor;
 import org.sunbird.exception.ActorServiceException;
 import org.sunbird.exception.BaseException;
@@ -19,6 +20,8 @@ public abstract class BaseActor extends UntypedAbstractActor {
 
     public abstract void onReceive(Request request) throws Throwable;
     protected Localizer localizer = Localizer.getInstance();
+    private Application application = Application.getInstance();
+
 
     @Override
     public void onReceive(Object message) throws Throwable {
@@ -113,5 +116,9 @@ public abstract class BaseActor extends UntypedAbstractActor {
         ProjectLogger.log(
                 String.format("%s:%s:ended at %s", this.getClass().getSimpleName(), tag, getTimeStamp()),
                 LoggerEnum.DEBUG.name());
+    }
+
+    public ActorRef getActorRef(String actorOperation){
+       return application.getActorRef(actorOperation);
     }
 }
