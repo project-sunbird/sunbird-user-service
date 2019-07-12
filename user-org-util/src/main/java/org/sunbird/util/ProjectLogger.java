@@ -154,7 +154,6 @@ public class ProjectLogger {
     te.setEts(unixTime);
     te.setMid(mid);
     te.setVer(eVersion);
-    te.setContext(dataId, pVersion);
     String jsonMessage = null;
     try {
       te.setEdata(eks);

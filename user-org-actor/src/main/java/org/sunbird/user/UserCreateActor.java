@@ -9,6 +9,8 @@ import org.sunbird.request.Request;
 import org.sunbird.response.Response;
 import org.sunbird.user.dao.IUserOSDao;
 import org.sunbird.user.dao.UserDaoFactory;
+import org.sunbird.user.service.IUserService;
+import org.sunbird.user.service.UserServiceImpl;
 import org.sunbird.util.LoggerEnum;
 import org.sunbird.util.ProjectLogger;
 
@@ -27,6 +29,7 @@ import org.sunbird.util.ProjectLogger;
 public class UserCreateActor extends BaseActor {
 
     private Response response = null;
+    private IUserService userService = null;
 
     @Override
     public void onReceive(Request request) {
@@ -44,14 +47,14 @@ public class UserCreateActor extends BaseActor {
      */
     private void createUser(Request request) {
         startTrace("createUser");
-        IUserOSDao userDao = (IUserOSDao) UserDaoFactory.getDaoImpl(DaoImplType.OS.getType());
         try {
-            response = userDao.createUser(request.getRequest());
-            endTrace("createUser");
+            userService = new UserServiceImpl();
+            response = userService.createUser(request);
             sender().tell(response, self());
         } catch (BaseException ex) {
             sender().tell(ex, self());
         }
+        endTrace("createUser");
     }
 
 }
