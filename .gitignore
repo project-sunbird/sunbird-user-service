@@ -23,3 +23,5 @@ RUNNING_PID
 /logs
 .DS_Store
 setVars.sh
+sunbird-user-registry/**
+application.yml

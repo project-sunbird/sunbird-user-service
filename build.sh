@@ -1,4 +1,7 @@
 #!/bin/bash
+
+echo "Docker build script"
+
 # Build script
 set -eo pipefail
 

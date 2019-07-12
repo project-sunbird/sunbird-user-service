@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>user-org</artifactId>
         <groupId>org.sunbird</groupId>
@@ -7,6 +8,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>user-org-actor</artifactId>
+
+    <packaging>pom</packaging>
+    <modules>
+        <module>../sunbird-user-registry/java</module>
+    </modules>
+
     <dependencies>
         <dependency>
             <groupId>org.reflections</groupId>
@@ -24,7 +31,7 @@
             <artifactId>user-registry</artifactId>
             <version>2.0.2</version>
             <exclusions>
-                 <!--these dependencies needs to be excluded to avoid ElasticSearch jar conflict with open saber-->
+                <!--these dependencies needs to be excluded to avoid ElasticSearch jar conflict with open saber-->
                 <!--started-->
                 <exclusion>
                     <groupId>org.elasticsearch.client</groupId>
@@ -37,6 +44,26 @@
                 <exclusion>
                     <groupId>org.elasticsearch</groupId>
                     <artifactId>elasticsearch</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.parboiled</groupId>
+                    <artifactId>parboiled-scala_2.11</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-web</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-log4j</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>ch.qos.logback</groupId>
+                    <artifactId>logback-classic</artifactId>
                 </exclusion>
             </exclusions>
             <!--end-->

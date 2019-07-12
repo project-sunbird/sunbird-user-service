@@ -12,8 +12,8 @@ import play.mvc.Results;
  * @author Anmol
  */
 public class HealthController extends BaseController {
-
-  private static final String userOrgServiceName = "user-org-service";
+  // Service name must be "service" for the devops monitoring.
+  private static final String service = "service";
 
   /**
    * This action method is responsible for checking Health.
@@ -37,7 +37,7 @@ public class HealthController extends BaseController {
     CompletableFuture<String> cf = new CompletableFuture<>();
     cf.complete(getDummyResponse());
     endTrace("getUserOrgServiceHealth");
-    return health.equalsIgnoreCase(userOrgServiceName)
+    return service.equalsIgnoreCase(health)
         ? cf.thenApplyAsync(Results::ok)
         : cf.thenApplyAsync(Results::badRequest);
   }

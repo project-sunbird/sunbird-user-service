@@ -14,8 +14,8 @@
     <packaging>play2</packaging>
     <properties>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <play2.version>2.6.0</play2.version>
-        <scala.version>2.12.2</scala.version>
+        <play2.version>2.6.5</play2.version>
+        <scala.version>2.12.8</scala.version>
         <powermock.version>1.6.5</powermock.version>
         <httpClient.version>4.5.1</httpClient.version>
     </properties>
@@ -43,6 +43,12 @@
             <groupId>com.typesafe.play</groupId>
             <artifactId>play_2.12</artifactId>
             <version>${play2.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.scala-lang</groupId>
+                    <artifactId>scala-reflect</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.typesafe.play</groupId>
