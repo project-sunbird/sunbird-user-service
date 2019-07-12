@@ -8,6 +8,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>user-org-actor</artifactId>
+
+    <packaging>pom</packaging>
+    <modules>
+        <module>../sunbird-user-registry/java</module>
+    </modules>
+
     <dependencies>
         <dependency>
             <groupId>org.reflections</groupId>
@@ -39,10 +45,26 @@
                     <groupId>org.elasticsearch</groupId>
                     <artifactId>elasticsearch</artifactId>
                 </exclusion>
-                <!--dependency removed for akka-->
+                <!--dependency removed for akka and scala-->
                 <exclusion>
                     <groupId>com.typesafe.akka</groupId>
                     <artifactId>akka-remote_2.11</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.parboiled</groupId>
+                    <artifactId>parboiled-scala_2.11</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-web</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-log4j</artifactId>
                 </exclusion>
             </exclusions>
             <!--end-->
