@@ -47,45 +47,32 @@ public class UserAttributeProcessorActor extends BaseActor {
         Patterns.pipe(consolidatedFutureResponse, getContext().dispatcher()).to(sender());
     }
 
-    @SuppressWarnings("unchecked")
     private List<Future<Object>> getFutures(Map<String, Object> userMap) {
         List<Future<Object>> futures = new ArrayList<>();
 
-        if (CollectionUtils.isNotEmpty((List<Map<String, Object>>) userMap.get(JsonKey.ADDRESS))) {
-            Future<Object> future = saveAddress(userMap);
-            if (null != future) {
-                futures.add(future);
-            }
+        Future<Object> addressFuture = saveAddress(userMap);
+        if (null != addressFuture) {
+            futures.add(addressFuture);
         }
 
-        if (CollectionUtils.isNotEmpty((List<Map<String, Object>>) userMap.get(JsonKey.EDUCATION))) {
-            Future<Object> future = saveEducation(userMap);
-            if (null != future) {
-                futures.add(future);
-            }
+        Future<Object> educationFuture = saveEducation(userMap);
+        if (null != educationFuture) {
+            futures.add(educationFuture);
         }
 
-        if (CollectionUtils.isNotEmpty(
-                (List<Map<String, Object>>) userMap.get(JsonKey.JOB_PROFILE))) {
-            Future<Object> future = saveJobProfile(userMap);
-            if (null != future) {
-                futures.add(future);
-            }
+        Future<Object> jobProfileFuture = saveJobProfile(userMap);
+        if (null != jobProfileFuture) {
+            futures.add(jobProfileFuture);
         }
 
-        if (CollectionUtils.isNotEmpty((List<Map<String, String>>) userMap.get(JsonKey.EXTERNAL_IDS))) {
-            Future<Object> future = saveUserExternalIds(userMap);
-            if (null != future) {
-                futures.add(future);
-            }
+        Future<Object> externalIdFuture = saveUserExternalIds(userMap);
+        if (null != externalIdFuture) {
+            futures.add(externalIdFuture);
         }
 
-        if (StringUtils.isNotBlank((String) userMap.get(JsonKey.ORGANISATION_ID))
-                || StringUtils.isNotBlank((String) userMap.get(JsonKey.ROOT_ORG_ID))) {
-            Future<Object> future = saveUserOrgDetails(userMap);
-            if (null != future) {
-                futures.add(future);
-            }
+        Future<Object> userOrgFuture = saveUserOrgDetails(userMap);
+        if (null != userOrgFuture) {
+            futures.add(userOrgFuture);
         }
 
         return futures;
@@ -133,6 +120,10 @@ public class UserAttributeProcessorActor extends BaseActor {
     }
 
     private Future<Object> saveUserOrgDetails(Map<String, Object> userMap) {
+        if (StringUtils.isNotBlank((String) userMap.get(JsonKey.ORGANISATION_ID))
+                || StringUtils.isNotBlank((String) userMap.get(JsonKey.ROOT_ORG_ID))) {
+            return null;
+        }
         return null;
     }
 
@@ -149,10 +140,13 @@ public class UserAttributeProcessorActor extends BaseActor {
     }
 
     private Future<Object> saveAddress(Map<String, Object> userMap) {
-        Map<String,Object> entity = new HashMap<>();
-        entity.put(JsonKey.ADDRESS,userMap.get(JsonKey.ADDRESS));
-        entity.put(JsonKey.USER_ID,userMap.get(JsonKey.USER_ID));
-        return saveEntity(entity, UserActorOperations.INSERT_ADDRESS.getOperation());
+        if (CollectionUtils.isNotEmpty((List<Map<String, Object>>) userMap.get(JsonKey.ADDRESS))) {
+            Map<String, Object> entity = new HashMap<>();
+            entity.put(JsonKey.ADDRESS, userMap.get(JsonKey.ADDRESS));
+            entity.put(JsonKey.USER_ID, userMap.get(JsonKey.USER_ID));
+            return saveEntity(entity, UserActorOperations.INSERT_ADDRESS.getOperation());
+        }
+        return null;
     }
 
     private Future<Object> saveEntity(Map<String, Object> entity, String actorOperation) {
