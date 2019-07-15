@@ -1,7 +1,6 @@
 package org.sunbird.sso.service.impl;
 
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.powermock.api.mockito.PowerMockito.doNothing;
 import static org.powermock.api.mockito.PowerMockito.doReturn;
 import static org.powermock.api.mockito.PowerMockito.mock;
@@ -29,7 +28,6 @@ import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.sunbird.response.Response;
-import org.sunbird.sso.model.User;
 import org.sunbird.sso.service.ISSOService;
 import org.sunbird.sso.service.SSOServiceFactory;
 import org.sunbird.sso.util.KeyCloakConnectionProvider;
@@ -119,67 +117,9 @@ public class KeyCloakServiceImplTest {
   }
 
   @Test
-  public void testUserUpdateTestSuccessWithAllData() throws Exception {
-    User user = new User();
-    user.setId(userId.get("userId"));
-    user.setFirstName(userName);
-    user.setPhone("9870060000");
-    user.setPhoneVerified(true);
-    user.setEmail(userName.substring(0, 10));
-    user.setEmailVerified(true);
-    boolean response = keyCloakService.updateUser(user);
-    assertTrue(response);
-  }
-
-  @Test
-  public void testUpdateUserSuccessWithoutAnyField() throws Exception {
-    User user = new User();
-    user.setId(userId.get("userId"));
-    boolean result = keyCloakService.updateUser(user);
-    assertTrue(result);
-  }
-
-  @Test
   public void testDeactivateUserSuccess() {
     boolean response = keyCloakService.deactivateUser("123");
     assertFalse(response);
-  }
-
-  @Test
-  public void testAddUserLoginTimeSuccess() {
-    boolean response = keyCloakService.addUserLoginTime(userId.get("userId"));
-    Assert.assertEquals(true, response);
-  }
-
-  @Test
-  public void testGetLastLoginTimeSuccess() {
-    String lastLoginTime = keyCloakService.getLastLoginTime(userId.get("userId"));
-    Assert.assertNull(lastLoginTime);
-  }
-
-  @Test
-  public void testIsEmailVerifiedSuccess() {
-    boolean response = keyCloakService.isEmailVerified(userId.get("userId"));
-    Assert.assertEquals(false, response);
-  }
-
-  @Test
-  public void testSetEmailVerifiedSuccessWithVerifiedUpdateFalse() {
-    keyCloakService.updateEmailVerified(userId.get("userId"), false);
-    boolean response = keyCloakService.isEmailVerified(userId.get("userId"));
-    assertFalse(response);
-  }
-
-  @Test
-  public void testSetEmailVerifiedTrueSuccessWithVerifiedTrue() {
-    boolean response = keyCloakService.updateEmailVerified(userId.get("userId"), true);
-    assertTrue(response);
-  }
-
-  @Test
-  public void testSetEmailVerifiedSuccessWithVerifiedTrue() {
-    boolean response = keyCloakService.updateEmailVerified(userId.get("userId"), true);
-    assertTrue(response);
   }
 
   @Test
@@ -216,17 +156,5 @@ public class KeyCloakServiceImplTest {
   public void testUpdatePassword() throws Exception {
     boolean updated = keyCloakService.updatePassword(userId.get("userId"), "password");
     Assert.assertTrue(updated);
-  }
-
-  @Test
-  public void testGetUserByIdSuccess() {
-    User user = keyCloakService.getUserById(userId.get("userId"));
-    Assert.assertNotNull(user);
-  }
-
-  @Test
-  public void testGetUserByIdFailure() {
-    User user = keyCloakService.getUserById("unknownId");
-    Assert.assertNull(user);
   }
 }
