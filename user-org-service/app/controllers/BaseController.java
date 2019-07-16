@@ -1,5 +1,6 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import controllers.logsmanager.validator.LogValidator;
 
@@ -13,6 +14,7 @@ import java.util.function.Function;
 import javax.inject.Inject;
 
 import akka.actor.ActorRef;
+import org.json.JSONObject;
 import org.sunbird.Application;
 import org.sunbird.exception.BaseException;
 import org.sunbird.exception.message.Localizer;
@@ -134,7 +136,7 @@ public class BaseController extends Controller {
         try {
             Request request = (Request) RequestMapper.mapRequest(req, Request.class);
             if (validatorFunction != null) {
-                validatorFunction.apply(request);
+                validatorFunction.apply(req);
             }
             return new RequestHandler().handleRequest(request, httpExecutionContext, operation);
         } catch (org.everit.json.schema.ValidationException ex) {
@@ -164,7 +166,24 @@ public class BaseController extends Controller {
         } catch (Exception ex) {
             return RequestHandler.handleFailureResponse(ex, httpExecutionContext);
         }
+    }
 
+
+    /**
+     * this method is used to jsonify the request object
+     *
+     * @param request
+     * @return JSONObject
+     */
+    public JSONObject jsonifyRequestObject(JsonNode request) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            String value = mapper.writeValueAsString(request);
+            JSONObject requestAsJson = new JSONObject(value);
+            return requestAsJson;
+        } catch (Exception e) {
+            return null;
+        }
 
     }
 

@@ -1,10 +1,12 @@
 package controllers.usermanagement;
 
 import controllers.BaseController;
-import java.util.concurrent.CompletionStage;
-
+import org.json.JSONObject;
 import org.sunbird.actorOperation.UserActorOperations;
-import play.mvc.*;
+import play.mvc.Result;
+import utils.validator.uservalidator.UserModelValidator;
+
+import java.util.concurrent.CompletionStage;
 
 /**
  * This controller is used to handel request related to user based updation and creation.
@@ -15,27 +17,31 @@ import play.mvc.*;
  */
 public class UserController extends BaseController {
 
-  /**
-   * This method is used to create user
-   *
-   * @return Return a promise of created userResponse
-   */
-  public CompletionStage<Result> createUser() {
-    startTrace("createUser");
-    CompletionStage<Result> response = handleRequest(request(),null, UserActorOperations.CREATE_USER.getOperation());
-    endTrace("createUser");
-    return response;
-  }
+    /**
+     * This method is used to create user
+     *
+     * @return Return a promise of created userResponse
+     */
+    public CompletionStage<Result> createUser() {
+        startTrace("createUser");
+        CompletionStage<Result> response = handleRequest(request(), (request) -> {
+            JSONObject jsonObject = jsonifyRequestObject(request().body().asJson());
+            new UserModelValidator().validate(jsonObject, request().uri());
+            return null;
+        }, UserActorOperations.CREATE_USER.getOperation());
+        endTrace("createUser");
+        return response;
+    }
 
-  /**
-   * This method is used to create user in this method userName is not mandatory
-   *
-   * @return Return a promise of created userResponse
-   */
-  public CompletionStage<Result> createUserV2() {
-    startTrace("createUserV2");
-    CompletionStage<Result> response = handleRequest(request(),null,UserActorOperations.CREATE_USER.getOperation());
-    endTrace("createUserV2");
-    return response;
-  }
+    /**
+     * This method is used to create user in this method userName is not mandatory
+     *
+     * @return Return a promise of created userResponse
+     */
+    public CompletionStage<Result> createUserV2() {
+        startTrace("createUserV2");
+        CompletionStage<Result> response = handleRequest(request(), null, UserActorOperations.CREATE_USER.getOperation());
+        endTrace("createUserV2");
+        return response;
+    }
 }
