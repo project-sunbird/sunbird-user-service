@@ -1,18 +1,7 @@
 package controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import controllers.logsmanager.validator.LogValidator;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionStage;
-import java.util.function.Function;
-import javax.inject.Inject;
-
 import akka.actor.ActorRef;
+import controllers.logsmanager.validator.LogValidator;
 import org.sunbird.Application;
 import org.sunbird.exception.BaseException;
 import org.sunbird.exception.message.Localizer;
@@ -27,6 +16,15 @@ import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Results;
 import utils.RequestMapper;
+
+import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
+import java.util.function.Function;
 
 /**
  * This controller we can use for writing some common method to handel api request.
@@ -166,23 +164,6 @@ public class BaseController extends Controller {
         }
 
 
-    }
-
-
-    /**
-     * This method is responsible to convert Response object into json
-     *
-     * @param response
-     * @return string
-     */
-    public static String jsonifyResponseObject(Response response) {
-
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            return mapper.writeValueAsString(response);
-        } catch (Exception e) {
-            return JsonKey.EMPTY_STRING;
-        }
     }
 
     /**

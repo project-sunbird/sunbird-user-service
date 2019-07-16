@@ -7,6 +7,7 @@ import org.sunbird.request.Request;
 import org.sunbird.response.Response;
 import org.sunbird.user.service.AddressServiceImpl;
 import org.sunbird.user.service.IAddressService;
+import org.sunbird.util.ProjectLogger;
 
 /**
  * this actor class is used to process the user Address entity
@@ -15,7 +16,7 @@ import org.sunbird.user.service.IAddressService;
  */
 
 @ActorConfig(
-        tasks = {"insertUserAddress", "updateUserAddress"},
+        tasks = {"createUserAddress", "updateUserAddress"},
         dispatcher = "user-dispatcher",
         asyncTasks = {}
 )
@@ -29,7 +30,7 @@ public class UserAddressManagementActor extends BaseActor {
         String operation = request.getOperation();
         switch (operation) {
             case "insertUserAddress":
-                insertAddress(request);
+                createAddress(request);
                 break;
 
             case "updateUserAddress":
@@ -44,13 +45,14 @@ public class UserAddressManagementActor extends BaseActor {
     private void updateAddress(Request request) {
     }
 
-    private void insertAddress(Request request) {
+    private void createAddress(Request request) {
         startTrace("insertUserAddress");
         try {
             addressService = new AddressServiceImpl();
-            response = addressService.insertAddress(request);
+            response = addressService.createAddress(request);
             sender().tell(response, self());
         } catch (BaseException ex) {
+            ProjectLogger.log("UserAddressManagementActor:insertAddress : Exception occurred while inserting user address : ",ex);
             sender().tell(ex, self());
         }
         endTrace("insertUserAddress");

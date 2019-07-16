@@ -3,7 +3,6 @@ package org.sunbird.user;
 import akka.dispatch.Futures;
 import akka.dispatch.Mapper;
 import akka.pattern.Patterns;
-import akka.util.Timeout;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.sunbird.BaseActor;
@@ -20,10 +19,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
- * this actor class is used to process the user attributes or entity
+ * this actor class is used to process the user attributes or entity (Address, Education, Job Profile, User Org Relation,
+ * User External Ids)
  *
  * @author Amit Kumar
  */
@@ -34,6 +33,9 @@ import java.util.concurrent.TimeUnit;
         asyncTasks = {}
 )
 public class UserAttributeProcessorActor extends BaseActor {
+
+    List<Future<Object>> futures = new ArrayList<>();
+
     @Override
     public void onReceive(Request request) {
         saveUserAttributes(request);
@@ -48,34 +50,18 @@ public class UserAttributeProcessorActor extends BaseActor {
     }
 
     private List<Future<Object>> getFutures(Map<String, Object> userMap) {
-        List<Future<Object>> futures = new ArrayList<>();
-
-        Future<Object> addressFuture = saveAddress(userMap);
-        if (null != addressFuture) {
-            futures.add(addressFuture);
-        }
-
-        Future<Object> educationFuture = saveEducation(userMap);
-        if (null != educationFuture) {
-            futures.add(educationFuture);
-        }
-
-        Future<Object> jobProfileFuture = saveJobProfile(userMap);
-        if (null != jobProfileFuture) {
-            futures.add(jobProfileFuture);
-        }
-
-        Future<Object> externalIdFuture = saveUserExternalIds(userMap);
-        if (null != externalIdFuture) {
-            futures.add(externalIdFuture);
-        }
-
-        Future<Object> userOrgFuture = saveUserOrgDetails(userMap);
-        if (null != userOrgFuture) {
-            futures.add(userOrgFuture);
-        }
-
+        addFuture(saveAddress(userMap));
+        addFuture(saveEducation(userMap));
+        addFuture(saveJobProfile(userMap));
+        addFuture(saveUserExternalIds(userMap));
+        addFuture(saveUserOrgDetails(userMap));
         return futures;
+    }
+
+    private void addFuture(Future<Object> future){
+        if(null != future){
+            futures.add(future);
+        }
     }
 
     private Future<Response> getConsolidatedFutureResponse(Future<Iterable<Object>> futuresSequence) {
@@ -144,7 +130,7 @@ public class UserAttributeProcessorActor extends BaseActor {
             Map<String, Object> entity = new HashMap<>();
             entity.put(JsonKey.ADDRESS, userMap.get(JsonKey.ADDRESS));
             entity.put(JsonKey.USER_ID, userMap.get(JsonKey.USER_ID));
-            return saveEntity(entity, UserActorOperations.INSERT_ADDRESS.getOperation());
+            return saveEntity(entity, UserActorOperations.CREATE_ADDRESS.getOperation());
         }
         return null;
     }
@@ -154,7 +140,6 @@ public class UserAttributeProcessorActor extends BaseActor {
             Request request = new Request();
             request.getRequest().putAll(entity);
             request.setOperation(actorOperation);
-            Timeout t = new Timeout(Long.valueOf(request.getTimeout()), TimeUnit.SECONDS);
             return Patterns.ask(getActorRef(actorOperation), request, t);
         } catch (Exception ex) {
             ProjectLogger.log(

@@ -11,5 +11,5 @@ public interface IAddressService {
      * @param request
      * @return Response
      */
-    Response insertAddress(Request request) throws BaseException;
+    Response createAddress(Request request) throws BaseException;
 }

@@ -22,7 +22,7 @@ import java.util.Map;
 /**
  * @author anmolgupta
  */
-public class UserESDaoImpl implements IUserESDao {
+public class UserESDaoImpl implements IUserDao {
 
     private ElasticSearchService es = EsClientFactory.getInstance(EsClientFactory.EsClient.REST.getName());
     private Localizer localizer = Localizer.getInstance();
@@ -38,7 +38,6 @@ public class UserESDaoImpl implements IUserESDao {
     public static UserESDaoImpl getInstance() {
         return new UserESDaoImpl();
     }
-
 
     /**
      * this method  is used to get the user W.R.T id
@@ -76,5 +75,11 @@ public class UserESDaoImpl implements IUserESDao {
         return response;
     }
 
+
+
+    @Override
+    public Response createUser(Map<String, Object> user) throws BaseException {
+        return null;
+    }
 
 }

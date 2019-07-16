@@ -17,7 +17,7 @@ public interface IUserAddressDao {
      * @param userAddress
      * @return Response
      */
-    Response insertAddress(Map<String, Object> userAddress) throws BaseException;
+    Response createAddress(Map<String, Object> userAddress) throws BaseException;
 
     /**
      *

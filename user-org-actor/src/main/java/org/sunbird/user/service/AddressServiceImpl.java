@@ -18,11 +18,11 @@ import java.util.Map;
 
 public class AddressServiceImpl implements IAddressService {
     @Override
-    public Response insertAddress(Request request) throws BaseException {
-        return insert(request);
+    public Response createAddress(Request request) throws BaseException {
+        return create(request);
     }
 
-    private Response insert(Request request) {
+    private Response create(Request request) {
         Map<String, Object> requestMap = request.getRequest();
         String userId = (String)requestMap.get(JsonKey.USER_ID);
         List<Map<String, Object>> addressList =
@@ -69,7 +69,7 @@ public class AddressServiceImpl implements IAddressService {
         IUserAddressDao userAddressDao = (IUserAddressDao) UserDaoFactory.getDaoImpl(DaoImplType.USER_ADDRESS.getType());
         Map<String,Object> userAddressReq = new HashMap<>();
         userAddressReq.put(StringUtils.capitalize(JsonKey.ADDRESS),address);
-        userAddressDao.insertAddress(userAddressReq);
+        userAddressDao.createAddress(userAddressReq);
         return address;
     }
 }

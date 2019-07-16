@@ -2,13 +2,27 @@ package org.sunbird.user.dao;
 
 import org.sunbird.dto.SearchDTO;
 import org.sunbird.exception.BaseException;
+import org.sunbird.exception.message.Localizer;
 import org.sunbird.response.Response;
 
+import java.util.Map;
+
+
 /**
- * this is an interface class used to perform search operation from elastic search
- * @author anmolgupta
+ * @author Amit Kumar
  */
-public interface IUserESDao {
+public interface IUserDao {
+
+    Localizer localizer = Localizer.getInstance();
+
+
+    /**
+     * this method will create a user in open saber
+     * @param user
+     * @return response
+     * @throws BaseException
+     */
+    Response createUser(Map<String, Object> user) throws BaseException;
 
     /**
      * this method will be used to get user by id from elastic search.
@@ -26,4 +40,5 @@ public interface IUserESDao {
      * @throws BaseException
      */
     public Response searchUser(SearchDTO searchDTO) throws BaseException;
+
 }

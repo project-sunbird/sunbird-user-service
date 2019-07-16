@@ -4,13 +4,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.opensaber.registry.helper.RegistryHelper;
 import org.sunbird.Application;
-import org.sunbird.exception.BaseException;
-import org.sunbird.exception.ProjectCommonException;
-import org.sunbird.exception.message.IResponseMessage;
 import org.sunbird.exception.message.Localizer;
-import org.sunbird.exception.message.ResponseCode;
 import org.sunbird.response.Response;
-import org.sunbird.util.ProjectLogger;
 import org.sunbird.util.jsonkey.JsonKey;
 
 import java.util.Map;
@@ -46,7 +41,7 @@ public class OSDaoImpl implements IOSDao{
     }
 
     @Override
-    public Response readEntity(Map<String, Object> entity, boolean requireLDResponse) throws Exception {
+    public Response readJSONLDEntity(Map<String, Object> entity) throws Exception {
         return null;
     }
 
@@ -61,7 +56,7 @@ public class OSDaoImpl implements IOSDao{
     }
 
     @Override
-    public Response updateEntity(Map<String, Object> entity, String userId) throws Exception {
+    public Response updateEntity(Map<String, Object> entity, String entityId) throws Exception {
         return null;
     }
 }

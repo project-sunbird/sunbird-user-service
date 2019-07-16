@@ -11,7 +11,7 @@ import org.sunbird.actorOperation.UserActorOperations;
 import org.sunbird.exception.BaseException;
 import org.sunbird.request.Request;
 import org.sunbird.response.Response;
-import org.sunbird.user.dao.IUserOSDao;
+import org.sunbird.user.dao.IUserDao;
 import org.sunbird.user.dao.UserDaoFactory;
 import org.sunbird.user.pojo.User;
 import org.sunbird.util.jsonkey.JsonKey;
@@ -29,7 +29,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     public Response createUser(Request request) throws BaseException{
         Response response = new Response();
-        IUserOSDao userDao = (IUserOSDao) UserDaoFactory.getDaoImpl(DaoImplType.USER_OS.getType());
+        IUserDao userDao = (IUserDao) UserDaoFactory.getDaoImpl(DaoImplType.OS.getType());
         Response userDaoResponse = userDao.createUser(getUser(request));
         response.getResult().put(JsonKey.USER_ID,userDaoResponse.get(JsonKey.ID));
         Response userResponse = saveUserAttributes(request,(String)userDaoResponse.get(JsonKey.ID));

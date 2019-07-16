@@ -22,7 +22,7 @@ public class UserOSAddressDaoImpl implements IUserAddressDao {
     }
 
     @Override
-    public Response insertAddress(Map<String, Object> userAddress) throws BaseException {
+    public Response createAddress(Map<String, Object> userAddress) throws BaseException {
         try {
             return OSDaoImpl.getInstance().addEntity(userAddress);
         } catch (Exception e) {
