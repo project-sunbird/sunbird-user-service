@@ -62,21 +62,21 @@
           "title": "Gender of user"
         },
         "locationCodes": {
-          "$ref":"Location.json#/definitions/LocationCode"
+          "$ref":"file:conf/schemas/Location.json#/definitions/LocationCode"
         },
         "address": {
-          "$ref": "Address.json#/definitions/Address",
+          "$ref": "file:conf/schemas/Address.json#/definitions/Address",
           "description": "this attribute will have user address details"
         },
         "jobProfile": {
-          "$ref": "JobProfile.json#/definitions/JobProfile",
+          "$ref": "file:conf/schemas/JobProfile.json#/definitions/JobProfile",
           "description": "this attribute will have user job profile details"
         },
         "externalId": {
-          "$ref": "ExternalID.json#/definitions/ExternalId"
+          "$ref": "file:conf/schemas/ExternalID.json#/definitions/ExternalId"
         },
         "education": {
-          "$ref": "Education.json#/definitions/Education"
+          "$ref": "file:conf/schemas/Education.json#/definitions/Education"
         },
         "language": {
           "type": "array",

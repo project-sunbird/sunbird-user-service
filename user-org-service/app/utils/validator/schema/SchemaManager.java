@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import org.everit.json.schema.Schema;
-import org.everit.json.schema.loader.SchemaClient;
 import org.everit.json.schema.loader.SchemaLoader;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -60,9 +59,8 @@ public class SchemaManager {
     JSONObject rawSchema = new JSONObject(new JSONTokener(schemaStream));
     Schema schema =
         SchemaLoader.builder()
-            .schemaClient(SchemaClient.classPathAwareClient())
+            .useDefaults(true)
             .schemaJson(rawSchema)
-            .resolutionScope("classpath://schemas/")
             .draftV7Support()
             .build()
             .load()
