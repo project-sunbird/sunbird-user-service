@@ -201,16 +201,13 @@ public class ElasticSearchRestHighImpl implements ElasticSearchService {
           new ActionListener<GetResponse>() {
             @Override
             public void onResponse(GetResponse getResponse) {
+                Map<String,Object>esResponseMap=new HashMap<>();
               if (getResponse.isExists()) {
-                Map<String, Object> sourceAsMap = getResponse.getSourceAsMap();
-                if (MapUtils.isNotEmpty(sourceAsMap)) {
-                  promise.success(sourceAsMap);
+                esResponseMap.putAll(getResponse.getSourceAsMap());
                   ElasticSearchHelper.logMethodEnd(
                       "ElasticSearchRestHighImpl:getDataByIdentifier: method end ==", startTime);
-                } else {
-                  promise.success(new HashMap<>());
-                }
               }
+              promise.success(esResponseMap);
             }
             @Override
             public void onFailure(Exception e) {
