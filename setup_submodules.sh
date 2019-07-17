@@ -7,8 +7,6 @@ if [ "$*" == "" ] || [ "$#" -ne 2 ]; then
     exit 1
 fi
 
-exit 1
-
 export modName=sunbird-user-registry
 echo "Setting up submodule " $modName
 
