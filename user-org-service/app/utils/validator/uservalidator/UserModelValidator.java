@@ -11,7 +11,7 @@ public class UserModelValidator implements IModelValidator {
 
   @Override
   public void validate(JSONObject request, String uri) {
-    Schema schema = SchemaFactory.getInstance().getSchemaObjectFromUri(uri).getSchema();
+    Schema schema = SchemaFactory.getInstance().getSchemaOrNull(uri).getSchema();
     schema.validate(request);
     ProjectLogger.log(
         String.format("%s:%s:request validated", this.getClass().getSimpleName(), "validate"),

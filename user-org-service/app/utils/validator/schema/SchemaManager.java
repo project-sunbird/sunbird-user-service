@@ -83,7 +83,7 @@ public class SchemaManager {
    * @param uri
    * @return SchemaMapper
    */
-  public SchemaMapper getSchemaObjectFromUri(String uri) {
+  public SchemaMapper getSchemaOrNull(String uri) {
     if (schemaInfoMap.containsKey(uri)) {
       return schemaInfoMap.get(uri);
     }
