@@ -3,11 +3,6 @@ package controllers;
 import akka.actor.ActorRef;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import controllers.logsmanager.validator.LogValidator;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.function.Function;
@@ -187,38 +182,27 @@ public class BaseController extends Controller {
    *
    * @return
    */
-  public CompletionStage<Result> handleLogRequest() {
-    startTrace("handleLogRequest");
+  public CompletionStage<Result> handleLogRequest(Function validatorFunction) {
     Response response = new Response();
-    Request request = null;
+    Request request;
     try {
+      validatorFunction.apply(request());
       request = (Request) RequestMapper.mapRequest(request(), Request.class);
-    } catch (Exception ex) {
+      ProjectLogger.setUserOrgServiceProjectLogger((String) request.get(JsonKey.LOG_LEVEL));
+      response.put(
+          JsonKey.MESSAGE,
+          "Log Level successfully set to "
+              + ((String) request.get(JsonKey.LOG_LEVEL)).toUpperCase());
+      return RequestHandler.handleSuccessResponse(response, httpExecutionContext);
+    } catch (org.everit.json.schema.ValidationException ex) {
       ProjectLogger.log(
           String.format(
-              "%s:%s:exception occurred in mapping request",
-              this.getClass().getSimpleName(), "handleLogRequest"),
+              "%s:%s:exception occurred in mapping Log level request error is %s",
+              this.getClass().getSimpleName(), "handleLogRequest", ex.getAllMessages().toString()),
           LoggerEnum.ERROR.name());
       return RequestHandler.handleFailureResponse(ex, httpExecutionContext);
+    } catch (Exception e) {
+      return RequestHandler.handleFailureResponse(e, httpExecutionContext);
     }
-
-    if (LogValidator.isLogParamsPresent(request)) {
-      if (LogValidator.isValidLogLevelPresent((String) request.get(JsonKey.LOG_LEVEL))) {
-        ProjectLogger.setUserOrgServiceProjectLogger((String) request.get(JsonKey.LOG_LEVEL));
-        response.put(JsonKey.ERROR, false);
-        response.put(
-            JsonKey.MESSAGE, "Log Level successfully set to " + request.get(JsonKey.LOG_LEVEL));
-      } else {
-        List<Enum> supportedLogLevelsValues = new ArrayList<>(EnumSet.allOf(LoggerEnum.class));
-        response.put(JsonKey.ERROR, true);
-        response.put(
-            JsonKey.MESSAGE,
-            "Valid Log Levels are " + Arrays.asList(supportedLogLevelsValues.toArray()));
-      }
-    } else {
-      response.put(JsonKey.ERROR, true);
-      response.put(JsonKey.MESSAGE, "Missing Mandatory Request Param " + JsonKey.LOG_LEVEL);
-    }
-    return RequestHandler.handleSuccessResponse(response, httpExecutionContext);
   }
 }

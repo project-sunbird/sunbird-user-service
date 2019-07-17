@@ -2,7 +2,9 @@ package controllers.logsmanager;
 
 import controllers.BaseController;
 import java.util.concurrent.CompletionStage;
+import org.json.JSONObject;
 import play.mvc.Result;
+import utils.validator.logvalidator.LogModelValidator;
 
 /** This controller is responsible to manage the dynamic configuration of Logs */
 public class LogController extends BaseController {
@@ -13,6 +15,12 @@ public class LogController extends BaseController {
    * @return
    */
   public CompletionStage<Result> setLogLevel() {
-    return handleLogRequest();
+    startTrace("setLogLevel");
+    return handleLogRequest(
+        request -> {
+          JSONObject jsonObject = jsonifyRequestObject(request().body().asJson());
+          new LogModelValidator().validate(jsonObject, request().uri());
+          return null;
+        });
   }
 }

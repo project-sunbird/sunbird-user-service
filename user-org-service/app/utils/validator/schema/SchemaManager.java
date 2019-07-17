@@ -35,13 +35,16 @@ public class SchemaManager {
           String.format(
               "%s:%s: error occurred while loading schemaMapperFile",
               this.getClass().getSimpleName(), "getSchemaRoutesFileMap"),
-          LoggerEnum.DEBUG.name());
+          LoggerEnum.ERROR.name());
       System.exit(-1);
     }
     return prop;
   }
 
-  /** this method is used to init the schemas and save them in cache map name schemaInfoMap */
+  /**
+   * this method is used to init the schemas and save them in cache map name schemaInfoMap on
+   * Application startup
+   */
   public void initSchemas() {
     Properties properties = getSchemaRoutesFileMap();
     for (Map.Entry<Object, Object> entry : properties.entrySet()) {
@@ -55,17 +58,26 @@ public class SchemaManager {
   }
 
   private Schema getSchemaObject(String filePath) {
-    InputStream schemaStream = this.getClass().getClassLoader().getResourceAsStream(filePath);
-    JSONObject rawSchema = new JSONObject(new JSONTokener(schemaStream));
-    Schema schema =
-        SchemaLoader.builder()
-            .useDefaults(true)
-            .schemaJson(rawSchema)
-            .draftV7Support()
-            .build()
-            .load()
-            .build();
-    return schema;
+    try (InputStream schemaStream =
+        this.getClass().getClassLoader().getResourceAsStream(filePath)) {
+      JSONObject rawSchema = new JSONObject(new JSONTokener(schemaStream));
+      Schema schema =
+          SchemaLoader.builder()
+              .useDefaults(true)
+              .schemaJson(rawSchema)
+              .draftV7Support()
+              .build()
+              .load()
+              .build();
+      return schema;
+    } catch (Exception e) {
+      ProjectLogger.log(
+          String.format(
+              "%s:%s: error occurred in loading schema for %s",
+              this.getClass().getSimpleName(), "getSchemaObject", filePath));
+      System.exit(-1);
+      return null;
+    }
   }
 
   private SchemaMapper getSchemaMapperObject(String filePath) {
@@ -85,6 +97,11 @@ public class SchemaManager {
     if (schemaInfoMap.containsKey(uri)) {
       return schemaInfoMap.get(uri);
     }
+    ProjectLogger.log(
+        String.format(
+            "%s:%s:schema not configured with the Given uri %s",
+            this.getClass().getSimpleName(), "getSchemaOrNull", uri),
+        LoggerEnum.INFO.name());
     return null;
   }
 }
