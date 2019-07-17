@@ -27,6 +27,7 @@ node('build-slave') {
                 build_tag = params.github_release_tag
                 println(ANSI_BOLD + ANSI_YELLOW + "github_release_tag specified, building from tag: " + params.github_release_tag + ANSI_NORMAL)
             }
+	    build_tag = build_tag + "-$BUILD_NUMBER"
             echo "build_tag: " + build_tag
 
             stage('Build') {
