@@ -30,7 +30,7 @@ public interface IUserDao {
      * @return response
      * @throws BaseException
      */
-    public Response getUserById(String userId) throws BaseException;
+    Response getUserById(String userId) throws BaseException;
 
 
     /**
@@ -39,6 +39,6 @@ public interface IUserDao {
      * @return response
      * @throws BaseException
      */
-    public Response searchUser(SearchDTO searchDTO) throws BaseException;
+    Response searchUser(SearchDTO searchDTO) throws BaseException;
 
 }

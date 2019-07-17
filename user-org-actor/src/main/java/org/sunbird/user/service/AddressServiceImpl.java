@@ -69,7 +69,7 @@ public class AddressServiceImpl implements IAddressService {
         IUserAddressDao userAddressDao = (IUserAddressDao) UserDaoFactory.getDaoImpl(DaoImplType.USER_ADDRESS.getType());
         Map<String,Object> userAddressReq = new HashMap<>();
         userAddressReq.put(StringUtils.capitalize(JsonKey.ADDRESS),address);
-        userAddressDao.createAddress(userAddressReq);
-        return address;
+        Response addressResponse = userAddressDao.createAddress(userAddressReq);
+        return (Map<String,Object>)addressResponse.get(StringUtils.capitalize(JsonKey.ADDRESS));
     }
 }

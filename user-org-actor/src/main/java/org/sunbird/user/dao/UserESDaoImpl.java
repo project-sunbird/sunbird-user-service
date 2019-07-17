@@ -79,7 +79,11 @@ public class UserESDaoImpl implements IUserDao {
 
     @Override
     public Response createUser(Map<String, Object> user) throws BaseException {
-        return null;
+        Future<String> future = es.save(EsIndex.USER.getIndexName(),(String)user.get(JsonKey.ID),user);
+        String esResponse  = (String)ElasticSearchHelper.getResponseFromFuture(future);
+        Response response = new Response();
+        response.put(JsonKey.RESPONSE, esResponse);
+        return response;
     }
 
 }

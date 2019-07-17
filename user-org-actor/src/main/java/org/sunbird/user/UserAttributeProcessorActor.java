@@ -80,7 +80,6 @@ public class UserAttributeProcessorActor extends BaseActor {
                                 if (StringUtils.isNotBlank(key)) {
                                     map.put(key, result.get(key));
                                 }
-                                @SuppressWarnings("unchecked")
                                 List<String> errMsgList = (List<String>) result.get(JsonKey.ERROR_MSG);
                                 if (CollectionUtils.isNotEmpty(errMsgList)) {
                                     for (String err : errMsgList) {
@@ -98,7 +97,7 @@ public class UserAttributeProcessorActor extends BaseActor {
                         }
                         map.put(JsonKey.ERRORS, errorList);
                         Response response = new Response();
-                        response.put(JsonKey.RESPONSE, map);
+                        response.putAll(map);
                         return response;
                     }
                 },

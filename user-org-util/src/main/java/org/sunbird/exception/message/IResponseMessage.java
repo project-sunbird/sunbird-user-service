@@ -10,5 +10,6 @@ public interface IResponseMessage extends IUserResponseMessage, IOrgResponseMess
   String INVALID_REQUESTED_DATA = "INVALID_REQUESTED_DATA";
   String INVALID_OPERATION_NAME = "INVALID_OPERATION_NAME";
   String INTERNAL_ERROR = "INTERNAL_ERROR";
+  String ES_SAVE_ERROR = "ES_SAVE_ERROR";
   String UNAUTHORIZED = "UNAUTHORIZED";
 }

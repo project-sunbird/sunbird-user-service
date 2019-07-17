@@ -29,7 +29,7 @@ public class UserAddressManagementActor extends BaseActor {
     public void onReceive(Request request) throws Throwable {
         String operation = request.getOperation();
         switch (operation) {
-            case "insertUserAddress":
+            case "createUserAddress":
                 createAddress(request);
                 break;
 
@@ -46,16 +46,16 @@ public class UserAddressManagementActor extends BaseActor {
     }
 
     private void createAddress(Request request) {
-        startTrace("insertUserAddress");
+        startTrace("createUserAddress");
         try {
             addressService = new AddressServiceImpl();
             response = addressService.createAddress(request);
             sender().tell(response, self());
         } catch (BaseException ex) {
-            ProjectLogger.log("UserAddressManagementActor:insertAddress : Exception occurred while inserting user address : ",ex);
+            ProjectLogger.log("UserAddressManagementActor:createAddress : Exception occurred while inserting user address : ",ex);
             sender().tell(ex, self());
         }
-        endTrace("insertUserAddress");
+        endTrace("createUserAddress");
     }
 
 }
