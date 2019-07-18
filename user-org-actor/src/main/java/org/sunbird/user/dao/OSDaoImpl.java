@@ -10,6 +10,9 @@ import org.sunbird.util.jsonkey.JsonKey;
 
 import java.util.Map;
 
+/**
+ * This class will contains method to interact with open saber.
+ */
 public class OSDaoImpl implements IOSDao{
 
     private Localizer localizer = Localizer.getInstance();
