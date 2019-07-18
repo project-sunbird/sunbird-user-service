@@ -12,7 +12,7 @@ public class LogController extends BaseController {
   /**
    * This action method is responsible to set the Log Level dynamically using Api.
    *
-   * @return
+   * @return Map of response
    */
   public CompletionStage<Result> setLogLevel() {
     startTrace("setLogLevel");
