@@ -1,6 +1,7 @@
 package org.sunbird.organization;
 
 import org.sunbird.BaseActor;
+import org.sunbird.OperationValidator;
 import org.sunbird.actor.core.ActorConfig;
 import org.sunbird.actorOperation.OrgActorOperations;
 import org.sunbird.organization.service.IOrgService;
@@ -17,7 +18,8 @@ public class OrgReadActor extends BaseActor {
 
   @Override
   public void onReceive(Request request) {
-    if (OrgActorOperations.READ_ORG.getOperation().equalsIgnoreCase(request.getOperation())) {
+    if (OperationValidator.matchOperationName(
+        OrgActorOperations.READ_ORG.getOperation(), request.getOperation())) {
       System.out.println("org read!!");
     }
   }
