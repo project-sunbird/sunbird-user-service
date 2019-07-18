@@ -9,8 +9,8 @@ import org.sunbird.request.Request;
 import org.sunbird.response.Response;
 import org.sunbird.user.dao.IUserESDao;
 import org.sunbird.user.dao.UserDaoFactory;
-import org.sunbird.util.LoggerEnum;
-import org.sunbird.util.ProjectLogger;
+import org.sunbird.user.service.IUserService;
+import org.sunbird.user.service.UserServiceImpl;
 import org.sunbird.util.jsonkey.JsonKey;
 
 
@@ -28,6 +28,7 @@ import org.sunbird.util.jsonkey.JsonKey;
 )
 public class UserReadActor extends BaseActor {
 
+    private IUserService userService = null;
     IUserESDao userESDao = (IUserESDao) UserDaoFactory.getDaoImpl(DaoImplType.ES.getType());
 
 
@@ -48,7 +49,13 @@ public class UserReadActor extends BaseActor {
      */
     public void readUserById(Request request) throws BaseException {
         startTrace("readUserById");
-        Response response = userESDao.getUserById((String) request.getRequest().get(JsonKey.USER_ID));
+        Response response = null;
+        try {
+            response = userESDao.getUserById((String) request.getRequest().get(JsonKey.USER_ID));
+        } catch (Exception e) {
+            userService = new UserServiceImpl();
+            response = userService.readUser(request);
+        }
         endTrace("readUserById");
         sender().tell(response, self());
     }

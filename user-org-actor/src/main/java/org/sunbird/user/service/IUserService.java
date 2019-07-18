@@ -12,4 +12,11 @@ public interface IUserService {
      * @return Response
      */
     Response createUser(Request request) throws BaseException;
+
+    /**
+     * This method will read user.
+     * @param request
+     * @return Response
+     */
+    Response readUser(Request request) throws BaseException;
 }

@@ -1,5 +1,6 @@
 package org.sunbird.user.dao;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import org.sunbird.exception.BaseException;
 import org.sunbird.exception.ProjectCommonException;
 import org.sunbird.exception.message.Localizer;
@@ -22,6 +23,14 @@ public interface IUserOSDao {
      * @throws BaseException
      */
     Response createUser(Map<String, Object> user) throws BaseException;
+
+    /**
+     * this method will read a user from open saber
+     * @param userId
+     * @return response
+     * @throws BaseException
+     */
+    public Response readUser(JsonNode userId) throws BaseException;
 
 
 }

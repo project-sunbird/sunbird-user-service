@@ -1,7 +1,10 @@
 package org.sunbird.user.dao;
 
+import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.opensaber.registry.helper.RegistryHelper;
 import org.sunbird.Application;
 import org.sunbird.exception.BaseException;
@@ -58,6 +61,25 @@ public class UserOSDaoImpl implements IUserOSDao {
             return response;
         } catch (Exception e) {
             ProjectLogger.log("Exception occurred while adding user to open saber.", e);
+            throw new ProjectCommonException.ServerError(IResponseMessage.INTERNAL_ERROR, localizer.getMessage(IResponseMessage.INTERNAL_ERROR, null), ResponseCode.SERVER_ERROR.getCode());
+        }
+    }
+
+    /**
+     * this method is used to read user record from OS.
+     * @param inputNode
+     * @return response
+     * @throws BaseException
+     */
+    @Override
+    public Response readUser(JsonNode inputNode) throws BaseException {
+        Response response = new Response();
+        try {
+            JsonNode responseNode = registryHelper.readEntity(inputNode,"");
+            response.putAll(objectMapper.convertValue(responseNode,Map.class));
+            return response;
+        } catch (Exception e) {
+            ProjectLogger.log("Exception occurred while reading user from open saber.", e);
             throw new ProjectCommonException.ServerError(IResponseMessage.INTERNAL_ERROR, localizer.getMessage(IResponseMessage.INTERNAL_ERROR, null), ResponseCode.SERVER_ERROR.getCode());
         }
     }

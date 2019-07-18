@@ -3,6 +3,8 @@ package org.sunbird.user.service;
 import akka.actor.ActorRef;
 import akka.pattern.Patterns;
 import akka.util.Timeout;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.commons.lang3.StringUtils;
 import org.sunbird.Application;
 import org.sunbird.DaoImplType;
@@ -47,5 +49,16 @@ public class UserServiceImpl implements IUserService {
 
         }
         return response;
+    }
+
+    @Override
+    public Response readUser(Request request) throws BaseException {
+        ObjectNode idNode = JsonNodeFactory.instance.objectNode();
+        ObjectNode userNode =  JsonNodeFactory.instance.objectNode();
+        String recordId = (String) request.getRequest().get(JsonKey.USER_ID);
+        idNode.put(JsonKey.OSID, recordId);
+        userNode.set("User", idNode);
+        IUserOSDao userDao = (IUserOSDao) UserDaoFactory.getDaoImpl(DaoImplType.OS.getType());
+        return userDao.readUser(userNode);
     }
 }
