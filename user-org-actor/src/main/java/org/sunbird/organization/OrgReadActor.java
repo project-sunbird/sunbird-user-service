@@ -18,7 +18,7 @@ public class OrgReadActor extends BaseActor {
 
   @Override
   public void onReceive(Request request) {
-    if (OperationValidator.matchOperationName(
+    if (OperationValidator.matchTwoOperations(
         OrgActorOperations.READ_ORG.getOperation(), request.getOperation())) {
       System.out.println("org read!!");
     }
