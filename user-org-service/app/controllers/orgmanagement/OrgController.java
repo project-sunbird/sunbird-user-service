@@ -2,6 +2,7 @@ package controllers.orgmanagement;
 
 import controllers.BaseController;
 import java.util.concurrent.CompletionStage;
+import org.sunbird.actorOperation.OrgActorOperations;
 import play.mvc.Result;
 
 /**
@@ -66,7 +67,8 @@ public class OrgController extends BaseController {
    */
   public CompletionStage<Result> search() {
     startTrace("search");
-    CompletionStage<Result> response = handelRequest();
+    CompletionStage<Result> response =
+        handleRequest(request(), null, OrgActorOperations.SEARCH_ORG.getOperation());
     endTrace("search");
     return response;
   }
