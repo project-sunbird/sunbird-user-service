@@ -16,6 +16,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class contains method for processing user address.
+ */
 public class AddressServiceImpl implements IAddressService {
     @Override
     public Response createAddress(Request request) throws BaseException {
@@ -51,7 +54,7 @@ public class AddressServiceImpl implements IAddressService {
             }
         } catch (Exception e) {
             errMsgs.add(e.getMessage());
-            ProjectLogger.log(e.getMessage(), e);
+            ProjectLogger.log("AddressServiceImpl:create : e.getMessage(): ", e);
         }
         response.put(JsonKey.ADDRESS, responseAddressList);
         response.put(JsonKey.KEY, JsonKey.ADDRESS);

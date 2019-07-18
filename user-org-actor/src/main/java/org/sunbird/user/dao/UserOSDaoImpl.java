@@ -16,8 +16,11 @@ import java.util.Map;
  */
 
 public class UserOSDaoImpl implements IUserDao {
+    private static UserOSDaoImpl instance = null;
 
-    private UserOSDaoImpl() {    }
+    private UserOSDaoImpl() {
+        instance = new UserOSDaoImpl();
+    }
 
 
     /**
@@ -25,6 +28,9 @@ public class UserOSDaoImpl implements IUserDao {
      * @return class object
      */
     public static UserOSDaoImpl getInstance() {
+        if (null != instance){
+            return instance;
+        }
         return new UserOSDaoImpl();
     }
 
