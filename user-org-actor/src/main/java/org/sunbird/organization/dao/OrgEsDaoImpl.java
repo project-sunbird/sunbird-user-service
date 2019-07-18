@@ -14,7 +14,7 @@ public class OrgEsDaoImpl implements IOrgDao {
 
   private ElasticSearchService es =
       EsClientFactory.getInstance(EsClientFactory.EsClient.REST.getName());
-  private static OrgEsDaoImpl INSTANCE = null;
+  private static volatile OrgEsDaoImpl INSTANCE = null;
 
   private OrgEsDaoImpl() {
     throw new AssertionError();

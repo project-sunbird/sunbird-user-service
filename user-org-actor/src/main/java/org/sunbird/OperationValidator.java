@@ -6,11 +6,11 @@ public class OperationValidator {
   /**
    * this method is used to compare the operation names for actor
    *
-   * @param actorOperation
-   * @param requestOperation
+   * @param operation1
+   * @param operation2
    * @return boolean
    */
-  public static boolean matchTwoOperations(String actorOperation, String requestOperation) {
-    return actorOperation.equalsIgnoreCase(requestOperation);
+  public static boolean matchOperations(String operation1, String operation2) {
+    return operation1.equalsIgnoreCase(operation2);
   }
 }
