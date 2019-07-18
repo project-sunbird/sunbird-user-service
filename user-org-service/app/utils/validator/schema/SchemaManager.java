@@ -1,10 +1,9 @@
 package utils.validator.schema;
 
+import java.io.File;
 import java.io.InputStream;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
+import org.apache.commons.io.FileUtils;
 import org.everit.json.schema.Schema;
 import org.everit.json.schema.loader.SchemaLoader;
 import org.json.JSONObject;
@@ -12,48 +11,33 @@ import org.json.JSONTokener;
 import org.sunbird.util.LoggerEnum;
 import org.sunbird.util.ProjectLogger;
 
+/**
+ * this class is responsible to manage the schemaObject cache
+ *
+ * @author anmolgupta
+ */
 public class SchemaManager {
 
-  private static Map<String, SchemaMapper> schemaInfoMap = new HashMap<>();
-  private static final String schemaMapperFile = "schemaMapper.properties";
+  private static Map<String, Schema> schemaInfoMap = new HashMap<>();
+  private static final String schemaParentDir = "conf/";
+  public static final String schemaDir = "schemas/";
 
   public SchemaManager() {}
-
-  private Properties getSchemaRoutesFileMap() {
-    Properties prop = new Properties();
-    try (InputStream inputStream =
-        this.getClass().getClassLoader().getResourceAsStream(schemaMapperFile)) {
-      prop.load(inputStream);
-      ProjectLogger.log(
-          String.format(
-              "%s:%s: Properties Populated",
-              this.getClass().getSimpleName(), "getSchemaRoutesFileMap"),
-          LoggerEnum.DEBUG.name());
-      return prop;
-    } catch (Exception e) {
-      ProjectLogger.log(
-          String.format(
-              "%s:%s: error occurred while loading schemaMapperFile",
-              this.getClass().getSimpleName(), "getSchemaRoutesFileMap"),
-          LoggerEnum.ERROR.name());
-      System.exit(-1);
-    }
-    return prop;
-  }
 
   /**
    * this method is used to init the schemas and save them in cache map name schemaInfoMap on
    * Application startup
    */
   public void initSchemas() {
-    Properties properties = getSchemaRoutesFileMap();
-    for (Map.Entry<Object, Object> entry : properties.entrySet()) {
-      schemaInfoMap.put((String) entry.getKey(), getSchemaMapperObject((String) entry.getValue()));
-    }
+    List<String> schemas = walkOnSchema();
+    schemas
+        .stream()
+        .forEach(
+            jsonFile -> schemaInfoMap.put(jsonFile, getSchemaObject(schemaDir.concat(jsonFile))));
     ProjectLogger.log(
         String.format(
-            "%s:%s: schemaInfoMap Populated with map length %s",
-            this.getClass().getSimpleName(), "initSchemas", Collections.singleton(schemaInfoMap)),
+            "%s:%s: schema object available for files  %s",
+            this.getClass().getSimpleName(), "initSchemas", schemaInfoMap.keySet()),
         LoggerEnum.DEBUG.name());
   }
 
@@ -80,28 +64,29 @@ public class SchemaManager {
     }
   }
 
-  private SchemaMapper getSchemaMapperObject(String filePath) {
-    SchemaMapper schemaMapper = new SchemaMapper();
-    schemaMapper.setFilePath(filePath);
-    schemaMapper.setSchema(getSchemaObject(filePath));
-    return schemaMapper;
-  }
-
   /**
    * this method should be used to get the schema object by passing API uri.
    *
-   * @param uri
+   * @param fileName
    * @return SchemaMapper
    */
-  public SchemaMapper getSchemaOrNull(String uri) {
-    if (schemaInfoMap.containsKey(uri)) {
-      return schemaInfoMap.get(uri);
+  public Schema getSchemaOrNull(String fileName) {
+    if (schemaInfoMap.containsKey(fileName)) {
+      return schemaInfoMap.get(fileName);
     }
     ProjectLogger.log(
         String.format(
-            "%s:%s:schema not configured with the Given uri %s",
-            this.getClass().getSimpleName(), "getSchemaOrNull", uri),
+            "%s:%s:schema not configured with the Given json file %s",
+            this.getClass().getSimpleName(), "getSchemaOrNull", fileName),
         LoggerEnum.INFO.name());
     return null;
+  }
+
+  private List<String> walkOnSchema() {
+    Collection<File> files =
+        FileUtils.listFiles(new File(schemaParentDir.concat(schemaDir)), null, false);
+    List<String> schemaFileLists = new ArrayList<>();
+    files.stream().forEach(s -> schemaFileLists.add(s.getName()));
+    return schemaFileLists;
   }
 }

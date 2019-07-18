@@ -1,16 +1,13 @@
 package utils.validator;
 
-import org.json.JSONObject;
 
+/**
+ * Each validator class needs to extends this interface class
+ *
+ * @author anmolgupta
+ */
+@FunctionalInterface
 public interface IModelValidator {
-
-
-    /**
-     * this method will be implemented in every subclass to validate the play request
-     * @param request
-     * @param uri
-     */
-    void validate(JSONObject request, String uri);
-
-
+  /** this method will be implemented in every subclass to validate the play request */
+  void validate();
 }

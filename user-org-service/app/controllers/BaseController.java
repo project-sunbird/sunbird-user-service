@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
-import java.util.function.Function;
 import javax.inject.Inject;
 import org.json.JSONObject;
 import org.sunbird.Application;
@@ -22,6 +21,7 @@ import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Results;
 import utils.RequestMapper;
+import utils.validator.IModelValidator;
 
 /**
  * This controller we can use for writing some common method to handel api request.
@@ -108,11 +108,11 @@ public class BaseController extends Controller {
    * @return
    */
   public CompletionStage<Result> handleRequest(
-      play.mvc.Http.Request req, Function validatorFunction, String operation) {
+      play.mvc.Http.Request req, IModelValidator validatorFunction, String operation) {
     try {
       Request request = (Request) RequestMapper.mapRequest(req, Request.class);
       if (validatorFunction != null) {
-        validatorFunction.apply(req);
+        validatorFunction.validate();
       }
       return new RequestHandler().handleRequest(request, httpExecutionContext, operation);
     } catch (org.everit.json.schema.ValidationException ex) {
@@ -182,11 +182,11 @@ public class BaseController extends Controller {
    *
    * @return
    */
-  public CompletionStage<Result> handleLogRequest(Function validatorFunction) {
+  public CompletionStage<Result> handleLogRequest(IModelValidator validatorFunction) {
     Response response = new Response();
     Request request;
     try {
-      validatorFunction.apply(request());
+      validatorFunction.validate();
       request = (Request) RequestMapper.mapRequest(request(), Request.class);
       ProjectLogger.setUserOrgServiceProjectLogger((String) request.get(JsonKey.LOG_LEVEL));
       response.put(

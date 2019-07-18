@@ -16,11 +16,7 @@ public class LogController extends BaseController {
    */
   public CompletionStage<Result> setLogLevel() {
     startTrace("setLogLevel");
-    return handleLogRequest(
-        request -> {
-          JSONObject jsonObject = jsonifyRequestObject(request().body().asJson());
-          new LogModelValidator().validate(jsonObject, request().uri());
-          return null;
-        });
+    JSONObject jsonObject = jsonifyRequestObject(request().body().asJson());
+    return handleLogRequest(new LogModelValidator(jsonObject));
   }
 }

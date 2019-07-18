@@ -1,4 +1,4 @@
-package utils.validator.logvalidator;
+package utils.validator.uservalidator;
 
 import org.everit.json.schema.Schema;
 import org.json.JSONObject;
@@ -8,17 +8,16 @@ import utils.validator.IModelValidator;
 import utils.validator.schema.SchemaFactory;
 
 /**
- * this validator class is used to validate the log request
+ * this validator class is used to validate the create user request.
  *
  * @author anmolgupta
  */
-public class LogModelValidator implements IModelValidator {
-
-  private static final String validatorFile = "LogUpdate.json";
+public class UserCreateModelValidator implements IModelValidator {
+  private static final String validatorFile = "UserCreate.json";
   private JSONObject requestAsJson;
 
-  public LogModelValidator(JSONObject request) {
-    this.requestAsJson = request;
+  public UserCreateModelValidator(JSONObject jsonObject) {
+    this.requestAsJson = jsonObject;
   }
 
   @Override
