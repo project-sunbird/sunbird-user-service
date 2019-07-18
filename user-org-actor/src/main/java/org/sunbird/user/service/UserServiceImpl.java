@@ -5,6 +5,7 @@ import akka.pattern.Patterns;
 import akka.util.Timeout;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import io.opensaber.registry.model.DBConnectionInfoMgr;
 import org.apache.commons.lang3.StringUtils;
 import org.sunbird.Application;
 import org.sunbird.DaoImplType;
@@ -56,7 +57,8 @@ public class UserServiceImpl implements IUserService {
         ObjectNode idNode = JsonNodeFactory.instance.objectNode();
         ObjectNode userNode =  JsonNodeFactory.instance.objectNode();
         String recordId = (String) request.getRequest().get(JsonKey.USER_ID);
-        idNode.put(JsonKey.OSID, recordId);
+        DBConnectionInfoMgr dBConnectionInfoMgr = Application.applicationContext.getBean(DBConnectionInfoMgr.class);
+        idNode.put(dBConnectionInfoMgr.getUuidPropertyName(), recordId);
         userNode.set("User", idNode);
         IUserOSDao userDao = (IUserOSDao) UserDaoFactory.getDaoImpl(DaoImplType.OS.getType());
         return userDao.readUser(userNode);

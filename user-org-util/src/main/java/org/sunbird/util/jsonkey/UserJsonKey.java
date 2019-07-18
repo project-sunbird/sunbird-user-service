@@ -5,7 +5,6 @@ package org.sunbird.util.jsonkey;
  */
 public interface UserJsonKey {
 
-    String OSID = "osid";
     String USER = "user";
     String USER_ID = "userId";
     String EDUCATION = "education";

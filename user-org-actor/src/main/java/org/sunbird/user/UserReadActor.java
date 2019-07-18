@@ -11,6 +11,7 @@ import org.sunbird.user.dao.IUserESDao;
 import org.sunbird.user.dao.UserDaoFactory;
 import org.sunbird.user.service.IUserService;
 import org.sunbird.user.service.UserServiceImpl;
+import org.sunbird.util.ProjectLogger;
 import org.sunbird.util.jsonkey.JsonKey;
 
 
@@ -53,6 +54,7 @@ public class UserReadActor extends BaseActor {
         try {
             response = userESDao.getUserById((String) request.getRequest().get(JsonKey.USER_ID));
         } catch (Exception e) {
+            ProjectLogger.log("Exception occurred while reading user ES.", e);
             userService = new UserServiceImpl();
             response = userService.readUser(request);
         }
