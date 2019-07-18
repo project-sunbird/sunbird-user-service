@@ -95,7 +95,9 @@ public class OrgControllerTest extends BaseControllerTest {
   @Test
   public void testOrgSearchSuccess() {
     Result result =
-        testHelper.performTest("/v1.3/org/search", "POST", getCreateOrgRequest(), headerMap);
+        testHelper.performTest(
+            "/v1.3/org/search", "POST", getCreateOrgRequest(), testHelper.getUserHeaderMap());
+    System.out.println("the result is " + Helpers.contentAsString(result));
     assertTrue(testHelper.getResponseStatus(result) == Status.OK.getStatusCode());
   }
 
@@ -108,7 +110,9 @@ public class OrgControllerTest extends BaseControllerTest {
 
   private Map<String, Object> getCreateOrgRequest() {
     Map<String, Object> map = new HashMap<>();
-
-    return map;
+    map.put("filters", new HashMap<>());
+    Map<String, Object> request = new HashMap<>();
+    request.put("request", map);
+    return request;
   }
 }
