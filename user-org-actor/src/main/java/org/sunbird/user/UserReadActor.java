@@ -7,10 +7,8 @@ import org.sunbird.actorOperation.UserActorOperations;
 import org.sunbird.exception.BaseException;
 import org.sunbird.request.Request;
 import org.sunbird.response.Response;
-import org.sunbird.user.dao.IUserESDao;
+import org.sunbird.user.dao.IUserDao;
 import org.sunbird.user.dao.UserDaoFactory;
-import org.sunbird.util.LoggerEnum;
-import org.sunbird.util.ProjectLogger;
 import org.sunbird.util.jsonkey.JsonKey;
 
 
@@ -28,7 +26,7 @@ import org.sunbird.util.jsonkey.JsonKey;
 )
 public class UserReadActor extends BaseActor {
 
-    IUserESDao userESDao = (IUserESDao) UserDaoFactory.getDaoImpl(DaoImplType.ES.getType());
+    IUserDao userESDao = (IUserDao) UserDaoFactory.getDaoImpl(DaoImplType.ES.getType());
 
 
     @Override

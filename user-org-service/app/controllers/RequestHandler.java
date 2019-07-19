@@ -2,6 +2,7 @@ package controllers;
 
 import akka.pattern.Patterns;
 import akka.util.Timeout;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.everit.json.schema.ValidationException;
 import org.sunbird.exception.BaseException;
 import org.sunbird.exception.message.IResponseMessage;
@@ -12,6 +13,7 @@ import org.sunbird.util.LoggerEnum;
 import org.sunbird.util.ProjectLogger;
 
 import org.sunbird.util.jsonkey.JsonKey;
+import play.libs.Json;
 import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.Result;
 import play.mvc.Results;
@@ -30,7 +32,7 @@ import java.util.concurrent.TimeUnit;
 public class RequestHandler extends BaseController {
 
     /**
-     * this methis responsible to handle the request and ask from actor
+     * this method is responsible to handle the request and ask from actor
      * @param request
      * @param httpExecutionContext
      * @param operation
@@ -59,18 +61,18 @@ public class RequestHandler extends BaseController {
     public static CompletionStage<Result> handleFailureResponse(Object exception, HttpExecutionContext httpExecutionContext) {
 
         Response response = new Response();
-        CompletableFuture<String> future = new CompletableFuture<>();
+        CompletableFuture<JsonNode> future = new CompletableFuture<>();
         if (exception instanceof org.everit.json.schema.ValidationException) {
             String exceptionsMessages = String.join(" , ", ((ValidationException) exception).getAllMessages());
             response.put(JsonKey.MESSAGE, exceptionsMessages);
             response.setResponseCode(ResponseCode.BAD_REQUEST);
-            future.complete(jsonifyResponseObject(response));
+            future.complete(Json.toJson(response));
             return future.thenApplyAsync(Results::badRequest, httpExecutionContext.current());
         } else if (exception instanceof BaseException) {
             BaseException ex = (BaseException) exception;
             response.setResponseCode(ResponseCode.BAD_REQUEST);
             response.put(JsonKey.MESSAGE, ex.getMessage());
-            future.complete(jsonifyResponseObject(response));
+            future.complete(Json.toJson(response));
             if (ex.getResponseCode() == Results.badRequest().status()) {
                 return future.thenApplyAsync(Results::badRequest, httpExecutionContext.current());
             } else {
@@ -79,7 +81,7 @@ public class RequestHandler extends BaseController {
         } else {
             response.setResponseCode(ResponseCode.SERVER_ERROR);
             response.put(JsonKey.MESSAGE,localizerObject.getMessage(IResponseMessage.INTERNAL_ERROR,null));
-            future.complete(jsonifyResponseObject(response));
+            future.complete(Json.toJson(response));
             return future.thenApplyAsync(Results::internalServerError, httpExecutionContext.current());
         }
     }
@@ -108,8 +110,8 @@ public class RequestHandler extends BaseController {
      */
 
     public static CompletionStage<Result> handleSuccessResponse(Response response, HttpExecutionContext httpExecutionContext) {
-        CompletableFuture<String> future = new CompletableFuture<>();
-        future.complete(jsonifyResponseObject(response));
+        CompletableFuture<JsonNode> future = new CompletableFuture<>();
+        future.complete(Json.toJson(response));
         return future.thenApplyAsync(Results::ok, httpExecutionContext.current());
     }
 }
