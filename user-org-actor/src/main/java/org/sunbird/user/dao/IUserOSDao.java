@@ -26,11 +26,11 @@ public interface IUserOSDao {
 
     /**
      * this method will read a user from open saber
-     * @param userId
+     * @param userInput
      * @return response
      * @throws BaseException
      */
-    public Response readUser(JsonNode userId) throws BaseException;
+    public Response readUser(JsonNode userInput) throws BaseException;
 
 
 }
