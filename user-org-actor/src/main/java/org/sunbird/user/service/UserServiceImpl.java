@@ -25,6 +25,17 @@ import java.util.concurrent.TimeUnit;
 
 public class UserServiceImpl implements IUserService {
 
+    private static volatile IUserService iUserService;
+
+    public static IUserService getInstance() {
+        if(iUserService == null) {
+            synchronized(UserServiceImpl.class){
+                iUserService = new UserServiceImpl();
+            }
+        }
+        return iUserService;
+    }
+
 
     @Override
     public Response createUser(Request request) throws BaseException{

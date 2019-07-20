@@ -13,6 +13,7 @@ import org.sunbird.exception.message.IResponseMessage;
 import org.sunbird.exception.message.Localizer;
 import org.sunbird.exception.message.ResponseCode;
 import org.sunbird.response.Response;
+import org.sunbird.util.LoggerEnum;
 import org.sunbird.util.ProjectLogger;
 import org.sunbird.util.jsonkey.JsonKey;
 
@@ -79,7 +80,11 @@ public class UserOSDaoImpl implements IUserOSDao {
             response.putAll(objectMapper.convertValue(responseNode,Map.class));
             return response;
         } catch (Exception e) {
-            ProjectLogger.log("Exception occurred while reading user from open saber.", e);
+            ProjectLogger.log(
+                    "UserOSDaoImpl:readUser: "
+                            + "Exception in getting the record from opensaber : "
+                            + e.getMessage(),
+                    LoggerEnum.ERROR.name());
             throw new ProjectCommonException.ServerError(IResponseMessage.INTERNAL_ERROR, localizer.getMessage(IResponseMessage.INTERNAL_ERROR, null), ResponseCode.SERVER_ERROR.getCode());
         }
     }
