@@ -1,6 +1,7 @@
 package controllers;
 
 import akka.actor.ActorRef;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.opensaber.registry.app.OpenSaberApplication;
 
 import org.apache.commons.lang3.StringUtils;
@@ -85,9 +86,8 @@ public class BaseControllerTest {
   @Test
   public void testJsonifyResponseSuccess() {
     Response response = new Response();
-    BaseController controller = new BaseController();
     response.put(JsonKey.MESSAGE, localizer.getMessage(IResponseMessage.INTERNAL_ERROR,null));
-    String jsonifyResponse = controller.jsonifyResponseObject(response);
+    String jsonifyResponse = jsonifyResponseObject(response);
     assertEquals(
             "{\"id\":null,\"ver\":null,\"ts\":null,\"params\":null,\"responseCode\":\"OK\",\"result\":{\"message\":\"Process failed,please try again later.\"}}", jsonifyResponse);
   }
@@ -95,9 +95,18 @@ public class BaseControllerTest {
   @Test
   public void testJsonifyResponseFailure() {
     Response response = new Response();
-    BaseController controller = new BaseController();
     response.put(JsonKey.MESSAGE, response.getResult());
-    String jsonifyResponse = controller.jsonifyResponseObject(response);
+    String jsonifyResponse = jsonifyResponseObject(response);
     assertEquals(StringUtils.EMPTY, jsonifyResponse);
+  }
+
+  protected String jsonifyResponseObject(Response response) {
+
+    try {
+      ObjectMapper mapper = new ObjectMapper();
+      return mapper.writeValueAsString(response);
+    } catch (Exception e) {
+      return JsonKey.EMPTY_STRING;
+    }
   }
 }

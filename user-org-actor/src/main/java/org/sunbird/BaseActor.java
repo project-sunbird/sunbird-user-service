@@ -1,6 +1,8 @@
 package org.sunbird;
 
+import akka.actor.ActorRef;
 import akka.actor.UntypedAbstractActor;
+import akka.util.Timeout;
 import org.sunbird.exception.ActorServiceException;
 import org.sunbird.exception.BaseException;
 import org.sunbird.exception.message.IResponseMessage;
@@ -11,6 +13,7 @@ import org.sunbird.util.LoggerEnum;
 import org.sunbird.util.ProjectLogger;
 
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Amit Kumar
@@ -19,12 +22,15 @@ public abstract class BaseActor extends UntypedAbstractActor {
 
     public abstract void onReceive(Request request) throws Throwable;
     protected Localizer localizer = Localizer.getInstance();
+    private Application application = Application.getInstance();
+    protected Timeout t = null;
 
     @Override
     public void onReceive(Object message) throws Throwable {
         if (message instanceof Request) {
             Request request = (Request) message;
             String operation = request.getOperation();
+            t = new Timeout(Long.valueOf(request.getTimeout()), TimeUnit.SECONDS);
             ProjectLogger.log("BaseActor:onReceive called for operation:" + operation, LoggerEnum.INFO);
             try {
                 ProjectLogger.log(String.format("%s:%s:method started at %s",this.getClass().getSimpleName(),operation,System.currentTimeMillis()), LoggerEnum.DEBUG);
@@ -113,5 +119,9 @@ public abstract class BaseActor extends UntypedAbstractActor {
         ProjectLogger.log(
                 String.format("%s:%s:ended at %s", this.getClass().getSimpleName(), tag, getTimeStamp()),
                 LoggerEnum.DEBUG.name());
+    }
+
+    public ActorRef getActorRef(String actorOperation){
+       return application.getActorRef(actorOperation);
     }
 }

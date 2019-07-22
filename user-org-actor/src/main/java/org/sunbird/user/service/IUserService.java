@@ -15,8 +15,8 @@ public interface IUserService {
 
     /**
      * This method will read user.
-     * @param request
+     * @param userId
      * @return Response
      */
-    Response readUser(Request request) throws BaseException;
+    Response readUser(String userId) throws BaseException;
 }

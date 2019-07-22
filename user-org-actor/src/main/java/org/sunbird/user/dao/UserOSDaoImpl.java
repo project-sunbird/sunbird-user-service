@@ -1,21 +1,17 @@
 package org.sunbird.user.dao;
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import io.opensaber.registry.helper.RegistryHelper;
+import io.opensaber.registry.model.DBConnectionInfoMgr;
 import org.sunbird.Application;
+import org.sunbird.dto.SearchDTO;
 import org.sunbird.exception.BaseException;
 import org.sunbird.exception.ProjectCommonException;
 import org.sunbird.exception.message.IResponseMessage;
-import org.sunbird.exception.message.Localizer;
 import org.sunbird.exception.message.ResponseCode;
 import org.sunbird.response.Response;
 import org.sunbird.util.LoggerEnum;
 import org.sunbird.util.ProjectLogger;
-import org.sunbird.util.jsonkey.JsonKey;
 
 import java.util.Map;
 
@@ -24,15 +20,10 @@ import java.util.Map;
  * This class will contains method to interact with open saber
  */
 
-public class UserOSDaoImpl implements IUserOSDao {
-
-    private Localizer localizer = Localizer.getInstance();
-    private RegistryHelper registryHelper;
-    private ObjectMapper objectMapper;
+public class UserOSDaoImpl implements IUserDao {
+    private static UserOSDaoImpl instance = null;
 
     private UserOSDaoImpl() {
-        objectMapper = new ObjectMapper();
-        registryHelper = Application.applicationContext.getBean(RegistryHelper.class);
     }
 
 
@@ -41,7 +32,10 @@ public class UserOSDaoImpl implements IUserOSDao {
      * @return class object
      */
     public static UserOSDaoImpl getInstance() {
-        return new UserOSDaoImpl();
+        if (null == instance){
+           instance = new UserOSDaoImpl();
+        }
+        return instance;
     }
 
     /**
@@ -52,14 +46,8 @@ public class UserOSDaoImpl implements IUserOSDao {
      */
     @Override
     public Response createUser(Map<String, Object> user) throws BaseException {
-        Response response = new Response();
-        JsonNode userJsonNode = objectMapper.convertValue(user, JsonNode.class);
         try {
-            String userId = registryHelper.addEntity(userJsonNode, "");
-            Map<String,Object> userMap = objectMapper.convertValue(userJsonNode, Map.class);
-            userMap.put(JsonKey.USER_ID,userId);
-            response.putAll(userMap);
-            return response;
+            return OSDaoImpl.getInstance().addEntity(user);
         } catch (Exception e) {
             ProjectLogger.log("Exception occurred while adding user to open saber.", e);
             throw new ProjectCommonException.ServerError(IResponseMessage.INTERNAL_ERROR, localizer.getMessage(IResponseMessage.INTERNAL_ERROR, null), ResponseCode.SERVER_ERROR.getCode());
@@ -68,17 +56,19 @@ public class UserOSDaoImpl implements IUserOSDao {
 
     /**
      * this method is used to read user record from OS.
-     * @param inputNode
+     * @param userId
      * @return response
      * @throws BaseException
      */
     @Override
-    public Response readUser(JsonNode inputNode) throws BaseException {
-        Response response = new Response();
+    public Response getUserById(String userId) throws BaseException {
         try {
-            JsonNode responseNode = registryHelper.readEntity(inputNode,"");
-            response.putAll(objectMapper.convertValue(responseNode,Map.class));
-            return response;
+            ObjectNode idNode = JsonNodeFactory.instance.objectNode();
+            ObjectNode userNode =  JsonNodeFactory.instance.objectNode();
+            DBConnectionInfoMgr dBConnectionInfoMgr = Application.applicationContext.getBean(DBConnectionInfoMgr.class);
+            idNode.put(dBConnectionInfoMgr.getUuidPropertyName(), userId);
+            userNode.set("User", idNode);
+            return OSDaoImpl.getInstance().readEntity(userNode);
         } catch (Exception e) {
             ProjectLogger.log(
                     "UserOSDaoImpl:readUser: "
@@ -87,5 +77,10 @@ public class UserOSDaoImpl implements IUserOSDao {
                     LoggerEnum.ERROR.name());
             throw new ProjectCommonException.ServerError(IResponseMessage.INTERNAL_ERROR, localizer.getMessage(IResponseMessage.INTERNAL_ERROR, null), ResponseCode.SERVER_ERROR.getCode());
         }
+    }
+
+    @Override
+    public Response searchUser(SearchDTO searchDTO) throws BaseException {
+        return null;
     }
 }

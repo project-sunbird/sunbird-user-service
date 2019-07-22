@@ -1,8 +1,8 @@
 package org.sunbird.user.dao;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.sunbird.dto.SearchDTO;
 import org.sunbird.exception.BaseException;
-import org.sunbird.exception.ProjectCommonException;
 import org.sunbird.exception.message.Localizer;
 import org.sunbird.response.Response;
 
@@ -12,7 +12,8 @@ import java.util.Map;
 /**
  * @author Amit Kumar
  */
-public interface IUserOSDao {
+public interface IUserDao {
+
     Localizer localizer = Localizer.getInstance();
 
 
@@ -25,12 +26,20 @@ public interface IUserOSDao {
     Response createUser(Map<String, Object> user) throws BaseException;
 
     /**
-     * this method will read a user from open saber
-     * @param userInput
+     * this method will be used to get user by id from elastic search.
+     * @param userId
      * @return response
      * @throws BaseException
      */
-    public Response readUser(JsonNode userInput) throws BaseException;
+    Response getUserById(String userId) throws BaseException;
 
+
+    /**
+     * this method will be used to search user from elastic search
+     * @param searchDTO
+     * @return response
+     * @throws BaseException
+     */
+    Response searchUser(SearchDTO searchDTO) throws BaseException;
 
 }

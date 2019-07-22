@@ -7,9 +7,11 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.sunbird.BaseActor;
 import org.sunbird.actor.core.ActorConfig;
+import org.sunbird.actorOperation.UserActorOperations;
 import org.sunbird.exception.BaseException;
 import org.sunbird.request.Request;
 import org.sunbird.response.Response;
+import org.sunbird.util.ProjectLogger;
 import org.sunbird.util.jsonkey.JsonKey;
 import scala.concurrent.Future;
 
@@ -19,7 +21,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * this actor class is used to process the user attributes or entity
+ * this actor class is used to process the user attributes or entity (Address, Education, Job Profile, User Org Relation,
+ * User External Ids)
  *
  * @author Amit Kumar
  */
@@ -30,8 +33,11 @@ import java.util.Map;
         asyncTasks = {}
 )
 public class UserAttributeProcessorActor extends BaseActor {
+
+    List<Future<Object>> futures = new ArrayList<>();
+
     @Override
-    public void onReceive(Request request) throws Throwable {
+    public void onReceive(Request request) {
         saveUserAttributes(request);
     }
 
@@ -43,36 +49,19 @@ public class UserAttributeProcessorActor extends BaseActor {
         Patterns.pipe(consolidatedFutureResponse, getContext().dispatcher()).to(sender());
     }
 
-    @SuppressWarnings("unchecked")
     private List<Future<Object>> getFutures(Map<String, Object> userMap) {
-        List<Future<Object>> futures = new ArrayList<>();
-
-        if (userMap.containsKey(JsonKey.ADDRESS)
-                && CollectionUtils.isNotEmpty((List<Map<String, Object>>) userMap.get(JsonKey.ADDRESS))) {
-            futures.add(saveAddress(userMap));
-        }
-
-        if (userMap.containsKey(JsonKey.EDUCATION)
-                && CollectionUtils.isNotEmpty((List<Map<String, Object>>) userMap.get(JsonKey.EDUCATION))) {
-            futures.add(saveEducation(userMap));
-        }
-
-        if (userMap.containsKey(JsonKey.JOB_PROFILE)
-                && CollectionUtils.isNotEmpty(
-                (List<Map<String, Object>>) userMap.get(JsonKey.JOB_PROFILE))) {
-            futures.add(saveJobProfile(userMap));
-        }
-
-        if (CollectionUtils.isNotEmpty((List<Map<String, String>>) userMap.get(JsonKey.EXTERNAL_IDS))) {
-            futures.add(saveUserExternalIds(userMap));
-        }
-
-        if (StringUtils.isNotBlank((String) userMap.get(JsonKey.ORGANISATION_ID))
-                || StringUtils.isNotBlank((String) userMap.get(JsonKey.ROOT_ORG_ID))) {
-            futures.add(saveUserOrgDetails(userMap));
-        }
-
+        addFuture(saveAddress(userMap));
+        addFuture(saveEducation(userMap));
+        addFuture(saveJobProfile(userMap));
+        addFuture(saveUserExternalIds(userMap));
+        addFuture(saveUserOrgDetails(userMap));
         return futures;
+    }
+
+    private void addFuture(Future<Object> future){
+        if(null != future){
+            futures.add(future);
+        }
     }
 
     private Future<Response> getConsolidatedFutureResponse(Future<Iterable<Object>> futuresSequence) {
@@ -91,7 +80,6 @@ public class UserAttributeProcessorActor extends BaseActor {
                                 if (StringUtils.isNotBlank(key)) {
                                     map.put(key, result.get(key));
                                 }
-                                @SuppressWarnings("unchecked")
                                 List<String> errMsgList = (List<String>) result.get(JsonKey.ERROR_MSG);
                                 if (CollectionUtils.isNotEmpty(errMsgList)) {
                                     for (String err : errMsgList) {
@@ -109,7 +97,7 @@ public class UserAttributeProcessorActor extends BaseActor {
                         }
                         map.put(JsonKey.ERRORS, errorList);
                         Response response = new Response();
-                        response.put(JsonKey.RESPONSE, map);
+                        response.putAll(map);
                         return response;
                     }
                 },
@@ -117,6 +105,10 @@ public class UserAttributeProcessorActor extends BaseActor {
     }
 
     private Future<Object> saveUserOrgDetails(Map<String, Object> userMap) {
+        if (StringUtils.isNotBlank((String) userMap.get(JsonKey.ORGANISATION_ID))
+                || StringUtils.isNotBlank((String) userMap.get(JsonKey.ROOT_ORG_ID))) {
+            return null;
+        }
         return null;
     }
 
@@ -133,7 +125,27 @@ public class UserAttributeProcessorActor extends BaseActor {
     }
 
     private Future<Object> saveAddress(Map<String, Object> userMap) {
+        if (CollectionUtils.isNotEmpty((List<Map<String, Object>>) userMap.get(JsonKey.ADDRESS))) {
+            Map<String, Object> entity = new HashMap<>();
+            entity.put(JsonKey.ADDRESS, userMap.get(JsonKey.ADDRESS));
+            entity.put(JsonKey.USER_ID, userMap.get(JsonKey.USER_ID));
+            return saveEntity(entity, UserActorOperations.CREATE_ADDRESS.getOperation());
+        }
         return null;
     }
 
+    private Future<Object> saveEntity(Map<String, Object> entity, String actorOperation) {
+        try {
+            Request request = new Request();
+            request.getRequest().putAll(entity);
+            request.setOperation(actorOperation);
+            return Patterns.ask(getActorRef(actorOperation), request, t);
+        } catch (Exception ex) {
+            ProjectLogger.log(
+                    "UserAttributeProcessorActor:saveEntity: Exception occurred with error message = "
+                            + ex.getMessage(),
+                    ex);
+        }
+        return null;
+    }
 }
