@@ -17,40 +17,37 @@ import org.sunbird.user.dao.UserDaoFactory;
  *
  * @author Amit Kumar
  */
-
 @ActorConfig(
-        tasks = {"searchUser"},
-        dispatcher = "search-read-dispatcher",
-        asyncTasks = {}
-
+  tasks = {"searchUser"},
+  dispatcher = "search-read-dispatcher",
+  asyncTasks = {}
 )
 public class UserSearchActor extends BaseActor {
 
-    IUserDao userESDao = (IUserDao) UserDaoFactory.getDaoImpl(DaoImplType.ES.getType());
+  IUserDao userESDao = (IUserDao) UserDaoFactory.getDaoImpl(DaoImplType.ES.getType());
 
+  @Override
+  public void onReceive(Request request) throws Throwable {
 
-    @Override
-    public void onReceive(Request request) throws Throwable {
-
-        if (UserActorOperations.SEARCH_USER.getOperation().equalsIgnoreCase(request.getOperation())) {
-            searchUser(request);
-        } else {
-            onReceiveUnsupportedMessage(this.getClass().getName());
-        }
+    if (UserActorOperations.SEARCH_USER.getOperation().equalsIgnoreCase(request.getOperation())) {
+      searchUser(request);
+    } else {
+      onReceiveUnsupportedMessage(this.getClass().getName());
     }
+  }
 
-    /**
-     * this method is used to search user from elastic search
-     *
-     * @param request
-     * @throws BaseException
-     */
-    public void searchUser(Request request) throws BaseException {
-        startTrace("searchUser");
-        SearchDtoMapper searchDTOMapper = SearchDtoMapper.getInstance();
-        SearchDTO searchDto = searchDTOMapper.map(request.getRequest());
-        Response response = userESDao.searchUser(searchDto);
-        endTrace("searchUser");
-        sender().tell(response, self());
-    }
+  /**
+   * this method is used to search user from elastic search
+   *
+   * @param request
+   * @throws BaseException
+   */
+  public void searchUser(Request request) throws BaseException {
+    startTrace("searchUser");
+    SearchDtoMapper searchDTOMapper = SearchDtoMapper.getInstance();
+    SearchDTO searchDto = searchDTOMapper.map(request.getRequest());
+    Response response = userESDao.searchUser(searchDto);
+    endTrace("searchUser");
+    sender().tell(response, self());
+  }
 }

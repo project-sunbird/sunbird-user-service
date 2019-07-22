@@ -139,11 +139,21 @@
             <artifactId>user-org-actor</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.everit-org.json-schema</groupId>
+            <artifactId>org.everit.json.schema</artifactId>
+            <version>1.11.1</version>
+        </dependency>
     </dependencies>
     <build>
         <sourceDirectory>${project.basedir}/app</sourceDirectory>
         <testSourceDirectory>${project.basedir}/test</testSourceDirectory>
         <resources>
+            <resource>
+                <directory>${project.basedir}/conf/schemas</directory>
+                <targetPath>${project.basedir}/target/conf/schemas</targetPath>
+                <filtering>false</filtering>
+            </resource>
             <resource>
                 <directory>${project.basedir}/conf</directory>
             </resource>
@@ -153,6 +163,12 @@
             </resource>
         </resources>
         <plugins>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>com.google.code.play2-maven-plugin</groupId>
                 <artifactId>play2-maven-plugin</artifactId>

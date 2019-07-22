@@ -14,48 +14,47 @@ import org.sunbird.util.ProjectLogger;
  *
  * @author Amit Kumar
  */
-
 @ActorConfig(
-        tasks = {"createUserAddress", "updateUserAddress"},
-        dispatcher = "user-dispatcher",
-        asyncTasks = {}
+  tasks = {"createUserAddress", "updateUserAddress"},
+  dispatcher = "user-dispatcher",
+  asyncTasks = {}
 )
 public class UserAddressManagementActor extends BaseActor {
 
-    private Response response = null;
-    private IAddressService addressService = null;
+  private Response response = null;
+  private IAddressService addressService = null;
 
-    @Override
-    public void onReceive(Request request) throws Throwable {
-        String operation = request.getOperation();
-        switch (operation) {
-            case "createUserAddress":
-                createAddress(request);
-                break;
+  @Override
+  public void onReceive(Request request) throws Throwable {
+    String operation = request.getOperation();
+    switch (operation) {
+      case "createUserAddress":
+        createAddress(request);
+        break;
 
-            case "updateUserAddress":
-                updateAddress(request);
-                break;
+      case "updateUserAddress":
+        updateAddress(request);
+        break;
 
-            default:
-                onReceiveUnsupportedMessage(this.getClass().getName());
-        }
+      default:
+        onReceiveUnsupportedMessage(this.getClass().getName());
     }
+  }
 
-    private void updateAddress(Request request) {
+  private void updateAddress(Request request) {}
+
+  private void createAddress(Request request) {
+    startTrace("createUserAddress");
+    try {
+      addressService = new AddressServiceImpl();
+      response = addressService.createAddress(request);
+      sender().tell(response, self());
+    } catch (BaseException ex) {
+      ProjectLogger.log(
+          "UserAddressManagementActor:createAddress : Exception occurred while inserting user address : ",
+          ex);
+      sender().tell(ex, self());
     }
-
-    private void createAddress(Request request) {
-        startTrace("createUserAddress");
-        try {
-            addressService = new AddressServiceImpl();
-            response = addressService.createAddress(request);
-            sender().tell(response, self());
-        } catch (BaseException ex) {
-            ProjectLogger.log("UserAddressManagementActor:createAddress : Exception occurred while inserting user address : ",ex);
-            sender().tell(ex, self());
-        }
-        endTrace("createUserAddress");
-    }
-
+    endTrace("createUserAddress");
+  }
 }
