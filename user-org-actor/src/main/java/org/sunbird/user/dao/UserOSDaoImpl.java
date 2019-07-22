@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.opensaber.registry.model.DBConnectionInfoMgr;
 import org.sunbird.Application;
+import java.util.Map;
 import org.sunbird.dto.SearchDTO;
 import org.sunbird.exception.BaseException;
 import org.sunbird.exception.ProjectCommonException;
@@ -13,13 +14,7 @@ import org.sunbird.response.Response;
 import org.sunbird.util.LoggerEnum;
 import org.sunbird.util.ProjectLogger;
 
-import java.util.Map;
-
-/**
- * @author Amit Kumar
- * This class will contains method to interact with open saber
- */
-
+/** @author Amit Kumar This class will contains method to interact with open saber */
 public class UserOSDaoImpl implements IUserDao {
     private static UserOSDaoImpl instance = null;
 
@@ -31,12 +26,13 @@ public class UserOSDaoImpl implements IUserDao {
      * this method should be used to get the instance of the class
      * @return class object
      */
-    public static UserOSDaoImpl getInstance() {
-        if (null == instance){
-           instance = new UserOSDaoImpl();
+    public static UserOSDaoImpl getInstance() throws ProjectCommonException.ServerError {
+        if (null == instance) {
+            instance = new UserOSDaoImpl();
         }
         return instance;
     }
+
 
     /**
      * this method is used to create a used in OS.
@@ -49,10 +45,13 @@ public class UserOSDaoImpl implements IUserDao {
         try {
             return OSDaoImpl.getInstance().addEntity(user);
         } catch (Exception e) {
-            ProjectLogger.log("Exception occurred while adding user to open saber.", e);
-            throw new ProjectCommonException.ServerError(IResponseMessage.INTERNAL_ERROR, localizer.getMessage(IResponseMessage.INTERNAL_ERROR, null), ResponseCode.SERVER_ERROR.getCode());
+          ProjectLogger.log("Exception occurred while adding user to open saber.", e);
+          throw new ProjectCommonException.ServerError(
+              IResponseMessage.INTERNAL_ERROR,
+              localizer.getMessage(IResponseMessage.INTERNAL_ERROR, null),
+              ResponseCode.SERVER_ERROR.getCode());
         }
-    }
+      }
 
     /**
      * this method is used to read user record from OS.

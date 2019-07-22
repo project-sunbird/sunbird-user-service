@@ -3,6 +3,8 @@ package org.sunbird.user.service;
 import akka.actor.ActorRef;
 import akka.pattern.Patterns;
 import akka.util.Timeout;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang3.StringUtils;
 import org.sunbird.Application;
 import org.sunbird.DaoImplType;
@@ -16,9 +18,6 @@ import org.sunbird.util.ProjectLogger;
 import org.sunbird.util.jsonkey.JsonKey;
 import scala.concurrent.Await;
 import scala.concurrent.Future;
-
-import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 public class UserServiceImpl implements IUserService {
 

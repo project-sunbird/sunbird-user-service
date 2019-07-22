@@ -16,33 +16,32 @@ import org.sunbird.util.LoggerEnum;
 import org.sunbird.util.ProjectLogger;
 import org.sunbird.util.jsonkey.JsonKey;
 
-
 /**
  * this actor class is used to read a used when operation provided is readUserById.
  *
  * @author Amit Kumar
  */
-
 @ActorConfig(
-        tasks = {"readUserById"},
-        dispatcher = "search-read-dispatcher",
-        asyncTasks = {}
-
+  tasks = {"readUserById"},
+  dispatcher = "search-read-dispatcher",
+  asyncTasks = {}
 )
 public class UserReadActor extends BaseActor {
 
     private IUserService userService = null;
     IUserDao userESDao = (IUserDao) UserDaoFactory.getDaoImpl(DaoImplType.ES.getType());
 
+   @Override
+   public void onReceive(Request request) throws Throwable {
+       if (UserActorOperations.READ_USER_BY_ID
+               .getOperation()
+               .equalsIgnoreCase(request.getOperation())) {
+           readUserById(request);
+       } else {
+           onReceiveUnsupportedMessage(this.getClass().getName());
+       }
+   }
 
-    @Override
-    public void onReceive(Request request) throws Throwable {
-        if (UserActorOperations.READ_USER_BY_ID.getOperation().equalsIgnoreCase(request.getOperation())) {
-            readUserById(request);
-        } else {
-            onReceiveUnsupportedMessage(this.getClass().getName());
-        }
-    }
 
     /**
      * this method is used to read user from elastic search.
@@ -68,5 +67,4 @@ public class UserReadActor extends BaseActor {
         endTrace("readUserById");
         sender().tell(response, self());
     }
-
 }

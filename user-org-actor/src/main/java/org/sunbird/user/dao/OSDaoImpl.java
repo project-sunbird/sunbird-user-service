@@ -3,12 +3,11 @@ package org.sunbird.user.dao;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.opensaber.registry.helper.RegistryHelper;
+import java.util.Map;
 import org.sunbird.Application;
 import org.sunbird.exception.message.Localizer;
 import org.sunbird.response.Response;
 import org.sunbird.util.jsonkey.JsonKey;
-
-import java.util.Map;
 
 /**
  * This class will contains method to interact with open saber.
@@ -65,4 +64,5 @@ public class OSDaoImpl implements IOSDao{
     public Response updateEntity(Map<String, Object> entity, String entityId) throws Exception {
         return null;
     }
+
 }
