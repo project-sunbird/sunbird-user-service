@@ -23,7 +23,7 @@ public class UserController extends BaseController {
    */
   public CompletionStage<Result> createUser() {
     startTrace("createUser");
-    JSONObject jsonObject = jsonifyRequestObject(request().body().asJson());
+    JSONObject jsonObject = jsonify(request().body().asJson());
     CompletionStage<Result> response =
         handleRequest(
             request(),

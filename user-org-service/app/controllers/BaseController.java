@@ -1,7 +1,6 @@
 package controllers;
 
 import akka.actor.ActorRef;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -36,6 +35,8 @@ public class BaseController extends Controller {
 
   /** We injected HttpExecutionContext to decrease the response time of APIs. */
   @Inject private HttpExecutionContext httpExecutionContext;
+
+  protected static ObjectMapper mapper = new ObjectMapper();
 
   protected static Localizer localizerObject = Localizer.getInstance();
 
@@ -179,8 +180,7 @@ public class BaseController extends Controller {
    * @param request
    * @return JSONObject
    */
-  public JSONObject jsonifyRequestObject(JsonNode request) {
-    ObjectMapper mapper = new ObjectMapper();
+  public JSONObject jsonify(Object request) {
     try {
       String value = mapper.writeValueAsString(request);
       JSONObject requestAsJson = new JSONObject(value);
