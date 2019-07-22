@@ -10,7 +10,7 @@ public class OperationValidator {
    * @param operation2
    * @return boolean
    */
-  public static boolean matchOperations(String operation1, String operation2) {
+  public static boolean isSame(String operation1, String operation2) {
     return operation1.equalsIgnoreCase(operation2);
   }
 }

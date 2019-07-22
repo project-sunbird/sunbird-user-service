@@ -15,7 +15,7 @@ public class OrgCreateActor extends BaseActor {
 
   @Override
   public void onReceive(Request request) {
-    if (OperationValidator.matchOperations(
+    if (OperationValidator.isSame(
         OrgActorOperations.CREATE_ORG.getOperation(), request.getOperation())) {
       System.out.println("Org created!!!");
     }

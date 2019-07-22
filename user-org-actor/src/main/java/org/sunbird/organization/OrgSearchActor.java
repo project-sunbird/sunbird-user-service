@@ -20,7 +20,7 @@ public class OrgSearchActor extends BaseActor {
 
   @Override
   public void onReceive(Request request) {
-    if (OperationValidator.matchOperations(
+    if (OperationValidator.isSame(
         OrgActorOperations.SEARCH_ORG.getOperation(), request.getOperation())) {
       search(request);
     } else {
