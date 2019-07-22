@@ -10,5 +10,6 @@ public interface UserJsonKey {
     String EDUCATION = "education";
     String JOB_PROFILE = "jobProfile";
     String EXTERNAL_IDS = "externalIds";
+    String ORGANISATIONS = "organisations";
 
 }

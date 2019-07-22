@@ -9,10 +9,8 @@ import org.sunbird.dto.SearchDtoMapper;
 import org.sunbird.exception.BaseException;
 import org.sunbird.request.Request;
 import org.sunbird.response.Response;
-import org.sunbird.user.dao.IUserESDao;
+import org.sunbird.user.dao.IUserDao;
 import org.sunbird.user.dao.UserDaoFactory;
-import org.sunbird.util.LoggerEnum;
-import org.sunbird.util.ProjectLogger;
 
 /**
  * this actor class is used to search user from elastic search when operation provided searchUser.
@@ -28,7 +26,7 @@ import org.sunbird.util.ProjectLogger;
 )
 public class UserSearchActor extends BaseActor {
 
-    IUserESDao userESDao = (IUserESDao) UserDaoFactory.getDaoImpl(DaoImplType.ES.getType());
+    IUserDao userESDao = (IUserDao) UserDaoFactory.getDaoImpl(DaoImplType.ES.getType());
 
 
     @Override

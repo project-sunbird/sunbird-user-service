@@ -1,18 +1,13 @@
 package org.sunbird.user;
 
 import org.sunbird.BaseActor;
-import org.sunbird.DaoImplType;
 import org.sunbird.actor.core.ActorConfig;
 import org.sunbird.actorOperation.UserActorOperations;
 import org.sunbird.exception.BaseException;
 import org.sunbird.request.Request;
 import org.sunbird.response.Response;
-import org.sunbird.user.dao.IUserOSDao;
-import org.sunbird.user.dao.UserDaoFactory;
 import org.sunbird.user.service.IUserService;
 import org.sunbird.user.service.UserServiceImpl;
-import org.sunbird.util.LoggerEnum;
-import org.sunbird.util.ProjectLogger;
 
 /**
  * this actor class is used when the operation provided is createUser , to create a user
