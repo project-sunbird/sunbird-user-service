@@ -2,13 +2,18 @@ package org.sunbird.user;
 
 import org.sunbird.BaseActor;
 import org.sunbird.DaoImplType;
+import org.sunbird.ServiceImplType;
 import org.sunbird.actor.core.ActorConfig;
 import org.sunbird.actorOperation.UserActorOperations;
 import org.sunbird.exception.BaseException;
+import org.sunbird.factory.ServiceFactory;
 import org.sunbird.request.Request;
 import org.sunbird.response.Response;
 import org.sunbird.user.dao.IUserDao;
 import org.sunbird.user.dao.UserDaoFactory;
+import org.sunbird.user.service.IUserService;
+import org.sunbird.util.LoggerEnum;
+import org.sunbird.util.ProjectLogger;
 import org.sunbird.util.jsonkey.JsonKey;
 
 /**
@@ -23,29 +28,43 @@ import org.sunbird.util.jsonkey.JsonKey;
 )
 public class UserReadActor extends BaseActor {
 
-  IUserDao userESDao = (IUserDao) UserDaoFactory.getDaoImpl(DaoImplType.ES.getType());
+    private IUserService userService = null;
+    IUserDao userESDao = (IUserDao) UserDaoFactory.getDaoImpl(DaoImplType.ES.getType());
 
-  @Override
-  public void onReceive(Request request) throws Throwable {
-    if (UserActorOperations.READ_USER_BY_ID
-        .getOperation()
-        .equalsIgnoreCase(request.getOperation())) {
-      readUserById(request);
-    } else {
-      onReceiveUnsupportedMessage(this.getClass().getName());
+   @Override
+   public void onReceive(Request request) throws Throwable {
+       if (UserActorOperations.READ_USER_BY_ID
+               .getOperation()
+               .equalsIgnoreCase(request.getOperation())) {
+           readUserById(request);
+       } else {
+           onReceiveUnsupportedMessage(this.getClass().getName());
+       }
+   }
+
+
+    /**
+     * this method is used to read user from elastic search.
+     *
+     * @param request
+     * @throws BaseException
+     */
+    public void readUserById(Request request) throws BaseException {
+        startTrace("readUserById");
+        Response response = null;
+        try {
+            response = userESDao.getUserById((String) request.getRequest().get(JsonKey.USER_ID));
+        } catch (Exception e) {
+            ProjectLogger.log(
+                    "UserReadActor:readUserById: "
+                            + "Exception in getting the record from ES : "
+                            + e.getMessage(),
+                    LoggerEnum.ERROR.name());
+            ProjectLogger.log("Exception occurred while reading user ES.", e);
+            userService = (IUserService) ServiceFactory.getService(ServiceImplType.USER.getServiceType());
+            response = userService.readUser((String) request.getRequest().get(JsonKey.USER_ID));
+        }
+        endTrace("readUserById");
+        sender().tell(response, self());
     }
-  }
-
-  /**
-   * this method is used to read user from elastic search.
-   *
-   * @param request
-   * @throws BaseException
-   */
-  public void readUserById(Request request) throws BaseException {
-    startTrace("readUserById");
-    Response response = userESDao.getUserById((String) request.getRequest().get(JsonKey.USER_ID));
-    endTrace("readUserById");
-    sender().tell(response, self());
-  }
 }
