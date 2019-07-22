@@ -103,16 +103,16 @@ public class BaseController extends Controller {
    * method is used to handle all the request type which has requestBody
    *
    * @param req
-   * @param validatorFunction
+   * @param iModelValidator
    * @param operation
    * @return
    */
   public CompletionStage<Result> handleRequest(
-      play.mvc.Http.Request req, IModelValidator validatorFunction, String operation) {
+      play.mvc.Http.Request req, IModelValidator iModelValidator, String operation) {
     try {
       Request request = (Request) RequestMapper.mapRequest(req, Request.class);
-      if (validatorFunction != null) {
-        validatorFunction.validate();
+      if (iModelValidator != null) {
+        iModelValidator.validate();
       }
       return new RequestHandler().handleRequest(request, httpExecutionContext, operation);
     } catch (org.everit.json.schema.ValidationException ex) {
@@ -144,49 +144,16 @@ public class BaseController extends Controller {
   }
 
   /**
-   * this method is used to jsonify the request object
-   *
-   * @param request
-   * @return JSONObject
-   */
-  public JSONObject jsonifyRequestObject(JsonNode request) {
-    ObjectMapper mapper = new ObjectMapper();
-    try {
-      String value = mapper.writeValueAsString(request);
-      JSONObject requestAsJson = new JSONObject(value);
-      return requestAsJson;
-    } catch (Exception e) {
-      return null;
-    }
-  }
-
-  /**
-   * This method is responsible to convert Response object into json
-   *
-   * @param response
-   * @return string
-   */
-  public static String jsonifyResponseObject(Response response) {
-
-    try {
-      ObjectMapper mapper = new ObjectMapper();
-      return mapper.writeValueAsString(response);
-    } catch (Exception e) {
-      return JsonKey.EMPTY_STRING;
-    }
-  }
-
-  /**
    * This method is used specifically to handel Log Apis request this will set log levels and then
    * return the CompletionStage of Result
    *
    * @return
    */
-  public CompletionStage<Result> handleLogRequest(IModelValidator validatorFunction) {
+  public CompletionStage<Result> handleLogRequest(IModelValidator iModelValidator) {
     Response response = new Response();
     Request request;
     try {
-      validatorFunction.validate();
+      iModelValidator.validate();
       request = (Request) RequestMapper.mapRequest(request(), Request.class);
       ProjectLogger.setUserOrgServiceProjectLogger((String) request.get(JsonKey.LOG_LEVEL));
       response.put(
@@ -203,6 +170,23 @@ public class BaseController extends Controller {
       return RequestHandler.handleFailureResponse(ex, httpExecutionContext);
     } catch (Exception e) {
       return RequestHandler.handleFailureResponse(e, httpExecutionContext);
+    }
+  }
+
+  /**
+   * this method is used to jsonify the request object
+   *
+   * @param request
+   * @return JSONObject
+   */
+  public JSONObject jsonifyRequestObject(JsonNode request) {
+    ObjectMapper mapper = new ObjectMapper();
+    try {
+      String value = mapper.writeValueAsString(request);
+      JSONObject requestAsJson = new JSONObject(value);
+      return requestAsJson;
+    } catch (Exception e) {
+      return null;
     }
   }
 }

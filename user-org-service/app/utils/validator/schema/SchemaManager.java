@@ -58,7 +58,8 @@ public class SchemaManager {
       ProjectLogger.log(
           String.format(
               "%s:%s: error occurred in loading schema for %s",
-              this.getClass().getSimpleName(), "getSchemaObject", filePath));
+              this.getClass().getSimpleName(), "getSchemaObject", filePath),
+          LoggerEnum.ERROR.name());
       System.exit(-1);
       return null;
     }
@@ -78,7 +79,7 @@ public class SchemaManager {
         String.format(
             "%s:%s:schema not configured with the Given json file %s",
             this.getClass().getSimpleName(), "getSchemaOrNull", fileName),
-        LoggerEnum.INFO.name());
+        LoggerEnum.ERROR.name());
     return null;
   }
 
