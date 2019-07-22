@@ -1,11 +1,13 @@
 package controllers;
 
-import akka.actor.ActorRef;
-import io.opensaber.registry.app.OpenSaberApplication;
+import static org.junit.Assert.assertEquals;
 
+import akka.actor.ActorRef;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.opensaber.registry.app.OpenSaberApplication;
+import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
-
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
@@ -16,7 +18,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
 import org.sunbird.exception.message.IResponseMessage;
 import org.sunbird.exception.message.Localizer;
-
 import org.sunbird.response.Response;
 import org.sunbird.util.jsonkey.JsonKey;
 import play.Application;
@@ -24,15 +25,16 @@ import scala.concurrent.Await;
 import scala.concurrent.Future;
 import scala.concurrent.duration.FiniteDuration;
 
-import java.util.Map;
-
-import static org.junit.Assert.assertEquals;
-
-
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({org.sunbird.Application.class, BaseController.class, ActorRef.class, Await.class, OpenSaberApplication.class,SpringApplication.class})
+@PrepareForTest({
+  org.sunbird.Application.class,
+  BaseController.class,
+  ActorRef.class,
+  Await.class,
+  OpenSaberApplication.class,
+  SpringApplication.class
+})
 @PowerMockIgnore({"javax.management.*", "javax.net.ssl.*", "javax.security.*"})
-
 public class BaseControllerTest {
   Localizer localizer = Localizer.getInstance();
   BaseController controllerObject;
@@ -42,7 +44,7 @@ public class BaseControllerTest {
   private org.sunbird.Application application;
   private static ActorRef actorRef;
   private static BaseController baseController;
-  //private OpenSaberApplication openSaberApplication;
+  // private OpenSaberApplication openSaberApplication;
 
   public BaseControllerTest() {
     baseControllerTestsetUp();
@@ -65,7 +67,7 @@ public class BaseControllerTest {
       Mockito.when(baseController.getActorRef(Mockito.anyString())).thenReturn(actorRef);
       PowerMockito.mockStatic(Await.class);
       PowerMockito.when(Await.result(Mockito.any(Future.class), Mockito.any(FiniteDuration.class)))
-              .thenReturn(getResponseObject());
+          .thenReturn(getResponseObject());
       PowerMockito.mockStatic(OpenSaberApplication.class);
       SpringApplication springApplication = PowerMockito.mock(SpringApplication.class);
       springApplication.setWebApplicationType(WebApplicationType.NONE);
@@ -81,23 +83,31 @@ public class BaseControllerTest {
     return response;
   }
 
-
   @Test
   public void testJsonifyResponseSuccess() {
     Response response = new Response();
-    BaseController controller = new BaseController();
-    response.put(JsonKey.MESSAGE, localizer.getMessage(IResponseMessage.INTERNAL_ERROR,null));
-    String jsonifyResponse = controller.jsonifyResponseObject(response);
+    response.put(JsonKey.MESSAGE, localizer.getMessage(IResponseMessage.INTERNAL_ERROR, null));
+    String jsonifyResponse = jsonifyResponseObject(response);
     assertEquals(
-            "{\"id\":null,\"ver\":null,\"ts\":null,\"params\":null,\"responseCode\":\"OK\",\"result\":{\"message\":\"Process failed,please try again later.\"}}", jsonifyResponse);
+        "{\"id\":null,\"ver\":null,\"ts\":null,\"params\":null,\"responseCode\":\"OK\",\"result\":{\"message\":\"Process failed,please try again later.\"}}",
+        jsonifyResponse);
   }
 
   @Test
   public void testJsonifyResponseFailure() {
     Response response = new Response();
-    BaseController controller = new BaseController();
     response.put(JsonKey.MESSAGE, response.getResult());
-    String jsonifyResponse = controller.jsonifyResponseObject(response);
+    String jsonifyResponse = jsonifyResponseObject(response);
     assertEquals(StringUtils.EMPTY, jsonifyResponse);
+  }
+
+  protected String jsonifyResponseObject(Response response) {
+
+    try {
+      ObjectMapper mapper = new ObjectMapper();
+      return mapper.writeValueAsString(response);
+    } catch (Exception e) {
+      return JsonKey.EMPTY_STRING;
+    }
   }
 }

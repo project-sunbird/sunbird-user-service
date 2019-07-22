@@ -19,7 +19,7 @@ public class OrgSearchActor extends BaseActor {
   private static IOrgService INSTANCE = new OrgServiceImpl();
 
   @Override
-  public void onReceive(Request request) throws Throwable {
+  public void onReceive(Request request) {
     if (OperationValidator.matchOperations(
         OrgActorOperations.SEARCH_ORG.getOperation(), request.getOperation())) {
       search(request);
@@ -34,7 +34,7 @@ public class OrgSearchActor extends BaseActor {
    * @param request
    * @throws BaseException
    */
-  public void search(Request request) throws BaseException {
+  public void search(Request request) {
     startTrace("searchOrg");
     Response response = INSTANCE.search(request);
     endTrace("searchOrg");
