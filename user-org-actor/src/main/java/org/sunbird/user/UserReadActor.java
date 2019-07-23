@@ -3,7 +3,6 @@ package org.sunbird.user;
 import org.sunbird.BaseActor;
 import org.sunbird.DaoImplType;
 import org.sunbird.actor.core.ActorConfig;
-import org.sunbird.actorOperation.UserActorOperations;
 import org.sunbird.exception.BaseException;
 import org.sunbird.request.Request;
 import org.sunbird.response.Response;
@@ -27,13 +26,7 @@ public class UserReadActor extends BaseActor {
 
   @Override
   public void onReceive(Request request) throws Throwable {
-    if (UserActorOperations.READ_USER_BY_ID
-        .getOperation()
-        .equalsIgnoreCase(request.getOperation())) {
-      readUserById(request);
-    } else {
-      onReceiveUnsupportedMessage(this.getClass().getName());
-    }
+    readUserById(request);
   }
 
   /**

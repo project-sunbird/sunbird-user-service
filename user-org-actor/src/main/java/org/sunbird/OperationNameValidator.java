@@ -1,7 +1,7 @@
 package org.sunbird;
 
 /** this is a Util class for actors. */
-public class OperationValidator {
+public class OperationNameValidator {
 
   /**
    * this method is used to compare the operation names for actor

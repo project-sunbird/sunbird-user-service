@@ -1,9 +1,7 @@
 package org.sunbird.organization;
 
 import org.sunbird.BaseActor;
-import org.sunbird.OperationValidator;
 import org.sunbird.actor.core.ActorConfig;
-import org.sunbird.actorOperation.OrgActorOperations;
 import org.sunbird.exception.BaseException;
 import org.sunbird.organization.service.IOrgService;
 import org.sunbird.organization.service.OrgServiceImpl;
@@ -20,12 +18,7 @@ public class OrgSearchActor extends BaseActor {
 
   @Override
   public void onReceive(Request request) {
-    if (OperationValidator.isSame(
-        OrgActorOperations.SEARCH_ORG.getOperation(), request.getOperation())) {
-      search(request);
-    } else {
-      onReceiveUnsupportedMessage(this.getClass().getName());
-    }
+    search(request);
   }
 
   /**

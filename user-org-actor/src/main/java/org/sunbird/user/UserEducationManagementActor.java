@@ -9,15 +9,12 @@ import org.sunbird.request.Request;
  *
  * @author Amit Kumar
  */
-
 @ActorConfig(
-        tasks = {"insertUserEducation", "updateUserEducation"},
-        dispatcher = "user-dispatcher",
-        asyncTasks = {}
+  tasks = {"insertUserEducation", "updateUserEducation"},
+  dispatcher = "user-dispatcher",
+  asyncTasks = {}
 )
 public class UserEducationManagementActor extends BaseActor {
-    @Override
-    public void onReceive(Request request) throws Throwable {
-
-    }
+  @Override
+  public void onReceive(Request request) {}
 }
