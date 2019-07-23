@@ -2,7 +2,6 @@ package org.sunbird.user;
 
 import org.sunbird.BaseActor;
 import org.sunbird.actor.core.ActorConfig;
-import org.sunbird.actorOperation.UserActorOperations;
 import org.sunbird.exception.BaseException;
 import org.sunbird.request.Request;
 import org.sunbird.response.Response;
@@ -26,11 +25,7 @@ public class UserCreateActor extends BaseActor {
 
   @Override
   public void onReceive(Request request) {
-    if (UserActorOperations.CREATE_USER.getOperation().equalsIgnoreCase(request.getOperation())) {
-      createUser(request);
-    } else {
-      onReceiveUnsupportedMessage(this.getClass().getName());
-    }
+    createUser(request);
   }
 
   /**

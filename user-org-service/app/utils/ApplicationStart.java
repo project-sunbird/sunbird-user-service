@@ -26,7 +26,7 @@ public class ApplicationStart {
   public ApplicationStart(ApplicationLifecycle lifecycle, Environment environment) {
     SchemaFactory.getInstance()
         .initSchemas(); // this method will load all the schemas and save into cache ,on startup of
-                        // Application
+    // Application
     Application.getInstance().init(); // instantiate actor system and initialize all the actors
     // Shut-down hook
     lifecycle.addStopHook(

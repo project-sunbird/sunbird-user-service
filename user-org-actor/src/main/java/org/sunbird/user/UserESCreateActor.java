@@ -4,7 +4,6 @@ import java.util.Map;
 import org.sunbird.BaseActor;
 import org.sunbird.DaoImplType;
 import org.sunbird.actor.core.ActorConfig;
-import org.sunbird.actorOperation.UserActorOperations;
 import org.sunbird.exception.BaseException;
 import org.sunbird.exception.ESException;
 import org.sunbird.exception.message.IResponseMessage;
@@ -29,13 +28,7 @@ public class UserESCreateActor extends BaseActor {
 
   @Override
   public void onReceive(Request request) throws Throwable {
-    if (UserActorOperations.USER_ES_CREATE
-        .getOperation()
-        .equalsIgnoreCase(request.getOperation())) {
-      create(request);
-    } else {
-      onReceiveUnsupportedMessage(this.getClass().getName());
-    }
+    create(request);
   }
 
   private void create(Request request) throws BaseException {

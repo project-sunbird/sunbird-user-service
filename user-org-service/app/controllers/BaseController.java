@@ -16,7 +16,6 @@ import org.sunbird.util.ProjectLogger;
 import org.sunbird.util.jsonkey.JsonKey;
 import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.Controller;
-import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Results;
 import utils.RequestMapper;
@@ -54,7 +53,6 @@ public class BaseController extends Controller {
   }
 
   public CompletionStage<Result> handelRequest() {
-    Http.RequestBody requestBody = request().body();
     startTrace("handelRequest");
     CompletableFuture<String> future = new CompletableFuture<>();
     future.complete(getDummyResponse());

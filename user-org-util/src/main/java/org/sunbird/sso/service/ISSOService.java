@@ -38,7 +38,7 @@ public interface ISSOService {
   /**
    * Method to activate user from keycloak , it is like soft delete .
    *
-   * @param request
+   * @param userId
    * @return
    */
   boolean activateUser(String userId);

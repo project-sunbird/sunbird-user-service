@@ -119,7 +119,7 @@ public class KeyCloakServiceImpl implements ISSOService {
   /**
    * Method to deactivate the user on basis of user id.
    *
-   * @param request Map
+   * @param userId
    * @return boolean true if success otherwise false .
    */
   @Override
@@ -130,7 +130,7 @@ public class KeyCloakServiceImpl implements ISSOService {
   /**
    * Method to activate the user on basis of user id.
    *
-   * @param request Map
+   * @param userId
    * @return boolean true if success otherwise false .
    */
   @Override

@@ -3,7 +3,6 @@ package org.sunbird.user;
 import org.sunbird.BaseActor;
 import org.sunbird.DaoImplType;
 import org.sunbird.actor.core.ActorConfig;
-import org.sunbird.actorOperation.UserActorOperations;
 import org.sunbird.dto.SearchDTO;
 import org.sunbird.dto.SearchDtoMapper;
 import org.sunbird.exception.BaseException;
@@ -28,12 +27,7 @@ public class UserSearchActor extends BaseActor {
 
   @Override
   public void onReceive(Request request) throws Throwable {
-
-    if (UserActorOperations.SEARCH_USER.getOperation().equalsIgnoreCase(request.getOperation())) {
-      searchUser(request);
-    } else {
-      onReceiveUnsupportedMessage(this.getClass().getName());
-    }
+    searchUser(request);
   }
 
   /**

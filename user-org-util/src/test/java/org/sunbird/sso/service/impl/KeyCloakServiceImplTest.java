@@ -36,7 +36,13 @@ import org.sunbird.util.PropertiesCache;
 
 @RunWith(PowerMockRunner.class)
 @PowerMockIgnore({"javax.management.*", "javax.net.ssl.*", "javax.security.*"})
-@PrepareForTest({KeyCloakConnectionProvider.class, KeyCloakServiceImpl.class})
+@PrepareForTest({
+  KeyCloakConnectionProvider.class,
+  KeyCloakServiceImpl.class,
+  UserResource.class,
+  RealmResource.class,
+  UsersResource.class
+})
 public class KeyCloakServiceImplTest {
 
   private ISSOService keyCloakService = SSOServiceFactory.getInstance();
@@ -45,6 +51,7 @@ public class KeyCloakServiceImplTest {
   private static final String userName = UUID.randomUUID().toString().replaceAll("-", "");
   private static Class t = null;
   private static final Map<String, Object> USER_SUCCESS = new HashMap<>();
+  private static UsersResource usersRes = null;
 
   static {
     USER_SUCCESS.put("userName", userName);
@@ -66,7 +73,7 @@ public class KeyCloakServiceImplTest {
     USER_SAME_EMAIL.put("email", userName.substring(0, 10));
   }
 
-  private static UsersResource usersRes = mock(UsersResource.class);
+  // private static UsersResource usersRes = mock(UsersResource.class);
 
   @BeforeClass
   public static void init() {
@@ -74,6 +81,7 @@ public class KeyCloakServiceImplTest {
       t = Class.forName("org.sunbird.sso.service.SSOServiceFactory");
     } catch (ClassNotFoundException e) {
     }
+    usersRes = mock(UsersResource.class);
     Keycloak kcp = mock(Keycloak.class);
     RealmResource realmRes = mock(RealmResource.class);
     UserResource userRes = mock(UserResource.class);
@@ -83,9 +91,9 @@ public class KeyCloakServiceImplTest {
     try {
 
       doReturn(kcp).when(KeyCloakConnectionProvider.class, "getConnection");
-      doReturn(realmRes).when(kcp).realm(Mockito.anyString());
+      doReturn(realmRes).when(kcp).realm(KeyCloakConnectionProvider.SSO_REALM);
       doReturn(usersRes).when(realmRes).users();
-      doReturn(userRes).when(usersRes).get(userId.get("userId"));
+      doReturn(userRes).when(usersRes).get(Mockito.anyString());
       doReturn(userRep).when(userRes).toRepresentation();
       doNothing().when(userRes).update(Mockito.any(UserRepresentation.class));
 
@@ -124,7 +132,8 @@ public class KeyCloakServiceImplTest {
 
   @Test
   public void testDoPasswordUpdateSuccess() {
-    boolean response = keyCloakService.updatePassword(userId.get("userId"), "password");
+    boolean response =
+        keyCloakService.updatePassword((String) USER_SUCCESS.get("userId"), "password");
     Assert.assertEquals(true, response);
   }
 

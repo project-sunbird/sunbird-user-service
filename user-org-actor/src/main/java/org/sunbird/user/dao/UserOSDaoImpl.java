@@ -13,9 +13,7 @@ import org.sunbird.util.ProjectLogger;
 public class UserOSDaoImpl implements IUserDao {
   private static UserOSDaoImpl instance = null;
 
-  private UserOSDaoImpl() {
-    instance = new UserOSDaoImpl();
-  }
+  private UserOSDaoImpl() {}
 
   /**
    * this method should be used to get the instance of the class
@@ -23,10 +21,11 @@ public class UserOSDaoImpl implements IUserDao {
    * @return class object
    */
   public static UserOSDaoImpl getInstance() {
-    if (null != instance) {
+    if (null == instance) {
+      instance = new UserOSDaoImpl();
       return instance;
     }
-    return new UserOSDaoImpl();
+    return instance;
   }
 
   /**
