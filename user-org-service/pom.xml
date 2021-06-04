@@ -17,7 +17,7 @@
         <play2.version>2.6.0</play2.version>
         <scala.version>2.12.2</scala.version>
         <powermock.version>1.6.5</powermock.version>
-        <httpClient.version>4.5.1</httpClient.version>
+        <httpClient.version>4.5.13</httpClient.version>
     </properties>
     <repositories>
         <repository>
