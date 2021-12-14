@@ -14,7 +14,7 @@
     <artifactId>user-org-util</artifactId>
 
     <properties>
-        <log4j.version>2.8.2</log4j.version>
+        <log4j.version>2.16.0</log4j.version>
     </properties>
 
     <dependencies>
